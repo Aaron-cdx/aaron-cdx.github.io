@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Mist',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="字节面试准备1. 常见的算法题1.1 链表  1.找出两个链表的第一个公共节点，复杂度要求O(n)，空间复杂度O(1) 找出两个链表的长度，长的先走，然后一起走，相遇的时候就是公共节点   2.检测链表是否有环？如果要查找入换的节点呢？ 快慢链表，只要相遇就有环。 输出入环的节点只需要在相遇的时候，快指针回到链表头部，快慢指针同步前进，一旦相遇就是入环节点。   3.链表对折 找到终点，然后将前后">
+<meta property="og:type" content="article">
+<meta property="og:title" content="面试准备知识">
+<meta property="og:url" content="http://yoursite.com/2020/03/21/%E5%AD%97%E8%8A%82%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/index.html">
+<meta property="og:site_name" content="cdx">
+<meta property="og:description" content="字节面试准备1. 常见的算法题1.1 链表  1.找出两个链表的第一个公共节点，复杂度要求O(n)，空间复杂度O(1) 找出两个链表的长度，长的先走，然后一起走，相遇的时候就是公共节点   2.检测链表是否有环？如果要查找入换的节点呢？ 快慢链表，只要相遇就有环。 输出入环的节点只需要在相遇的时候，快指针回到链表头部，快慢指针同步前进，一旦相遇就是入环节点。   3.链表对折 找到终点，然后将前后">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="c:%5CUsers%5CAdministrator%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1581993368392.png">
+<meta property="og:image" content="http://www.ruanyifeng.com/blogimg/asset/2014/bg2014092003.png">
+<meta property="og:image" content="c:%5CUsers%5CAdministrator%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1582011572513.png">
+<meta property="article:published_time" content="2020-03-21T03:02:10.000Z">
+<meta property="article:modified_time" content="2020-03-21T03:11:50.340Z">
+<meta property="article:author" content="Cao Duanxi">
+<meta property="article:tag" content="面试">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="c:%5CUsers%5CAdministrator%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1581993368392.png">
+
+<link rel="canonical" href="http://yoursite.com/2020/03/21/%E5%AD%97%E8%8A%82%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>面试准备知识 | cdx</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">cdx</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">人生没有Debug!</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/Aaron-cdx" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/21/%E5%AD%97%E8%8A%82%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/1.jpg">
+      <meta itemprop="name" content="Cao Duanxi">
+      <meta itemprop="description" content="静心，摒弃表面的浮华，多思考内在的深度!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cdx">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          面试准备知识
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-03-21 11:02:10 / 修改时间：11:11:50" itemprop="dateCreated datePublished" datetime="2020-03-21T11:02:10+08:00">2020-03-21</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%9D%A2%E8%AF%95/" itemprop="url" rel="index">
+                    <span itemprop="name">面试</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>17k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>15 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="字节面试准备"><a href="#字节面试准备" class="headerlink" title="字节面试准备"></a>字节面试准备</h1><h2 id="1-常见的算法题"><a href="#1-常见的算法题" class="headerlink" title="1. 常见的算法题"></a>1. 常见的算法题</h2><h3 id="1-1-链表"><a href="#1-1-链表" class="headerlink" title="1.1 链表"></a>1.1 链表</h3><ul>
+<li><input checked="" disabled="" type="checkbox"> <p><strong>1.找出两个链表的第一个公共节点，复杂度要求O(n)，空间复杂度O(1)</strong></p>
+<p>找出两个链表的长度，长的先走，然后一起走，相遇的时候就是公共节点</p>
+</li>
+<li><input checked="" disabled="" type="checkbox"> <p><strong>2.检测链表是否有环？如果要查找入换的节点呢？</strong></p>
+<p>快慢链表，只要相遇就有环。</p>
+<p>输出入环的节点只需要在相遇的时候，快指针回到链表头部，快慢指针同步前进，一旦相遇就是入环节点。</p>
+</li>
+<li><input checked="" disabled="" type="checkbox"> <p><strong>3.链表对折</strong></p>
+<p>找到终点，然后将前后两部分翻转，最后将两个链表合起来即可。</p>
+</li>
+<li><input checked="" disabled="" type="checkbox"> <p><strong>4.K链表反转（Leetcode25）</strong></p>
+</li>
+</ul>
+<p><strong>5. 封装一个单链表，要求实现添加、删除、反转方法？</strong></p>
+<ul>
+<li><input checked="" disabled="" type="checkbox"> <strong>6.链表奇数位升序，偶数位降序，如何改为有序链表？</strong></li>
+</ul>
+<p>​    第一种方法遍历将偶数存一个链表，将奇数存一个链表，最后合并。</p>
+<p>​    不用额外空间的方法：</p>
+<p>​    第二种方法：奇数构成一个链表，偶数构成一个链表，翻转偶数链表，两个链表合并即可。</p>
+<h3 id="1-2-字符串"><a href="#1-2-字符串" class="headerlink" title="1.2 字符串"></a>1.2 字符串</h3><p><strong>1.最长不重复子序列长度</strong></p>
+<ul>
+<li><input checked="" disabled="" type="checkbox"> <p><strong>2. 反转url：<a href="http://www.toutiao.com变成com.toutiao.www" target="_blank" rel="noopener">www.toutiao.com变成com.toutiao.www</a> 采用两次翻转</strong></p>
+<p>先执行总的反转，然后根据’.’作为分隔符，将每一部分的单词顺序翻转即可。总共两次翻转</p>
+</li>
+</ul>
+<h3 id="1-3-数组"><a href="#1-3-数组" class="headerlink" title="1.3 数组"></a>1.3 数组</h3><p><strong>1.将数组所有的0都放到数组末尾</strong></p>
+<ul>
+<li><input checked="" disabled="" type="checkbox"> <p><strong>2.三十六进制加法，要求不能转换为十进制？</strong></p>
+<p>利用一个进位符号来记录进位，对两个数分别取最后一位进行相加以36为基准，判断是否大于36或者小于36采用不同的拼接方式。字母的拼接可以采用一个记录了36个字母的字符串来表示，直接从字符串中获取。</p>
+</li>
+<li><input checked="" disabled="" type="checkbox"> <p><strong>3.求下一个大的数</strong></p>
+</li>
+</ul>
+<p><strong>4.相交区间合并：[1,5] [2,7] [4,9]…把有相交的区间合并为一个？</strong></p>
+<p><strong>5.一个数组里面含有正负数，</strong></p>
+<ul>
+<li><input checked="" disabled="" type="checkbox"> <strong>6.输入一个正整数数组，把数组里所有数字拼接起来排成一个数，打印能拼接出的所有数字中最小的一个。例如输入数组{3，32，321}，则打印出这三个数字能排成的最小数字为321323。</strong></li>
+</ul>
+<p>这一题主要是比较器的重写问题。组合组合。</p>
+<p><strong>7.给一个函数返回0和1，概率为p或者p-1，请你实现一个函数，使得返回0和1概率相同</strong></p>
+<p><strong>8.两数相加 leetcode 2</strong></p>
+<p><strong>9.数组中每个数右边第一个比它大的元素leetcode 1019</strong></p>
+<p><strong>10.一个无序数组一个target，找出数组中两个和为target的数，并输出下标。（不能使用Hash）</strong></p>
+<p><strong>11.给两对有序的数组，给出合并后有序的数组（归并）</strong></p>
+<p><strong>12.汉诺塔</strong></p>
+<p><strong>13.数组反转</strong></p>
+<ul>
+<li><input checked="" disabled="" type="checkbox"> <p><strong>14. 最长连续子序列</strong></p>
+</li>
+<li><input checked="" disabled="" type="checkbox"> <p><strong>15. 数组反转给定一个target，每target长度反转一次</strong></p>
+</li>
+</ul>
+<h3 id="1-4-二叉树"><a href="#1-4-二叉树" class="headerlink" title="1.4 二叉树"></a>1.4 二叉树</h3><ul>
+<li><input checked="" disabled="" type="checkbox"> <strong>1.二叉树的公共祖先，不用递归如何实现？写出如何找出这条路径的算法？</strong></li>
+</ul>
+<p><strong>2.二叉树中和为某一值的路径，为什么要removeLast？</strong></p>
+<p><strong>3.给一棵二叉树，根为root，请你删除一条边，使二叉树分裂成两颗子树，且他们的子树和乘积尽可能大，返回最大的乘积？（Leetcode 1339）</strong></p>
+<ul>
+<li><input checked="" disabled="" type="checkbox"> <strong>4.树的右视图，递归和非递归实现？</strong></li>
+</ul>
+<p><del><strong>5.寻找p1和p2节点两颗树的最近公共祖先节点</strong></del></p>
+<p><del><strong>6.二叉树的最近公共祖先Leetcode 236</strong></del></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 二叉搜索树</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> TreeNode <span class="title">lowestCommonAncestor</span><span class="params">(TreeNode root, TreeNode p, TreeNode q)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (root == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 要不都大于</span></span><br><span class="line">    <span class="keyword">if</span>(p.val &gt; root.val &amp;&amp; q.val &gt; root.val)&#123;</span><br><span class="line">        <span class="keyword">return</span> lowestCommonAncestor(root.right,p,q);</span><br><span class="line">        <span class="comment">// 要不都小于</span></span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(p.val &lt; root.val &amp;&amp; q.val &lt; root.val)&#123;</span><br><span class="line">        <span class="keyword">return</span> lowestCommonAncestor(root.left,p,q);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 要不就在两边,返回当前的</span></span><br><span class="line">    <span class="keyword">return</span> root;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 二叉树的最近公共祖先（使用递归解决）</span></span><br><span class="line"><span class="keyword">private</span> TreeNode ans = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> TreeNode <span class="title">lowestCommonAncestor</span><span class="params">(TreeNode root, TreeNode p, TreeNode q)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (root == <span class="keyword">null</span>) <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    findNode(root, p, q);</span><br><span class="line">    <span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">findNode</span><span class="params">(TreeNode root, TreeNode p, TreeNode q)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (root == <span class="keyword">null</span>) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    <span class="comment">// 直接到最深处</span></span><br><span class="line">    <span class="keyword">int</span> left = findNode(root.left, p, q) ? <span class="number">1</span> : <span class="number">0</span>;</span><br><span class="line">    <span class="comment">// 看看右边有没有找到</span></span><br><span class="line">    <span class="keyword">int</span> right = findNode(root.right, p, q) ? <span class="number">1</span> : <span class="number">0</span>;</span><br><span class="line">    <span class="comment">// 记录中点</span></span><br><span class="line">    <span class="keyword">int</span> mid = (root.val == p.val || root.val == q.val) ? <span class="number">1</span> : <span class="number">0</span>;</span><br><span class="line">    <span class="comment">// 找到了两个</span></span><br><span class="line">    <span class="keyword">if</span> (left + right + mid &gt;= <span class="number">2</span>) &#123;</span><br><span class="line">        ans = root;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 返回是否找到的结果</span></span><br><span class="line">    <span class="keyword">return</span> (left + right + mid) &gt; <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 使用非递归解决</span></span><br><span class="line"><span class="comment">// 利用map记录节点和指针。利用队列实现广度遍历</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> TreeNode <span class="title">lowestCommonAncestor2</span><span class="params">(TreeNode root, TreeNode p, TreeNode q)</span> </span>&#123;</span><br><span class="line">    Deque&lt;TreeNode&gt; stack = <span class="keyword">new</span> ArrayDeque&lt;&gt;();</span><br><span class="line">    <span class="comment">// 用以放置节点和父指针</span></span><br><span class="line">    Map&lt;TreeNode,TreeNode&gt; parent = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">    parent.put(root,<span class="keyword">null</span>);</span><br><span class="line">    stack.push(root);</span><br><span class="line">    <span class="comment">// 如果同时包含两个Node的话终止</span></span><br><span class="line">    <span class="keyword">while</span>(!parent.containsKey(p) || !parent.containsKey(q))&#123;</span><br><span class="line">        TreeNode pop = stack.pop();</span><br><span class="line">        <span class="keyword">if</span>(pop.left != <span class="keyword">null</span>)&#123;</span><br><span class="line">            parent.put(pop.left,pop);</span><br><span class="line">            stack.push(pop.left);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(pop.right != <span class="keyword">null</span>)&#123;</span><br><span class="line">            parent.put(pop.right,pop);</span><br><span class="line">            stack.push(pop.right);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 这主要是对祖先节点去重</span></span><br><span class="line">    Set&lt;TreeNode&gt; ancestors = <span class="keyword">new</span> HashSet&lt;&gt;();</span><br><span class="line">    <span class="comment">// 从上到下取出得到的所有的祖先节点，还不带重复</span></span><br><span class="line">    <span class="keyword">while</span>(p != <span class="keyword">null</span>)&#123;</span><br><span class="line">        ancestors.add(p);</span><br><span class="line">        p = parent.get(p);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 获取共同的祖先节点</span></span><br><span class="line">    <span class="keyword">while</span>( !ancestors.contains(q))&#123;</span><br><span class="line">        <span class="comment">// 从上到下获取父节点</span></span><br><span class="line">        q = parent.get(q);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> q;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="1-5-堆"><a href="#1-5-堆" class="headerlink" title="1.5 堆"></a>1.5 堆</h3><p><strong>1.百万的数据，找出最大的100个，如果数据100亿太大怎么办？</strong></p>
+<p>使用小顶堆即可。如果数据太大的话，可以采用数据分割，分次读取即可。</p>
+<h3 id="1-6-栈"><a href="#1-6-栈" class="headerlink" title="1.6 栈"></a>1.6 栈</h3><p><strong>1.Min栈的实现</strong></p>
+<p><strong>2.手上握有一堆牌，分两步 1.把顶上的牌发出去  2.把顶上的牌放到底部, 重复1-2步，直到手上没牌。给出桌子上的发牌顺序，求原来手牌顺序</strong></p>
+<h3 id="1-7-动态规划"><a href="#1-7-动态规划" class="headerlink" title="1.7 动态规划"></a>1.7 动态规划</h3><p><strong>1.上楼梯，给定一个n，从0开始，每次只能加6或者8，输出到达n最小的操作次数？</strong></p>
+<p><strong>2.m*n的方格。从方格的一端到另一端有多少种方法？</strong></p>
+<p><strong>3.有1 2 5 这种走法，n块的话有多少种走法？</strong></p>
+<h2 id="2-常问的知识点"><a href="#2-常问的知识点" class="headerlink" title="2. 常问的知识点"></a>2. 常问的知识点</h2><h3 id="2-1-计算机网络"><a href="#2-1-计算机网络" class="headerlink" title="2.1 计算机网络"></a>2.1 计算机网络</h3><p><strong>1.三次握手是什么，为什么需要三次？TCP四次挥手，为什么需要等待2MSL？</strong></p>
+<p>三次握手发生在TCP建立连接的时候，假设A为客户端，B为服务器，A发送SYN=1，seq=x的连接请求到B，A进入SYN-SENT状态；B如果同意建立连接，发送SYN=1，ACK=1，seq=y，确认号ack=x+1给A，B进入SYN-RCVD状态；A收到请求之后再次向B进行确认，发送SYN=1,ACK=1,seq=x+1,ack=y+1给B，双方进入到ESTABLISHED状态。三次的话主要是为了消除A发送的在网络中的滞留的请求到达B，而使得B发送确认，但此时A不再接受，B会一直发送确认报文。假如是两次的话，一旦滞留请求连接到达B此时B就要打开额外的连接。</p>
+<p>四次挥手主要用于通信双方连接的释放：</p>
+<p>A发送FIN=1,seq=u的连接释放请求给B，此时A进入FIN-WAIT1状态，B收到A的连接释放请求之后，需要发出确认，ACK=1，seq=v，ack=u+1,此时B进入CLOSED-WAIT状态，A收到报文之后，进入FIN-WAIT2状态，此时双方处于半关闭状态，如果此时B还有属于要发送给A的话，A还是可以接收的，当数据发送完毕，B发送FIN=1，ACK=1,seq=w，ack=u+1的连接释放报文给A，此时B进入LAST-ACK状态，等待最终确认，A收到后，发送确认报文ACK=1，seq=u+1,ack=w+1,此时A进入TIME-WAIT状态，等待2MSL进入CLOSED状态，B接收到A的确认之后就进入CLOSED状态。</p>
+<p>等待2MSL，MSL是报文最长存活时间，1.保证B能够接收到确认报文，进入CLOSED状态。2.使得在释放过程中产生的所有的报文在网络中消失，使得下一次连接不会出现旧的连接请求报文。</p>
+<p><strong>2.滑动窗口是什么，干什么用的？</strong></p>
+<p>RTT：发送一个数据报到收到一个对应的ACK所花费的时间</p>
+<p>RTO：重传时间间隔</p>
+<p>TCP使用滑动窗口做<strong>流量控制</strong>和<strong>乱序重排</strong>。</p>
+<p>第一个是提供TCP的可靠性，第二个是提供TCP的流控特性。</p>
+<p>滑动窗口体现了TCP传输字节流的特性。</p>
+<p>（TCP滑动窗口具体的实现，是发送方有一个滑动窗口，接收方也有一个滑动窗口，发送的时候需要已经发送并得到接收方确认的滑动窗口才可以从左向右滑动。而接收方需要获取到对方已接受并已经确认才可以继续从左向右滑动。）</p>
+<p><strong>3.TCP和UDP的区别？</strong></p>
+<ul>
+<li>TCP是面向连接的，UDP是无连接的（TCP有三次握手，UDP适合消息的多播发布，单点向多点发布）</li>
+<li>TCP是可靠交付的，UDP是尽最大努力交付的，不保证可靠性</li>
+<li>TCP传输的数据是有序的，UDP是无序的（TCP利用序列号，数据有序）</li>
+<li>TCP速度慢（创建连接），UDP快（适合在线视频媒体，电视广播，游戏直播，多人在线游戏）</li>
+<li>量级，TCP头部有20个字节重量级，UDP只有8个字节轻量级</li>
+</ul>
+<p><strong>4. HTTP协议是什么样的？</strong></p>
+<p>HTTP协议是应用层的协议，是一种基于请求与响应模式的无状态的协议，采用TCP进行连接，在1.1中引入了长连接keep-alived。</p>
+<ul>
+<li>支持C/S模式</li>
+<li>简单快速（传送请求方法和路径即可 请求方法有 get  head post三种）</li>
+<li>灵活：可以传输任意类型的数据使用Content-Type加以标记</li>
+<li>无连接：限制每次连接只处理一个请求。可以节省传输时间。长连接可以理解为下层实现对上层透明。</li>
+<li>无状态</li>
+</ul>
+<p>HTTP的请求结构：</p>
+<p>请求头+回车/换行（/r/n）+请求正文</p>
+<p>响应头+回车/换行（/r/n）+响应正文</p>
+<p>HTTP请求响应的步骤：</p>
+<ul>
+<li>客户端连接Web服务器</li>
+<li>发送HTTP请求</li>
+<li>服务器接受请求并返回HTTP响应</li>
+<li>释放TCP连接</li>
+<li>客户端浏览器解析HTML内容</li>
+</ul>
+<p><strong>5.GET和POST的区别？</strong></p>
+<ul>
+<li>http报文层面：GET将请求信息放在URL中，POST放在报文主体</li>
+<li>数据库层面：GET符合幂等性和安全性的，POST不符合（因为POST会对数据库的访问的内容进行修改）</li>
+<li>其他层面：GET可以被缓存、被存储，POST不行</li>
+</ul>
+<p><strong>6.HTTPS的加密过程?为什么传输要用到对称加密？</strong></p>
+<p>对称加密+非对称加密，非对称加密很安全，一般用于传输加密的相关信息。因为非对称加密可以传输的字节有大小限制，但是对称加密适合大数据量的传输。</p>
+<p><strong>7.HTTP与HTTPS的区别，HTTPS建立连接的过程？</strong></p>
+<p><strong>区别:</strong></p>
+<ul>
+<li>http使用80端口，https使用443端口，使用的是完全不同的连接方式</li>
+<li>http是没有加密运行在tcp之上，https是运行在ssl/tls之上，ssl/tls运行在tcp上加密</li>
+<li>https需要申请CA证书，一般需要付费，http不需要</li>
+<li>https可以有效地防止运营商劫持，解决了防劫持的一个大问题</li>
+</ul>
+<p>或者</p>
+<ul>
+<li>https需要申请CA证书，一般需要付费，http不需要</li>
+<li>HTTP密文传输，HTTP明文传输</li>
+<li>连接方式不同，端口不同https 443 ，而HTTP是80</li>
+<li>HTTPS=HTTP+加密+认证+完整性保护，较HTTP更加安全</li>
+</ul>
+<p><strong>HTTPS数据传输流程：</strong></p>
+<ul>
+<li>浏览器将支持的加密算法发给服务器</li>
+<li>服务器选择一套浏览器支持的加密算法，以证书的形式返回给浏览器</li>
+<li>浏览器验证证书的合法性，并结合证书中给出的公钥加密信息发送给服务器</li>
+<li>服务器使用私钥解密信息，验证哈希，加密响应消息回发给浏览器</li>
+<li>浏览器解密响应信息，并对消息进行验真，之后进行加密交互数据</li>
+</ul>
+<p><strong>8. TCP的拥塞控制？</strong></p>
+<p>TCP的拥塞控制与TCP的流量控制比较类似，但是TCP的流量控制是针对发送方和发送方之间的流量控制。拥塞控制是减轻整个网络的拥塞。TCP的拥塞一旦发生，分组将会丢失，此时发送方会继续执行重传，将会导致网络拥塞程度更高，因此当出现拥塞时，应该采用TCP的拥塞控制。</p>
+<p>主要有慢开始和拥塞避免，已经快开始与拥塞避免。</p>
+<p>慢开始，开始增加，每次确认翻倍，等到了门限值sshthresh的时候，采用拥塞避免算法。如果发生拥塞的话，此时门限值sshthreash=cwnd/2，此时重新冲0开始执行慢开始算法。</p>
+<p>而快恢复算法的话，只是到了发生拥塞的时候门限值变化为cwnd/2，才是开始也从这个点开始执行拥塞避免算法。</p>
+<p>（注意还有一个快重传算法，就是每收到三次同样的确认报文，就直接重发下一个报文给接收方）</p>
+<p><strong>9.DNS，输入URL之后到展示出页面发生了哪些流程？</strong></p>
+<p>一、</p>
+<ul>
+<li>DNS域名解析系统先解析域名到IP地址</li>
+<li>获得IP地址之后建立TCP连接，发送HTTP请求</li>
+<li>服务器收到HTTP请求之后，返回HTTP响应报文</li>
+<li>浏览器收到响应报文之后对页面HTML进行渲染，展示页面</li>
+<li>连接结束</li>
+</ul>
+<p>二、</p>
+<ul>
+<li>DNS解析（DNS缓存查询：浏览器缓存，系统缓存，路由器缓存，IPS服务器缓存，根域名服务器缓存，顶级域名服务器缓存，）</li>
+<li>TCP连接（三次握手）</li>
+<li>发送HTTP请求</li>
+<li>服务器处理请求并返回HTTP报文</li>
+<li>浏览器解析并渲染页面</li>
+<li>TCP释放连接，连接结束</li>
+</ul>
+<p><strong>10.traceroute作用</strong></p>
+<p>用来跟踪一个分组从源点到终点的路径。ICMP网际报文控制协议。经过路由器后，生存时间TTL改变了。</p>
+<p><strong>11.socket编程</strong></p>
+<p>TCP与UDP实现消息的传输</p>
+<p><strong>12.xss跨域是什么？</strong></p>
+<p>XSS攻击指的是通过利用网页开发时留下的漏洞，通过巧妙的方法注入恶意指令代码到网页，使用户加载并执行攻击者恶意制造的网页程序。</p>
+<p><strong>13.什么是数字签名，有什么作用？</strong></p>
+<p>数字签名主要是用来存放公钥和私钥以及摘要的，作用就还是在进行HTTPS进行连接的时候进行数据秘钥协商的。数字签名=数字摘要+非对称加密技术。数字证书就是第三方提供的一个信任证书，用以对服务器的身份安全认证。</p>
+<p><font color="red">流程：客户端向服务器发送协议版本号，随机数1，支持的加密算法，服务器确认双方的加密算法，然后服务器向客户端发送随机数2，以及自己的数字证书CA（含有公钥），客户端接收到证书之后验证服务器身份，随后生成随机数3，利用数字证书中的公钥进行加密发送给服务器，服务器接收到之后利用私钥解密获取到第三个数字，然后双方使用3个随机数字利用约定好的加密算法，生成双方对话的对称私钥。</font></p>
+<p><img src="C:%5CUsers%5CAdministrator%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1581993368392.png" alt="1581993368392"></p>
+<p><img src="http://www.ruanyifeng.com/blogimg/asset/2014/bg2014092003.png" alt="img"></p>
+<p><strong>14.知道DNS吗，如何减少DNS的传输时间？host是啥，如何减少host的查询时间？</strong></p>
+<p>DNS域名系统服务，减少DNS查找的时间，使用UDP进行传输。</p>
+<p>当客户端的DNS缓存为空时，DNS查找的数量与Web页面中唯一主机名的数量相等。所以减少唯一主机名的数量就可以减少DNS查找的数量。（减少host文件中的唯一主机名）</p>
+<p><strong>15.交换机和路由器分别处于哪一层？</strong></p>
+<p>交换器处于数据链路层，主要是维护MAC表</p>
+<p>路由器处于网络层，主要是IP寻址和路由选择。</p>
+<p><strong>16.什么是缓存溢出？</strong></p>
+<p>是指存在缓存溢出漏洞的计算机中，攻击者用超出常规长度的字符数来填满一个域，通常是内存区地址。</p>
+<p><strong>17.HTTP1.0和HTTP1.1区别，HTTP1和HTTP2的区别？</strong></p>
+<p>HTTP1.0与HTTP1.1的区别主要在于：</p>
+<ul>
+<li><p>长连接：1.1支持长连接keep-alived</p>
+</li>
+<li><p>缓存处理：1.1的缓存策略更多</p>
+</li>
+<li><p>带宽优化及网络连接的使用：带宽主要是1.1中引入了range，控制文件对象大小。</p>
+</li>
+<li><p>错误通知的处理：1.1新增了状态码，更好的执行错误通知</p>
+</li>
+<li><p>Host头的处理：1.1中请求头和响应头都支持Host头域</p>
+</li>
+</ul>
+<p>HTTP1.x与HTTP2的区别：</p>
+<ul>
+<li>新的二进制文件：HTTP1.x的解析是基于文本。HTTP2.x则是基于二进制</li>
+<li>多路复用：连接共享</li>
+<li>header压缩：HTTP2.0使用encoder来减少传输的header大小。</li>
+<li>服务端推送：HTTP2.0具有server push功能</li>
+</ul>
+<p><strong>18. HTTP常见的状态码？</strong></p>
+<ul>
+<li>1XX：请求已接受并继续处理</li>
+<li>2XX：表示成功，请求被成功接收、理解、接受</li>
+<li>3XX：重定向，要完成请求必须进行更进一步的操作</li>
+<li>4XX：客户端错误-请求有语法错误或请求无法实现</li>
+<li>5XX：服务器错误，服务器未能实现合法的请求</li>
+</ul>
+<p><strong>19. Cookie和Session的区别</strong></p>
+<p>Cookie：</p>
+<ul>
+<li>是由服务器发送给客户端的特殊的信息，以文本的形式存放在客户端</li>
+<li>客户端再次请求的时候，会把Cookie回发</li>
+<li>服务器接收到之后，会解析Cookie生成与客户端相对应的内容 </li>
+</ul>
+<p>Cookie流程：</p>
+<p><img src="C:%5CUsers%5CAdministrator%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1582011572513.png" alt="1582011572513"></p>
+<p>Session：</p>
+<ul>
+<li>服务器端的机制，在服务器上保存的信息</li>
+<li>解析客户端请求并操作Session_id，按需保存状态信息</li>
+</ul>
+<p>Session的实现方式：</p>
+<ul>
+<li>使用Cookie来实现，在服务器发送过去的时候Set-Cookie中设置JSESSIONID=xxx，客户端的Cookie中的JSESSIONID=xxx给服务器，服务器返回响应</li>
+<li>URL回写来实现。隐式的下载请求的URL中，这样在访问同一个网站的所有页面都可以直接有权操作。</li>
+</ul>
+<p>两者的区别：</p>
+<ul>
+<li>Cookie的数据存放在客户端的浏览器上，Session的数据放在服务器上</li>
+<li>Session相对Cookie来说比较安全</li>
+<li>若考虑减轻服务器的负担，应当使用Cookie</li>
+</ul>
+<p><strong>20. HTTP中有哪些加密方式</strong></p>
+<ul>
+<li>对称加密：加密和解密都用同一个秘钥</li>
+<li>非对称加密：加密和解密使用不用的秘钥</li>
+<li>哈希算法：将任意长度的信息转化为固定长度的值，不可逆</li>
+<li>数字签名：证明某个消息或者某个文件是某人发出的</li>
+</ul>
+<h3 id="2-2-操作系统"><a href="#2-2-操作系统" class="headerlink" title="2.2 操作系统"></a>2.2 操作系统</h3><p><strong>1.进程和线程的区别</strong></p>
+<ul>
+<li>进程是资源分配与调度的基本单位，线程是CPU调度和分派的基本单位</li>
+<li>进程拥有独立地址空间，线程共享所属进程的地址空间</li>
+<li>进程是拥有系统资源的一个独立单位，而线程基本上不拥有资源，与其他线程共享本进程的相关资源如内存，I/O，CPU等</li>
+<li>进程切换，涉及到当前整个CPU环境的保护环境的设置以及新被调度运行的CPU环境的设置，而线程切换只需保存和设置少量的寄存器内容，并不涉及存储器管理方面的操作。可见进程切换的开销远远大于线程切换的开销</li>
+<li>线程之间的通信更加方便，同一进程下的线程共享全局变量等数据。而进程之间的通信需要以进程之间通信（IPC）的方式进行</li>
+<li>多线程只要有一个线程崩溃，整个程序就崩溃了，但是多进程如果有一个程序崩溃不会影响到其他进程，因为进程有自己的独立地址空间，因此多进程更加健壮</li>
+</ul>
+<p><strong>2.操作系统为什么有用户态和内核态，用户级线程和内核级线程如何转换？</strong></p>
+<p>拥有用户态和内核态主要是为了限制不同程序的访问能力，防止一些程序访问其他程序的内存数据，所以CPU划分了用户态和内核态两个权限等级。</p>
+<ul>
+<li>用户态只能受限地访问内存，且不允许访问外围设备，没有占用CPU的能力，CPU资源可以被其他程序获取</li>
+<li>内核态可以访问内存所有数据以及外围设备，也可以进行程序的切换。</li>
+</ul>
+<p>所有用户程序都运行在用户态，但有时需要进行一些内核态的操作，比如从硬盘或者键盘读数据，这是就需要进行系统调用，使用陷阱指令，CPU切换到内核态，执行相应的任务，在切换为用户态并返回系统调用的结果。</p>
+<p><strong>如何切换</strong>：</p>
+<ul>
+<li>系统调用：比如读取命令行输入，本质还是通过中断实现的。</li>
+<li>用户程序发生异常时：比如缺页异常</li>
+<li>外围设备的中断：外围设备完成用户请求的操作之后，会想CPU发出中断信号，这时CPU会转去处理对应的中断处理程序。</li>
+</ul>
+<p><strong>为什么要分内核态和用户态？</strong></p>
+<p>答：</p>
+<ul>
+<li>安全性：防止用户程序恶意或者不小心破坏系统/内存/硬件资源</li>
+<li>封装性：用户程序不需要实现更加底层的代码</li>
+<li>利于调度：如果多个用户程序都在等待键盘输入，这时就需要进行调度；统一交给操作系统调度会更加方便</li>
+</ul>
+<p><strong>3.epoll了解吗？</strong></p>
+<p>epoll是Linux内核中为处理大批量文件描述符而做了改进的poll，在Linux下多了复用IO接口select/poll的增强版本，他能显著的提高程序在大量并发连接中只有少量活跃的情况下的系统CPU利用率。</p>
+<p><strong>4.进程有哪些通信方式？</strong></p>
+<ul>
+<li>管道</li>
+<li>共享内存 </li>
+<li>信号量</li>
+<li>消息队列</li>
+<li>套接字</li>
+</ul>
+<p><strong>5.操作系统中的spin lock和Java中锁的区别</strong></p>
+<p><strong>6. 操作系统的分页分段管理？虚拟内存？</strong></p>
+<p><strong>分页分段的区别</strong></p>
+<ol>
+<li><p>页式存储：用户空间划分为大小相等的部分称为页（page），内存空间划分为同样大小的区域称为页框，分配是以页为单位，按进程需要的页数分配，逻辑上相邻的页物理上不一定相邻。</p>
+</li>
+<li><p>段式存储：用户进程地址空间按照自身逻辑关系划分为若干个segment（如代码段，数据段，堆栈段），内存空间被动态的分成为长度不同的区域，分配时以段为单位，每段在内存中占连续空间，各段可以不相邻</p>
+</li>
+<li><p>段页式存储：用户进程先按段划分，段内按页再分，内存划分和分配按页</p>
+</li>
+</ol>
+<p><strong>区别：</strong></p>
+<ul>
+<li>目的不同：分页的目的是管理内存，用于虚拟内存获得更大的地址空间；分段的目的就是满足用户的需要，使程序和数据可以被划分为逻辑上独立的地址空间。</li>
+<li>大小不同：段的大小不固定，由其所完成的功能所决定；页的大小固定，由系统决定</li>
+<li>地址空间维度不同：分段是二维地址空间（段号+段内偏移），分页是一维地址空间（每个进程一个页表/多级页表，通过一个逻辑地址就能找到对应的物理地址）</li>
+<li>分段便于信息的保护和共享；分页的共享受到限制</li>
+<li>碎片：分段没有内碎片，但会产生外碎片；分页没有外碎片，但会有内碎片（一个页填不满）</li>
+</ul>
+<p><strong>虚拟内存是什么？</strong></p>
+<p>每个程序都拥有自己的地址空间，这个地址空间被分成大小相等的页，这些页被映射为物理的页；但不需要所有的页都在物理内存中，当程序引用到不在物理内存中的页时，由操作系统将缺失的部分装入物理内存。这样对于程序来说，逻辑上似乎有很大的内存空间，但实际上有一部分是存储在磁盘上，因此叫做虚拟内存。</p>
+<p>虚拟内存的优点是让程序可以获得更多的可用内存。</p>
+<p><strong>如何进行地址空间到物理内存的映射？</strong></p>
+<p><strong>内存管理单元（MMU）</strong>管理着逻辑地址和物理地址的转换，其中的页表（page table）存储着页（逻辑地址）和页框（物理内存空间）的映射表，页表中还包含有效位（判断是在内存还是磁盘）、访问位（是否被访问）、被修改（内存中是否被修改）、保护位（只读还是可读写）。逻辑地址：页号+页内地址（偏移）；每个进程一个页表，放在内存，页表起始地址在PCB/寄存器中。</p>
+<p><strong>7.线程同步有哪些方式？为什么要进行线程同步？</strong></p>
+<ul>
+<li><strong>互斥量Mutex</strong>：互斥量是内核对象，只有拥有互斥对象的线程才有访问互斥资源的权限。因为互斥对象只有一个，所以可以保证互斥资源不会被多个线程同时访问；当前拥有互斥对象的线程处理完任务后必须将互斥对象交出，以便其他线程访问该资源；</li>
+<li><strong>信号量Semaphore</strong>：信号量是内核对象，它允许同一时刻多个线程访问对象，但是需要控制同一时刻访问此资源的最大线程数量。信号量对象保存了最大资源计数和当前可用资源计数，每增加一个线程对共享资源访问，当前可用资源计数就减1，只要当前信号量的可用资源计数大于0，就可以发出信号量，如果为0，则将线程放入一个队列中等待。线程处理完共享资源以后，应当在离开的同时通过<code>ReleaseSemaphore</code>函数，将当前可用资源计数加1。如果信号量的取值只能为0或者1，信号量就变成了互斥量。</li>
+<li><strong>事件Event</strong>：允许一个线程在处理完一个任务后，主动唤醒另外一个线程执行任务。时间分为手动重置事件和自动重置事件；手动重置事件被设置为激活状态之后会唤醒所有等待的线程，而且一直保持为激发状态，直到程序重新把它设置为未激活状态。自动重置状态被设置为激活状态之后，会唤醒一个等待中的线程，然后自动恢复为未激活状态。</li>
+<li><strong>临界区 Critical Section</strong>：任意时刻只允许一个线程对临界资源进行访问，拥有临界区对象的线程，可以访问该临界资源，其他试图访问该资源的线程将被挂起，直到临界区对象被释放。</li>
+</ul>
+<p>进行线程同步主要是为了对共享资源访问的同步性，避免出现操作冲突。</p>
+<h3 id="2-3-数据库"><a href="#2-3-数据库" class="headerlink" title="2.3 数据库"></a>2.3 数据库</h3><p><strong>1.Mysql事务隔离级别有哪些？</strong></p>
+<p>读未提交：读取其他事务未提交的数据，可能发生脏读，不可重复读，幻读</p>
+<p>读已提交：读取其他事务已提交的数据，可能发生不可重复读，幻读</p>
+<p>可重复读：同一个事务多次读取数据结果是一样的，可能发生幻读</p>
+<p>可串行化：事务串行执行，这是最安全的，可以避免上述所有问题</p>
+<p><strong>2.事务隔离级别的实现？</strong></p>
+<p>实现事务隔离级别的方式：</p>
+<p>1.一级封锁协议：对应读未提交，指代事务在需要修改的事务上面（就是在发生修改的瞬间）对其加共享锁（其他事务不能更改，但是可以读取，导致“脏读”发生），直到事务结束才释放。事务结束包括提交和回滚</p>
+<p>2.二级封锁协议：对应读已提交，指代事务对需要更新的数据加排它锁，防止其他事务读取未提交的数据，避免了脏读。事务在对应读取的数据上加共享锁，读完则释放锁。</p>
+<p>3.三级封锁协议：对应可重复读，指代二级封锁协议在读取数据的瞬间必须对其添加共享锁，直到事务结束释放，这样保证了可重复读（其他事物能读取数据，但是不能更新数据）</p>
+<p>4.四级封锁协议：三级封锁协议的增强版，实现机制最为简单，直接对事务中所读取或者更改的数据所在的表加表锁，也就是说，其他事务不能读写该表中的任何数据。可以避免上述所有的问题。</p>
+<p><strong>3.Mysql有哪些锁，如何加锁？</strong></p>
+<p>表级锁和行级锁。</p>
+<p><strong>4.数据库的主键索引和普通索引的区别？哪个查询更快？</strong></p>
+<p>主键索引只需要查询一次即可，但是普通索引的话可能涉及回表，所以一般来说主键索引速度会更快！</p>
+<p>主键索引的叶子节点放置了本行的记录，普通索引的节点存放了主键的id，查询的时候需要做一次回表查询，但是也不一定必须要回表，当查询的字段刚好是索引的字段或者是索引的一部分，就可以不用回表，这也是索引覆盖的原理。</p>
+<p><strong>5.索引越多越好吗？索引建多了会有什么问题？对操作有什么影响？</strong></p>
+<p>不是，当对表中的数据进行增删改的时候，索引也要动态的维护，这样就降低了数据的维护速度。而且索引需要占物理空间，处理数据表占数据空间之外，每一个索引还需要占一定的物理空间，如果要建立聚簇索引，那么需要的空间就会很大。创建索引和维护索引需要耗费时间，这种时间随着数据量的增加而增加。</p>
+<p><strong>6.聚簇索引和非聚簇索引的区别？</strong></p>
+<p><strong>非聚簇索引</strong>：B+Tree的data域存放的是数据记录的地址，在索引检索的时候，首先按照B+Tree的搜索算法搜索索引，如果指定的key存在，则取出对应的data域的值，然后把data域的值为地址读取相应的记录。索引文件和数据文件是分离的，其表数据文件本身就是按B+Tree组织的一个索引结构，树的节点data域保存了完整的数据记录，</p>
+<p><strong>聚簇索引</strong>：这个索引的key是数据表的主键，因此InnoDB表数据文件本身就是主索引，被称为聚簇索引。而其余的索引都作为辅助索引，辅助索引的data域存储相应记录主键的值而不是地址。进行索引搜索时，直接找到key所在的节点即可取出数据；而根据辅助索引查找时，则需要取出主键的值，再走一遍主键索引。因此在设计表的时候，不建议使用过长的字段作为主键，也不建议使用非单调的字段作为主键，这样会造成主索引频繁分裂。</p>
+<p><strong>7.幻读的概念，幻读和不可重复读的区别？</strong></p>
+<p>幻读指的是第一个事务读取了几行数据，接着另一个并发事务插入了一些数据，在随后的查询中当第一个事务再去读的时候，就会发现多了一些原本不存在的记录。像出现了幻觉一样。</p>
+<p>不可重复读是指读的数据第一次和第二次不一样。</p>
+<p>幻读和不可重复读的区别：幻读是指事务插入或者删除操作过程中发生的，而不可重复读是指事务的修改动作。</p>
+<p><strong>8.说一下MVCC的概念，实现的原理，解决的问题？</strong></p>
+<p><strong>MVCC简单来说是对数据库的任何修改的提交都不会直接覆盖之前的数据，而是产生一个新的版本与老版本共存，使得读取时可以完全不加锁</strong>，主要的作用就是为了让读写不冲突！</p>
+<p>MVCC（Multi Version Concurrency Control）多版本并发控制。MVCC并没有简单的使用数据库的行锁，而是使用了行级锁。MVCC是一种并发控制的方法，一般在数据库管理系统中，实现对数据库的并发访问。</p>
+<p>MVCC的实现，通过保存数据在某个时间点的快照来实现的。（在操作的时候保存了一个版本号）。存在的特征：每行数据都有一个版本，每次数据更新时都更新该版本号。保存时比较版本号，成功的话，则覆盖原记录；失败则rollback</p>
+<p>InnoDB中的实现，有一个创建版本号和一个删除版本号。crud过程中通过比较数据版本号来实现对数据版本的控制。</p>
+<p>解决的问题：解决了在可重复读，和读已提交两个隔离级别下读同一行和写同一行的两个事务的并发。</p>
+<ul>
+<li>Read Committed - 一个事务读取数据时总是读这个数据最近一次被commit的版本</li>
+<li>Repeatable Read - 一个事务读取数据时总是读取当前事务开始之前最后一次被commit的版本（所以底层实现时需要比较当前事务和数据被commit的版本号）。</li>
+</ul>
+<p>下面的例子确实好理解：</p>
+<blockquote>
+<p><strong>举个简单的例子：</strong></p>
+<ol>
+<li><strong>一个事务A（txnId=100）修改了数据X，使得X=1，并且commit了</strong></li>
+<li><strong>另外一个事务B（txnId=101）开始尝试读取X，但是还X=1。但B没有提交。</strong></li>
+<li><strong>第三个事务C（txnId=102）修改了数据X，使得X=2。并且提交了</strong></li>
+<li><strong>事务B又一次读取了X。这时</strong></li>
+</ol>
+<ul>
+<li><strong>如果事务B是Read Committed。那么就读取X的最新commit的版本，也就是X=2</strong></li>
+<li><strong>如果事务B是Repeatable Read。那么读取的就是当前事务（txnId=101）之前X的最新版本，也就是X被txnId=100提交的版本，即X=1。</strong></li>
+</ul>
+</blockquote>
+<p>参考：<a href="https://zhuanlan.zhihu.com/p/73078137" target="_blank" rel="noopener">MVCC解决了什么问题</a></p>
+<p><strong>9.MySQL使用什么数据结构存储数据？B树与B+树的区别？为什么使用B+而不用B树？</strong></p>
+<p>MySQL使用B+树来存储数据。</p>
+<p>B数的话，是节点存储数据和索引文件，而B+树的话，节点只存储索引，可以存储更多的索引文件，查找也更快只需要走一遍即可。且所有数据都在叶子节点，且叶子节点内部维护着链表，有利于范围统计。</p>
+<p><strong>10.联合索引</strong></p>
+<p><strong>11.最左匹配成因</strong></p>
+<p>最左匹配的成因是因为如果第一个order by，对于数据来说正序，如果第二个也order by得话，此时数据就乱序了，这也就是使用最左匹配的成因。</p>
+<p><strong>12.MySQL主从复制原理？读写分离如何在代码层实现？</strong></p>
+<p><strong>13. B+Tree为什么更好？</strong></p>
+<ul>
+<li>B+树的磁盘读写代价更低，因为B+数的节点中只存储索引不存储数据，可以从存储更多的关键字信息</li>
+<li>B+树的查询效率更加稳定。因为B+树的结构问题，所有数据的查询只需要走一趟即可。</li>
+<li>B+树更有利于对数据库的扫描。因为B+树的叶子节点之间形成了链表，且有序对于范围查询更方便。</li>
+</ul>
+<p><strong>14. 按道理说Hash索引也可以实现数据的查询，且速度很快，为什么Mysql不使用Hash索引？</strong></p>
+<ul>
+<li><p>仅仅能满足”=”，”IN“，不能使用范围查询</p>
+</li>
+<li><p>无法被用来避免数据的排序操作</p>
+</li>
+<li><p>不能利用部分索引键查询</p>
+</li>
+<li><p>不能避免表扫描（有些键会有相同的hash值，找到了一个以后还是要全表扫描找出所有）</p>
+</li>
+<li><p>遇到大量Hash值相等的时候性能并不一定会比B-Tree高</p>
+</li>
+</ul>
+<p><strong>15. 索引四个问题？</strong></p>
+<ul>
+<li>为什么要使用索引？因为使用索引可以避免全表扫描提高检索效率。</li>
+<li>什么样的信息能成为索引？主键，唯一键等普通键，具有可区别的信息都可以</li>
+<li>索引的数据结构？一般采用B+Tree，也有少部分采用Hash索引，bitMap索引，Mysql不显式支持Hash索引</li>
+<li>密集索引和稀疏索引的区别？主要在于密集索引的辅助索引中包含主键，也就是密集索引文件中每个搜索码值都对应一个索引值。稀疏索是辅助索引与主键索引一样可以直接找到记录，只为索引码的某些值建立索引。</li>
+</ul>
+<p>InnoDB的索引和数据放在一起，而MyISAM是索引和数据分开的。</p>
+<p><strong>16. 如何定位并优化慢SQL</strong></p>
+<ul>
+<li>通过慢日志定位慢查询sql</li>
+<li>使用explain等工具分析sql</li>
+<li>修改sql或者尽量让sql走索引</li>
+</ul>
+<h2 id="3-Java基础知识"><a href="#3-Java基础知识" class="headerlink" title="3. Java基础知识"></a>3. Java基础知识</h2><p><strong>1.面向对象的特性，多态如何实现？</strong></p>
+<p>封装、多态、继承。多态的特性通过继承来实现。</p>
+<p><strong>2.手写单例模式</strong></p>
+<p><strong>3.HashMap</strong></p>
+<p><strong>4.深拷贝和浅拷贝</strong></p>
+<p>浅拷贝拷贝的只是对象的引用。而深拷贝是重新创建了一个对象的副本。</p>
+<p><strong>5. 值传递和引用传递</strong></p>
+<p><strong>6.死锁</strong></p>
+<p>是指两个或者多个并发的进程中，每个进程持有某种资源又等待其他进程释放它们所保持的资源，在未改变这种状态之前都不能向前推进，则称这一组进程产生了死锁（deadLock）</p>
+<p><strong>产生死锁的必要条件</strong>：</p>
+<ul>
+<li><strong>互斥</strong>：一个资源一次只能被一个进程占用</li>
+<li><strong>占有并等待</strong>：一个进程至少占有一个资源，并在等待另一个被其他进程占用的资源</li>
+<li><strong>非抢占</strong>：已经被分配给一个进程的资源不能被强制性抢占，只能由该进程完成任务之后自愿释放</li>
+<li><strong>循环等待</strong>：若干进程之间形成了一种头尾相连的环形等待资源关系，该环路中的每个进程都在等待下一个进程所占用的资源。</li>
+</ul>
+<p><strong>7.线程之间的同步方式</strong></p>
+<ul>
+<li>互斥量</li>
+<li>信号量</li>
+<li>事件</li>
+<li>临界区</li>
+</ul>
+<p><strong>8.java基本数据类型和占用的空间大小</strong></p>
+<p><strong>9.重载和重写的是什么？</strong></p>
+<p><strong>10.ReentrantLock底层实现？</strong></p>
+<p><strong>11.手写阻塞队列？生产者消费者？优化方法？</strong></p>
+<p>之前就采用wait/nitify/notifyAll，优化的话采用ReentrantLock的Condition类来实现。</p>
+<p><strong>12.说一说你最熟悉的设计模式？</strong></p>
+<p>单例模式，代理模式，MVC</p>
+<p><strong>13.IO多路复用</strong></p>
+<p><strong>14.LRU缓存怎么实现的？</strong></p>
+<p>主要是利用双向链表来实现的，LRU称为最近最少使用算法，主要的实现是每访问一次就将此元素移动到链表末尾。每次取出都移除第一个元素，以保证存储的都是热点数据。</p>
+<p><strong>15.注解是什么，底层如何实现的？</strong></p>
+<p><strong>16.如何保证HashMap是安全的，CurrentHashMap的原理如何加锁的？</strong></p>
+<p><strong>17.LinkedHashMap和HashMap的区别？</strong></p>
+<p>内部维持着双向链表。</p>
+<p><strong>18.互斥锁和同步锁的区别？</strong></p>
+<p>互斥是通过竞争对资源的使用，彼此之间不知道对方的存在，执行顺序是一个乱序。</p>
+<p>同步是协调多个相互关联线程合作完成任务，彼此之间知道对方的存在，执行顺序往往是有序的。（同步就是信号量的意思）</p>
+<p><strong>19.乐观锁和互斥锁的区别？</strong></p>
+<p>乐观锁没有加锁，而互斥锁是已经加了锁。互斥锁类似于悲观锁。</p>
+<p><strong>20.Java synchronized的类锁和对象锁，哪些是对象锁，那些是类锁？</strong></p>
+<p>区别在于一个锁的是当前类，一个锁的是当前对象。</p>
+<p>对象锁的话一般是锁代码块。而类锁的话是锁方法</p>
+<p><strong>21.了解bitmap的解析吗</strong></p>
+<p><strong>22. Java中的泛型，类型擦除，如果说Java的泛型是伪泛型，为什么不直接使用Obect代替？</strong></p>
+<p>*<em>23. *</em></p>
+<h2 id="4-Redis知识"><a href="#4-Redis知识" class="headerlink" title="4. Redis知识"></a>4. Redis知识</h2><p><strong>1.redis常用数据类型以及底层？Sorted Set的查找插入删除操作的时间复杂度？zset的大小限制？</strong></p>
+<p>常用数据类型：String，Hash，List，Set，Sorted Set</p>
+<p>String底层就是简单的k-v键值对。Hash底层就是field-(k-v键值对)，List底层就是链表，Set底层类似于Hash。value全为null的数据结构，Sorted Set底层使用了 ziplist，skipList，dict等数据结构</p>
+<p><strong>2.redis持久化方式，有什么区别？如果AOF文件过大怎么办？</strong></p>
+<p>RDB持久化，快照的方式来实现的在这个时候获取存储在内存里面的数据在某个时间点的副本。默认RDB</p>
+<p>AOF文件追加的方式，文件追加就是追加当前执行的命令，然后恢复的时候服务器执行一遍命令即可。</p>
+<p>AOF文件过大可以使用AOF重写机制。服务器通过读取数据库当前键值对来实现的，程序无须对现有AOF文件进行任意读入、分析或者写入操作。</p>
+<p><strong>3.redis的有序列表怎么实现的？跳表有什么优势？与二叉树相比的话？</strong></p>
+<p><strong>4.redis的过期策略？</strong></p>
+<p>定期删除和惰性删除</p>
+<ul>
+<li><p>定期删除：每隔100ms抽取部分过期键删除</p>
+</li>
+<li><p>惰性删除：是用到的时候看有没有过期，过期了就删除</p>
+</li>
+</ul>
+<p><strong>5.redis内存淘汰机制？</strong></p>
+<p><strong>6.redis的mget与pipeline的区别？</strong></p>
+<h2 id="5-Spring-SringBoot-SpringCloud"><a href="#5-Spring-SringBoot-SpringCloud" class="headerlink" title="5. Spring+SringBoot+SpringCloud"></a>5. Spring+SringBoot+SpringCloud</h2><p><strong>1.说说SpringCloud的注册中心？</strong></p>
+<p><strong>2.负载均衡策略，Ribbon用到的是那种？</strong></p>
+<p>轮询</p>
+<p><strong>3.运行中注册中心如果有一个实例挂掉了会出现什么情况？</strong></p>
+<p><strong>4.服务熔断和服务降级</strong></p>
+<p><strong>5.服务中心怎么保证高可用？怎么保证一致性？一致性算法？</strong></p>
+<p><strong>6.Spring Bean的生命周期？</strong></p>
+<p><strong>7.SpringBoot的启动流程？</strong></p>
+<p><strong>8.Spring AOP的实现原理？</strong></p>
+<h2 id="6-JVM知识"><a href="#6-JVM知识" class="headerlink" title="6. JVM知识"></a>6. JVM知识</h2><p><strong>1.GC</strong></p>
+<p><strong>2.类加载过程</strong></p>
+<p>类加载过程主要分为五步：</p>
+<ul>
+<li>加载</li>
+<li>验证</li>
+<li>准备</li>
+<li>解析</li>
+<li>初始化</li>
+</ul>
+<p><strong>3.垃圾回收的方法</strong></p>
+<ul>
+<li>标记-清除</li>
+<li>标记-整理</li>
+<li>复制算法</li>
+<li>分代收集算法</li>
+</ul>
+<p><strong>4.类加载器</strong></p>
+<p>常见的有启动类加载器Bootstrap ClassLoader，扩展类加载器Extension ClassLoader ，程序应用加载器Application ClassLoader</p>
+<p><strong>5.JVM内存模型，各种变量存储的位置问题，垃圾收集器。</strong></p>
+<p><strong>6.JVM如何判断对象可被回收？哪些可以作为GC roots</strong></p>
+<h2 id="7-Linux知识"><a href="#7-Linux知识" class="headerlink" title="7. Linux知识"></a>7. Linux知识</h2><p><strong>1.Linux查看文件的第N行？</strong></p>
+<p>vim file +n</p>
+<p><strong>2.Linux文件系统原理？</strong></p>
+<p><strong>3.如果一个文件100行，每行一个单词，怎么统计单词个数？</strong></p>
+<p><strong>4.中断是什么，Linux的中断命令？</strong></p>
+<p>中断是指CPU在执行程序的过程中，出现了某些突发事件急需处理，CPU暂停当前程序的执行，转去处理突发事件，处理完后又返回原程序被中断的地方继续执行。</p>
+<p>Linux的中断命令：<code>ctrl+c</code></p>
+<h2 id="8-项目"><a href="#8-项目" class="headerlink" title="8. 项目"></a>8. 项目</h2><p><strong>1.分布式锁？分布式锁除了redis还有其他实现吗？数据库和zookeeper实现？如何实现的说说？</strong></p>
+<h2 id="9-SQL编写"><a href="#9-SQL编写" class="headerlink" title="9. SQL编写"></a>9. SQL编写</h2><p><strong>1.写一个SQL查询所有平均成绩大于60的同学？如果不用where student.id=score.id会出现什么？</strong></p>
+<p><strong>2.写sql 学生成绩教师三个表、 查询平均成绩大于等于60分的同学的学生编号和学生姓名和平均成绩</strong></p>
+<p><strong>3.写sql 找出语文成绩及格平均成绩不及格的学生姓名语文成绩</strong></p>
+<p><code>select student,avg() from student stu join score sco where stu.id=sco.id</code></p>
+<p><strong>4.手写sql语句，分组查询</strong></p>
+<h2 id="10-智力题"><a href="#10-智力题" class="headerlink" title="10. 智力题"></a>10. 智力题</h2><p><strong>1. 有8个物体，其中有一个物体质量较大，如何两次称出它？</strong></p>
+<p>8个物体分为A/B/C三组，A有3个，B有3个，C有两个，先AB称</p>
+<ul>
+<li>A倾斜的话，表名重物在A，此时取出两个即可知道重的</li>
+<li>B等同A情况</li>
+<li>如果ab一样不倾斜，表明在C中，此时一对一，可得出</li>
+</ul>
+<h2 id="11-常见算法题"><a href="#11-常见算法题" class="headerlink" title="11. 常见算法题"></a>11. 常见算法题</h2><p>LeetCode 001. Two Sum<br>LeetCode 015. 3Sum (可能会问 LeetCode 18. 4Sum 思路)<br>LeetCode 020. Valid Parentheses<br>LeetCode 021. Merge Two Sorted Lists<br>LeetCode 025. Reverse Nodes in k-Group<br>LeetCode 053. Maximum Subarray<br>LeetCode 066. Plus One<br>LeetCode 098. Validate Binary Search Tree<br>LeetCode 110. Balanced Binary Tree<br>LeetCode 134. Gas Station<br>LeetCode 136. Single Number<br>LeetCode 137. Single Number II<br>LeetCode 146. LRU Cache（变形题：带有过期时间的 LRU 缓存）<br>LeetCode 206. Reverse Linked List<br>LeetCode 215. Kth Largest Element in an Array<br>LeetCode 232. Implement Queue using Stacks<br>LeetCode 328. Odd Even Linked List<br>LeetCode 415. Add Strings<br>LeetCode 470：rand7() rand10()<br>LeetCode 496. Next Greater Element I（时间复杂度O(n)）<br>LeetCode 716. Max Stack（两个栈实现最大栈，要求 pop，push，get_max 都为O(1)）<br>LeetCode 860. Lemonade Change<br>LeetCode 862. Shortest Subarray with Sum at Least K<br>LeetCode 876. Middle of the Linked List<br>LeetCode 946. Validate Stack Sequences</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag"># 面试</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/03/21/Java%E5%B9%B6%E5%8F%91%E5%A4%8D%E4%B9%A0/" rel="prev" title="Java并发知识学习">
+      <i class="fa fa-chevron-left"></i> Java并发知识学习
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/03/21/%E5%A4%87%E6%88%98%E6%BB%B4%E6%BB%B4%E9%9D%A2%E8%AF%95/" rel="next" title="备战面试基础知识-2">
+      备战面试基础知识-2 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC80NTExNi8yMTYzMw=="></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#字节面试准备"><span class="nav-number">1.</span> <span class="nav-text">字节面试准备</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-常见的算法题"><span class="nav-number">1.1.</span> <span class="nav-text">1. 常见的算法题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-链表"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.1 链表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-字符串"><span class="nav-number">1.1.2.</span> <span class="nav-text">1.2 字符串</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-数组"><span class="nav-number">1.1.3.</span> <span class="nav-text">1.3 数组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-二叉树"><span class="nav-number">1.1.4.</span> <span class="nav-text">1.4 二叉树</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-5-堆"><span class="nav-number">1.1.5.</span> <span class="nav-text">1.5 堆</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-6-栈"><span class="nav-number">1.1.6.</span> <span class="nav-text">1.6 栈</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-7-动态规划"><span class="nav-number">1.1.7.</span> <span class="nav-text">1.7 动态规划</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-常问的知识点"><span class="nav-number">1.2.</span> <span class="nav-text">2. 常问的知识点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-计算机网络"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1 计算机网络</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-操作系统"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2 操作系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-数据库"><span class="nav-number">1.2.3.</span> <span class="nav-text">2.3 数据库</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-Java基础知识"><span class="nav-number">1.3.</span> <span class="nav-text">3. Java基础知识</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-Redis知识"><span class="nav-number">1.4.</span> <span class="nav-text">4. Redis知识</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-Spring-SringBoot-SpringCloud"><span class="nav-number">1.5.</span> <span class="nav-text">5. Spring+SringBoot+SpringCloud</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-JVM知识"><span class="nav-number">1.6.</span> <span class="nav-text">6. JVM知识</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-Linux知识"><span class="nav-number">1.7.</span> <span class="nav-text">7. Linux知识</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-项目"><span class="nav-number">1.8.</span> <span class="nav-text">8. 项目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-SQL编写"><span class="nav-number">1.9.</span> <span class="nav-text">9. SQL编写</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-智力题"><span class="nav-number">1.10.</span> <span class="nav-text">10. 智力题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#11-常见算法题"><span class="nav-number">1.11.</span> <span class="nav-text">11. 常见算法题</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Cao Duanxi"
+      src="/images/1.jpg">
+  <p class="site-author-name" itemprop="name">Cao Duanxi</p>
+  <div class="site-description" itemprop="description">静心，摒弃表面的浮华，多思考内在的深度!</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Aaron-cdx" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Aaron-cdx" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://blog.csdn.net/cao1315020626" title="CSDN → https:&#x2F;&#x2F;blog.csdn.net&#x2F;cao1315020626" rel="noopener" target="_blank"><i class="fa fa-fw fa-csdn"></i>CSDN</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Cao Duanxi</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">78k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">1:11</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.7.0
+  </div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
