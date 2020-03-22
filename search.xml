@@ -1,6 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>面试项目准备</title>
+    <url>/2020/03/22/%E9%9D%A2%E8%AF%95%E9%A1%B9%E7%9B%AE%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<h1 id="项目问题"><a href="#项目问题" class="headerlink" title="项目问题"></a>项目问题</h1><h2 id="1-秒杀中如何解决商品超卖问题"><a href="#1-秒杀中如何解决商品超卖问题" class="headerlink" title="1. 秒杀中如何解决商品超卖问题"></a>1. 秒杀中如何解决商品超卖问题</h2><p>首先面对高并发问题，前端常用 扩容，静态化（CDN），限流来解决（采用Ip级别的限流，或者活动入口增加小游戏或者问题环节削峰处理）。</p>
+<p>后端的话主要是减库存操作。多个用户同时操作MySQL数据库的话很容易导致出现负数的情况。</p>
+<p>当减库存和高并发操作碰到一起，由于操作的库存数量是同一行，就会出现争抢InnoDB行级锁的问题，导致相互等待甚至死锁，从而大大降低了MySQL的处理性能，最终导致前端页面出现异常。</p>
+<p>操作代码使用<code>update number set x = x-1 where (x-1) &gt; 0</code>，这种只能减少超卖的数量，不能完全避免超卖。</p>
+<p>解决方案1：</p>
+<p>将库存从MySQL迁移到redis中，将所有的写操作放在内存中，由于redis不存在锁所以不会出现互相等待，并且有redis的写性能和读性能远远高于MySQL，这就解决了高并发下的性能问题。然后通过队列一步手段，将变化的数据异步写入到DB中</p>
+<p>优点：解决了性能问题</p>
+<p>缺点：没有解决超卖的问题，同时由于异步写入DB，在某一时刻会导致Db和redis数据不一致的风险。</p>
+<p>解决方案2：</p>
+<p>引入队列，然后将所有Db操作在单队列中排队，完全串行处理。当达到库存阈值的时候就不存在消费队列，并关闭购买功能。这就解决了超卖问题。</p>
+<p>优点：解决了超卖问题，略微提升性能。</p>
+<p>缺点：性能受限队列处理性能和DB写入性能中最短的那个，另外多商品同时抢购的时候需要准备多条队列。</p>
+<p>解决方案3:</p>
+<p>将写操作迁移到Memcached中，同时利用Memcached的轻量级的锁机制CAS来实现减库存操作。</p>
+<p>优点：读写在内存中，操作性能快，引入轻量级锁之后可以保证同一时刻只有一个写入成功，解决减库存操作。</p>
+<p>缺点：没有实测。</p>
+<p>解决方案4：</p>
+<p>将提交操作成两段式操作，先申请后操作，然后利用redis的原子自增操作（相比较MySQL的自增来说没有空洞），同时利用Redis的事务特性来发号，保证拿到小于等于库存阈值的号的人都可以成功提交订单。然后数据异步写入DB</p>
+<p>优点：解决超卖问题，库存读写都在内存中，故同时解决性能问题。</p>
+<p>缺点：由于异步写入DB，可能造成数据不一致问题出现，另外可能存在少买。也就是如果拿到号的人不真正下订单，可能库存减为0，但是订单并没有达到库存阈值。</p>
+]]></content>
+      <categories>
+        <category>面试</category>
+      </categories>
+      <tags>
+        <tag>面试</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>剑指offer刷题</title>
+    <url>/2020/03/22/%E5%89%91%E6%8C%87offer%E5%88%B7%E9%A2%98/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
     <title>Spring之Bean的生命周期学习</title>
     <url>/2020/03/22/Spring%E4%B9%8BBean%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E5%AD%A6%E4%B9%A0/</url>
     <content><![CDATA[<h1 id="Bean的生命周期"><a href="#Bean的生命周期" class="headerlink" title="Bean的生命周期"></a>Bean的生命周期</h1><p><strong>Bean创建===&gt;初始化===&gt;销毁</strong></p>
@@ -1282,6 +1318,299 @@
       </tags>
   </entry>
   <entry>
+    <title>Leetcode之字符串</title>
+    <url>/2020/03/21/Leetcode%E4%B9%8B%E5%AD%97%E7%AC%A6%E4%B8%B2/</url>
+    <content><![CDATA[]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>OJ输入输出学习</title>
+    <url>/2020/03/21/OJ%E5%9C%A8%E7%BA%BF%E5%88%A4%E9%A2%98%E5%AD%A6%E4%B9%A0/</url>
+    <content><![CDATA[<h1 id="OJ在线判题学习"><a href="#OJ在线判题学习" class="headerlink" title="OJ在线判题学习"></a>OJ在线判题学习</h1><h2 id="1-正确处理输入格式"><a href="#1-正确处理输入格式" class="headerlink" title="1. 正确处理输入格式"></a>1. 正确处理输入格式</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//预先不知道数据的组数---直接读到文件结尾</span></span><br><span class="line">Scanner scanner = <span class="keyword">new</span> Scanner(System.in);</span><br><span class="line"><span class="keyword">while</span> (scanner.hasNext()) &#123;</span><br><span class="line">    <span class="keyword">int</span> a = scanner.nextInt();</span><br><span class="line">    <span class="keyword">int</span> b = scanner.nextInt();</span><br><span class="line">    System.out.println(a + b);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 事先知道数据组数---读数据组然后循环</span></span><br><span class="line">Scanner scanner = <span class="keyword">new</span> Scanner(System.in);</span><br><span class="line"><span class="keyword">int</span> n = scanner.nextInt(); <span class="comment">// 数据的组数</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">    <span class="keyword">int</span> a = scanner.nextInt();</span><br><span class="line">    <span class="keyword">int</span> b = scanner.nextInt();</span><br><span class="line">    System.out.println(a+b);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 最简单的只有一组数据---直接读</span></span><br><span class="line">Scanner scanner = <span class="keyword">new</span> Scanner(System.in);</span><br><span class="line"><span class="keyword">int</span> a = scanner.nextInt();</span><br><span class="line"><span class="keyword">int</span> b = scanner.nextInt();</span><br><span class="line">System.out.println(a+b);</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-正确处理输出格式"><a href="#2-正确处理输出格式" class="headerlink" title="2. 正确处理输出格式"></a>2. 正确处理输出格式</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 不要输出case数</span></span><br><span class="line">Scanner scanner = <span class="keyword">new</span> Scanner(System.in);</span><br><span class="line"><span class="keyword">int</span> n = scanner.nextInt(); <span class="comment">// 数据的组数</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">    <span class="keyword">int</span> a = scanner.nextInt();</span><br><span class="line">    <span class="keyword">int</span> b = scanner.nextInt();</span><br><span class="line">    System.out.println(a+b);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 需要输出case数</span></span><br><span class="line">Scanner scanner = <span class="keyword">new</span> Scanner(System.in);</span><br><span class="line"><span class="keyword">int</span> n = scanner.nextInt(); <span class="comment">// 数组的组数</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">    <span class="keyword">int</span> a = scanner.nextInt();</span><br><span class="line">    <span class="keyword">int</span> b = scanner.nextInt();</span><br><span class="line">    System.out.println(<span class="string">"Case:"</span> + (i + <span class="number">1</span>) + <span class="string">" "</span> + (a + b));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 每个case之后要有空行</span></span><br><span class="line">Scanner scanner = <span class="keyword">new</span> Scanner(System.in);</span><br><span class="line"><span class="keyword">int</span> n = scanner.nextInt(); <span class="comment">// 数组的组数</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">    <span class="keyword">int</span> a = scanner.nextInt();</span><br><span class="line">    <span class="keyword">int</span> b = scanner.nextInt();</span><br><span class="line">    System.out.println(<span class="string">"Case:"</span> + (i + <span class="number">1</span>) + <span class="string">" "</span> + (a + b)+<span class="string">"\n"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 两个case之间有空行</span></span><br><span class="line">Scanner scanner = <span class="keyword">new</span> Scanner(System.in);</span><br><span class="line"><span class="keyword">int</span> n = scanner.nextInt(); <span class="comment">// 数组的组数</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">    <span class="keyword">int</span> a = scanner.nextInt();</span><br><span class="line">    <span class="keyword">int</span> b = scanner.nextInt();</span><br><span class="line">    <span class="keyword">if</span>(i &gt; <span class="number">0</span>)&#123;</span><br><span class="line">        System.out.println();</span><br><span class="line">    &#125;</span><br><span class="line">    System.out.println(<span class="string">"Case:"</span> + (i + <span class="number">1</span>) + <span class="string">"结果为: "</span> + (a + b));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-处理细节和技巧"><a href="#3-处理细节和技巧" class="headerlink" title="3. 处理细节和技巧"></a>3. 处理细节和技巧</h2><ul>
+<li><p>不用实现可以保存所有输入，读一组计算一组，Java建议使用BufferedInputStream</p>
+</li>
+<li><p>注意输出格式</p>
+<ul>
+<li>字母大小写</li>
+<li>换行的时刻</li>
+<li>输出“case”之后有没有”#”或者”:”之类的</li>
+<li>每行末尾有”\n”，但一般没有空白</li>
+<li>java尽量使用BufferedOutputStream</li>
+</ul>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>工具</category>
+      </categories>
+      <tags>
+        <tag>工具</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Leetcode之数组</title>
+    <url>/2020/03/21/Leetcode%E4%B9%8B%E6%95%B0%E7%BB%84/</url>
+    <content><![CDATA[]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Leetcode之动态规划</title>
+    <url>/2020/03/21/Leetcode%E4%B9%8B%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/</url>
+    <content><![CDATA[]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Leetcode之双指针</title>
+    <url>/2020/03/21/Leetcode%E4%B9%8B%E5%8F%8C%E6%8C%87%E9%92%88/</url>
+    <content><![CDATA[]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Leetcode之树</title>
+    <url>/2020/03/21/Leetcode%E4%B9%8B%E6%A0%91/</url>
+    <content><![CDATA[]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Redis基础知识</title>
+    <url>/2020/03/21/Redis%E5%AD%A6%E4%B9%A0/</url>
+    <content><![CDATA[<h1 id="Redis学习"><a href="#Redis学习" class="headerlink" title="Redis学习"></a>Redis学习</h1><h2 id="1-Redis与Memcache的区别"><a href="#1-Redis与Memcache的区别" class="headerlink" title="1. Redis与Memcache的区别"></a>1. Redis与Memcache的区别</h2><ul>
+<li>Memcache代码层类似hash</li>
+<li>Memcache支持简单数据类型，Redis支持丰富的数据类型</li>
+<li>Memcache不支持数据持久化存储，Redis支持数据磁盘持久化存储</li>
+<li>Memcache不支持主从，Redis支持主从</li>
+<li>Memcahce不支持分片，Redis支持分片</li>
+</ul>
+<h2 id="2-Redis为什么这么快？"><a href="#2-Redis为什么这么快？" class="headerlink" title="2. Redis为什么这么快？"></a>2. Redis为什么这么快？</h2><p>官方给出的数据是100000+QPS，redis快的原因：</p>
+<ul>
+<li>完全基于内存，绝大部分请求是纯粹的内存操作，执行效率高</li>
+<li>数据结构简单，对数据操作也简单</li>
+<li>采用单线程，单线程也能处理高并发请求，想多核也可以启动多实例</li>
+<li>使用多路I/O复用模型，阻塞IO</li>
+</ul>
+<h2 id="3-多路I-O复用模型"><a href="#3-多路I-O复用模型" class="headerlink" title="3. 多路I/O复用模型"></a>3. 多路I/O复用模型</h2><p>FD：File Descriptor，文件描述符</p>
+<p>一个打开的文件通过唯一的描述符进行引用，该描述符是打开文件的元数据到文件本身的数据。</p>
+<p><strong>Redis采用的I/O多路复用函数：epoll、kqueue、evport、select</strong></p>
+<ul>
+<li>因地制宜</li>
+<li>优先选择时间复杂度为O(1) 的I/O多路复用函数作为底层实现</li>
+<li>以时间复杂度为O(n)的select作为保底</li>
+<li>基于react设计模式监听I/O事件</li>
+</ul>
+<h2 id="4-Redis常用的数据类型"><a href="#4-Redis常用的数据类型" class="headerlink" title="4. Redis常用的数据类型"></a>4. Redis常用的数据类型</h2><p>String：最基本的数据类型，二进制安全。</p>
+<p>底层实现：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span>&#123;</span></span><br><span class="line">	<span class="keyword">int</span> len; <span class="comment">// buf数据已占用的长度</span></span><br><span class="line">	<span class="keyword">int</span> <span class="built_in">free</span>; <span class="comment">// buf中剩余可用空间的长度</span></span><br><span class="line">	<span class="keyword">char</span> buf[]; <span class="comment">// 数据空间</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>Hash：String元素组成的字典，适合存储对象。底层实现：字典</p>
+<p>List：列表，按照String元素插入顺序排序（有序）。底层实现：链表</p>
+<p>Set：String元素组成的无序集合，通过哈希实现，不允许重复（无序）：底层使用整数集合来存储</p>
+<p>Sorted Set：通过分数来为集合中的成员进行从小到大的排序。（按照分数高低排序，也就是由分数权重）：跳跃表。时间复杂度O(logn)（最坏的情况下是O(n)）,跟二叉树有的一拼，时常用来代替二叉树。</p>
+<h2 id="5-跳跃表"><a href="#5-跳跃表" class="headerlink" title="5. 跳跃表"></a>5. 跳跃表</h2><p>Sorted Set底层是基于跳跃表实现的。什么是跳跃表呢。其实就是链表，但是与链表不同的是，这是有层次的链表，什么意思呢，因为链表的查找很费时间，O(n)，查询效率低下，一旦用到数据量大的查询上面，性能不佳。此时为了提升查询的速度，提出了跳跃表的这种结构，从链表中提取出关键节点，一般是上一层是下一层的一半，提取的极限是那一层不大于2个节点时（≤2）停止提取。</p>
+<p><img src="https://images2018.cnblogs.com/blog/1120165/201805/1120165-20180528210921601-949409375.png" alt="img"></p>
+<h2 id="6-面试题：从海量key中查询出某一固定前缀的key"><a href="#6-面试题：从海量key中查询出某一固定前缀的key" class="headerlink" title="6. 面试题：从海量key中查询出某一固定前缀的key"></a>6. 面试题：从海量key中查询出某一固定前缀的key</h2><p>使用keys pattern来匹配，但是如果数据量巨大的话，会造成客户端卡段。keys指令一次性返回所有匹配的key。键的数量过大会造成服务的卡段，对于内存的消耗是一个隐患，对于redis这样的内存型数据库。</p>
+<p><strong>scan cursor [MATCH pattern] [COUNT count]</strong>，基于游标的迭代器</p>
+<ul>
+<li>基于游标的迭代器，需要基于上一次的游标延续之前的迭代过程</li>
+<li>以0作为游标开始一次新的迭代，直到命令返回游标0完成一次遍历</li>
+<li>不保证每次执行都返回某个给定数量的元素，支持模糊查询</li>
+<li>一次返回的数量不可控，只能是大概率符合count参数</li>
+</ul>
+<p><code>scan 0 match n* count 1</code> 表示查询从0开始的以n开头的数据的一条记录。</p>
+<h2 id="7-Redis实现分布式锁"><a href="#7-Redis实现分布式锁" class="headerlink" title="7. Redis实现分布式锁"></a>7. Redis实现分布式锁</h2><p>分布式锁需要解决的问题：</p>
+<ul>
+<li>互斥性</li>
+<li>安全性</li>
+<li>死锁</li>
+<li>容错</li>
+</ul>
+<p><strong>第一种方案：使用SETNX+EXPIRE方案</strong></p>
+<p>SETNX key value 如果这个key不存在，则设置这个value，时间复杂度O(1)，成功返回1，失败返回0</p>
+<p>一般利用setnx来获取到锁，一旦获取到锁之后，采用expire的时间来释放锁，从而实现分布式锁。</p>
+<p>解决setnx长期有效的问题采用的是expire来实现的。</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">// 大致的伪代码</span><br><span class="line">long num = setnx(key,value)</span><br><span class="line">if(num==1)&#123;expire key time;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里的缺点在于一旦发生了某个节点的宕机，而此节点正好获取到了锁，此时未能设置expire造成原子性得不到满足。</p>
+<p>setnx是原子操作，expire也是原子操作，但是两者在一起却不是原子操作</p>
+<p><strong>第二种方案：使用SET+EXPIRE方案</strong></p>
+<p>SET key value [EX seconds] [PX milliseconds] [NX|XX]</p>
+<ul>
+<li>EX：设置的是存活的秒数</li>
+<li>PX：设置的是存活的毫秒数</li>
+<li>NX：只有键不存在的时候，才设置值</li>
+<li>XX：只有键存在的时候，才设置值</li>
+</ul>
+<p>SET方法可以满足原子性，设置成功返回1，设置失败返回nil，由此实现Redis的分布式锁。</p>
+<h2 id="8-Redis如何实现消息队列"><a href="#8-Redis如何实现消息队列" class="headerlink" title="8. Redis如何实现消息队列"></a>8. Redis如何实现消息队列</h2><p><strong>第一种方案使用lpush+rpop</strong></p>
+<p>使用<code>lpush testlist &quot;aaa&quot;</code>实现从左向右推元素，完成消息的生产。</p>
+<p>使用<code>rpop testlist</code>实现从右边弹出，完成消息的消费。</p>
+<p><strong>存在的缺点：</strong></p>
+<ul>
+<li>没有等待队列中有值就直接消费</li>
+<li>弥补：可以通过在应用层中引入sleep机制去调用lpop重试</li>
+</ul>
+<p><strong>第二种方法使用blpop+rpush</strong></p>
+<p>BLPOP key[key] timeout：阻塞直到队列有消息或者超时</p>
+<p>BLPOP使用的话是用来精确定时，也就是在设置的timeout中看阻塞队列中是否有消息。</p>
+<p>缺点：每次生产的消息只能够供一个消费者消费。</p>
+<p><strong>多个消费者的问题，使用pub/sub模式来解决：主题订阅者模式</strong></p>
+<ul>
+<li>发送者（pub）发送消息，订阅者（sub）接收消息</li>
+<li>订阅者可以订阅任意数量的频道</li>
+</ul>
+<p><img src="C:%5CUsers%5CAdministrator%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1582621048095.png" alt="1582621048095"></p>
+<p>使用pub/sub主题订阅者模式实现一个消息多个消费者消费的问题。</p>
+<p><strong>缺点：</strong></p>
+<p>消息的发布是无状态的，无法保证可达。</p>
+<p>消息发布的时候下线，然后上线，这个消息，订阅者是接收不到的。如果要保证可达需要使用kafka，专业的消息队列</p>
+<h2 id="9-Redis如何实现持久化"><a href="#9-Redis如何实现持久化" class="headerlink" title="9. Redis如何实现持久化"></a>9. Redis如何实现持久化</h2><h3 id="9-1-RDB"><a href="#9-1-RDB" class="headerlink" title="9.1 RDB"></a>9.1 RDB</h3><p>RDB快照持久化：保存某个时间点的全量数据快照。</p>
+<ul>
+<li>save：阻塞Redis的服务器进程，直到RDB文件被创建完毕</li>
+<li>BGSAVE：Fork出一个子进程来创建RDB文件，不阻塞服务器</li>
+</ul>
+<p><strong>自动触发RDB持久化的方式：</strong></p>
+<ul>
+<li>根据redis.conf中配置的save m n定时触发，用的是bgsave</li>
+<li>主从复制的时候，主节点自动触发</li>
+<li>执行Debug Reload</li>
+<li>执行shutdown且没有开启AOF持久化</li>
+</ul>
+<p>BGSAVE的工作原理：</p>
+<ul>
+<li>检查子进程（看是否有RDB或者AOF的子进程正在工作），存在的话返回错误</li>
+<li>触发持久化，调用rdbSaveBackground</li>
+<li>fork出一个子进程完成save操作，当前进程继续响应其他操作</li>
+</ul>
+<p>系统调用fork()，创建进程，实现copy-on-write:</p>
+<p>如果有多个调用者同时要求相同资源（如内存或者磁盘上的数据存储），他们会共同获取相同的指针指向相同的资源，直到某个调用视图修改资源的内容时，系统才会真正复制一份专用副本给调用者，而其他调用者所见到的最初的资源仍然保持不变。</p>
+<p><strong>RDB持久化的缺点：</strong></p>
+<ul>
+<li>内存数据的全量同步，数据量大会由于I/O而严重影响性能。</li>
+<li>可能会因为Redis挂掉而丢失从当前至最近一次快照期间的数据。</li>
+</ul>
+<h3 id="9-3-AOF"><a href="#9-3-AOF" class="headerlink" title="9.3 AOF"></a>9.3 AOF</h3><p><strong>AOF：append-only-file ：保持写状态</strong></p>
+<ul>
+<li>记录下除了查询以外所有变更数据库的指令</li>
+<li>以append的形式追加保存到AOF文件中（增量）</li>
+</ul>
+<p><strong>由于AOF文件是不断追加形式的，日志重写解决AOF文件不断增大的问题，步骤如下：</strong></p>
+<ul>
+<li>调用fork()，创建一个子进程</li>
+<li>子进程把新的AOF写到一个临时文件中，不依赖原来的AOF文件</li>
+<li>主进程持续将新的变动写到内存和原来的AOF文件中</li>
+<li>主进程获取子进程重写AOF的完成信号，往新AOF同步增量变动</li>
+<li>使用新AOF文件替换掉旧的AOF文件</li>
+</ul>
+<p><strong>Redis数据的恢复：</strong>一般是RDB和AOF文件共存时候的问题。</p>
+<ul>
+<li>存在AOF，则加载AOF文件，否则加载RDB，如果两者都不存在，报加载失败。</li>
+</ul>
+<p><strong>RDB和AOF的对比：</strong></p>
+<ul>
+<li>RDB优点：全量数据快照，文件小，恢复快</li>
+<li>RDB缺点：无法保存最近一次快照以后的数据</li>
+<li>AOF优点：可读性高，适合保存增量数据，数据不易丢失</li>
+<li>AOF缺点：文件体积大，恢复时间长</li>
+</ul>
+<p><strong>Redis如何做持久化</strong>：现在支持RDB-AOF混合持久化</p>
+<ul>
+<li>BGSAVE做镜像全量持久化，AOF做增量持久化</li>
+</ul>
+<h2 id="10-Pipeline"><a href="#10-Pipeline" class="headerlink" title="10. Pipeline"></a>10. Pipeline</h2><p>使用Pipeline的好处：</p>
+<ul>
+<li>Pipeline和Linux的管道相似</li>
+<li>Redis基于请求/响应模式，单个请求处理需要一一应答</li>
+<li>Pipeline批量执行指令，节省多次I/O往返的时间</li>
+<li>有顺序依赖的指令建议分批分送</li>
+</ul>
+<h2 id="11-Redis的同步机制"><a href="#11-Redis的同步机制" class="headerlink" title="11. Redis的同步机制"></a>11. Redis的同步机制</h2><p><strong>主从同步的全同步过程：</strong></p>
+<ul>
+<li>Slave发送sync命令到Master</li>
+<li>Master启动一个后台进程，将Redis中的数据快照保存到文件中</li>
+<li>Master将保存数据快照期间接收到的写命令缓存起来（此时写命令属于增量）</li>
+<li>Master完成写操作之后，将该文件发送给slave</li>
+<li>使用新的AOF替换掉旧的AOF文件</li>
+<li>Master将这期间收集到的增量写命令发送给slave端</li>
+</ul>
+<p><strong>增量同步过程</strong>：</p>
+<ul>
+<li>Master接收到用户的操作指令，判断是否需要传播到slave</li>
+<li>将操作记录追加到AOF文件</li>
+<li>将操作传播到其他slave：1. 对齐主从库；2.往响应缓存写入指令</li>
+<li>将缓存中的数据发送给slave</li>
+</ul>
+<p><strong>Redis Sentinel哨兵：高可用</strong></p>
+<ul>
+<li>监控：检查主从服务器是否运行正常</li>
+<li>提醒：通过API向管理员或者其他应用程序发送故障通知</li>
+<li>自动故障迁移：主从切换</li>
+</ul>
+<p><strong>流言协议Gossip</strong>：在杂乱无章中寻求一致</p>
+<ul>
+<li>每个节点都随机地与对方通信，最终所有节点的状态达成一致</li>
+<li>种子节点定期随机向其他节点发送节点列表以及需要传播的消息</li>
+<li>不保证信息一定会传递给所有节点，但是最终会趋于一致</li>
+</ul>
+<h2 id="12-Redis的集群原理"><a href="#12-Redis的集群原理" class="headerlink" title="12. Redis的集群原理"></a>12. Redis的集群原理</h2><p><strong>从海量的数据中找到所需：</strong></p>
+<ul>
+<li>分片：按照某种规则去划分数据，分散存储在多个节点上</li>
+<li>常规的按照哈希划分无法实现节点的动态增减。</li>
+</ul>
+<p><strong>一致性哈希算法</strong>：对2<sup>32</sup>取模，将哈希值组织成虚拟的圆环</p>
+<p><strong>将数据key使用相同的函数Hash计算出hash值，由于是环状的，所有的节点计算出的hash值都会按照顺时针归属为自己最近的节点。无论是节点宕机还是增加节点都比较方便。但是这样不可避免的会出现节点过少，此时由于节点分布不均匀，将会导致数据的倾斜问题产生，此时需要引入虚拟节点来解决数据倾斜的问题，也就是同一节点再细分成不同的编号组，以此使得数据倾斜问题被解决。</strong></p>
+<h2 id="13-总结"><a href="#13-总结" class="headerlink" title="13. 总结"></a>13. 总结</h2><p>本章主要介绍的是redis的相关知识，首先从基础的结构将其，redis作为内存型数据库，操作数据的能力是非常快的，且有丰富的数据类型，数据操作简单。连接Memcache与Redis的区别，随后为什么redis这么快，主要是直接操作内存，数据操作简单，单线程，多了I/O复用，随后通过从海量的key中找出固定前缀的key，引出keys pattern和scan基于游标的迭代获取结果数据方式。</p>
+<p>随后介绍分布式锁，分布式锁需要解决的问题是，互斥性，安全性，死锁以及容错四个特性，使用SETNX+EXPIRE实现分布式锁，由于存在破坏原子性的可能，使用SET直接设置可以实现原子性，实现分布式锁。随后通过list中的常用的lpush+rpop实现消息队列，使用BLPOP+RPUSH+timeout实现定时获取消息的机制。但是这存在一个消息只能有一个消费者。</p>
+<p>如果一个消息需要被多个消费者消费的话，需要使用pub/sub模式，订阅发布模式来实现，虽然能够实现一个消息被多个消费者消费，但是不能够保证消息的可达性，也就是发布者不能保证订阅者一定能够接收到消息。（一个是发送的无状态，不能保证可达，还有一个就是如果发布消息的时候订阅者上线，然后上线，这条消息也是接收不到的。如果需要解决需要依赖于专业的消息队列中间件KafKa）</p>
+<p>随后介绍持久化的实现基于BGSAVE的快照RDB实现，以及操作数据的AOF文件追加实现，现在支持两种方案并行使用。</p>
+<p>然后就是介绍Pipeline的机制，节省多次I/O往返时间。介绍了Redis的主从同步机制以及增量的同步机制。Redis哨兵的高可用性以及流言协议Gossip对于同步的最后趋于一致性的作用。</p>
+<p>最后就是介绍Redis的集群原理，主要是通过分片，对数据Hash取模值，最后形成hash环以此将数据相对比较均匀的分散到各个节点之上。如果遇到节点数过少，此时数据可能产生倾斜，此时需要使用单个节点多次编号来解决这个问题，使得数据分布相对均匀。</p>
+]]></content>
+      <categories>
+        <category>中间件</category>
+      </categories>
+      <tags>
+        <tag>redis 数据库</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>备战面试基础知识-2</title>
     <url>/2020/03/21/%E5%A4%87%E6%88%98%E6%BB%B4%E6%BB%B4%E9%9D%A2%E8%AF%95/</url>
     <content><![CDATA[<h2 id="备战滴滴面试"><a href="#备战滴滴面试" class="headerlink" title="备战滴滴面试"></a>备战滴滴面试</h2><h3 id="———————————–第一部分———————————–"><a href="#———————————–第一部分———————————–" class="headerlink" title="———————————–第一部分———————————–"></a>———————————–第一部分———————————–</h3><p><strong>1.set map list</strong></p>
@@ -1488,203 +1817,14 @@
       </tags>
   </entry>
   <entry>
-    <title>Redis基础知识</title>
-    <url>/2020/03/21/Redis%E5%AD%A6%E4%B9%A0/</url>
-    <content><![CDATA[<h1 id="Redis学习"><a href="#Redis学习" class="headerlink" title="Redis学习"></a>Redis学习</h1><h2 id="1-Redis与Memcache的区别"><a href="#1-Redis与Memcache的区别" class="headerlink" title="1. Redis与Memcache的区别"></a>1. Redis与Memcache的区别</h2><ul>
-<li>Memcache代码层类似hash</li>
-<li>Memcache支持简单数据类型，Redis支持丰富的数据类型</li>
-<li>Memcache不支持数据持久化存储，Redis支持数据磁盘持久化存储</li>
-<li>Memcache不支持主从，Redis支持主从</li>
-<li>Memcahce不支持分片，Redis支持分片</li>
-</ul>
-<h2 id="2-Redis为什么这么快？"><a href="#2-Redis为什么这么快？" class="headerlink" title="2. Redis为什么这么快？"></a>2. Redis为什么这么快？</h2><p>官方给出的数据是100000+QPS，redis快的原因：</p>
-<ul>
-<li>完全基于内存，绝大部分请求是纯粹的内存操作，执行效率高</li>
-<li>数据结构简单，对数据操作也简单</li>
-<li>采用单线程，单线程也能处理高并发请求，想多核也可以启动多实例</li>
-<li>使用多路I/O复用模型，阻塞IO</li>
-</ul>
-<h2 id="3-多路I-O复用模型"><a href="#3-多路I-O复用模型" class="headerlink" title="3. 多路I/O复用模型"></a>3. 多路I/O复用模型</h2><p>FD：File Descriptor，文件描述符</p>
-<p>一个打开的文件通过唯一的描述符进行引用，该描述符是打开文件的元数据到文件本身的数据。</p>
-<p><strong>Redis采用的I/O多路复用函数：epoll、kqueue、evport、select</strong></p>
-<ul>
-<li>因地制宜</li>
-<li>优先选择时间复杂度为O(1) 的I/O多路复用函数作为底层实现</li>
-<li>以时间复杂度为O(n)的select作为保底</li>
-<li>基于react设计模式监听I/O事件</li>
-</ul>
-<h2 id="4-Redis常用的数据类型"><a href="#4-Redis常用的数据类型" class="headerlink" title="4. Redis常用的数据类型"></a>4. Redis常用的数据类型</h2><p>String：最基本的数据类型，二进制安全。</p>
-<p>底层实现：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span>&#123;</span></span><br><span class="line">	<span class="keyword">int</span> len; <span class="comment">// buf数据已占用的长度</span></span><br><span class="line">	<span class="keyword">int</span> <span class="built_in">free</span>; <span class="comment">// buf中剩余可用空间的长度</span></span><br><span class="line">	<span class="keyword">char</span> buf[]; <span class="comment">// 数据空间</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>Hash：String元素组成的字典，适合存储对象。底层实现：字典</p>
-<p>List：列表，按照String元素插入顺序排序（有序）。底层实现：链表</p>
-<p>Set：String元素组成的无序集合，通过哈希实现，不允许重复（无序）：底层使用整数集合来存储</p>
-<p>Sorted Set：通过分数来为集合中的成员进行从小到大的排序。（按照分数高低排序，也就是由分数权重）：跳跃表。时间复杂度O(logn)（最坏的情况下是O(n)）,跟二叉树有的一拼，时常用来代替二叉树。</p>
-<h2 id="5-跳跃表"><a href="#5-跳跃表" class="headerlink" title="5. 跳跃表"></a>5. 跳跃表</h2><p>Sorted Set底层是基于跳跃表实现的。什么是跳跃表呢。其实就是链表，但是与链表不同的是，这是有层次的链表，什么意思呢，因为链表的查找很费时间，O(n)，查询效率低下，一旦用到数据量大的查询上面，性能不佳。此时为了提升查询的速度，提出了跳跃表的这种结构，从链表中提取出关键节点，一般是上一层是下一层的一半，提取的极限是那一层不大于2个节点时（≤2）停止提取。</p>
-<p><img src="https://images2018.cnblogs.com/blog/1120165/201805/1120165-20180528210921601-949409375.png" alt="img"></p>
-<h2 id="6-面试题：从海量key中查询出某一固定前缀的key"><a href="#6-面试题：从海量key中查询出某一固定前缀的key" class="headerlink" title="6. 面试题：从海量key中查询出某一固定前缀的key"></a>6. 面试题：从海量key中查询出某一固定前缀的key</h2><p>使用keys pattern来匹配，但是如果数据量巨大的话，会造成客户端卡段。keys指令一次性返回所有匹配的key。键的数量过大会造成服务的卡段，对于内存的消耗是一个隐患，对于redis这样的内存型数据库。</p>
-<p><strong>scan cursor [MATCH pattern] [COUNT count]</strong>，基于游标的迭代器</p>
-<ul>
-<li>基于游标的迭代器，需要基于上一次的游标延续之前的迭代过程</li>
-<li>以0作为游标开始一次新的迭代，直到命令返回游标0完成一次遍历</li>
-<li>不保证每次执行都返回某个给定数量的元素，支持模糊查询</li>
-<li>一次返回的数量不可控，只能是大概率符合count参数</li>
-</ul>
-<p><code>scan 0 match n* count 1</code> 表示查询从0开始的以n开头的数据的一条记录。</p>
-<h2 id="7-Redis实现分布式锁"><a href="#7-Redis实现分布式锁" class="headerlink" title="7. Redis实现分布式锁"></a>7. Redis实现分布式锁</h2><p>分布式锁需要解决的问题：</p>
-<ul>
-<li>互斥性</li>
-<li>安全性</li>
-<li>死锁</li>
-<li>容错</li>
-</ul>
-<p><strong>第一种方案：使用SETNX+EXPIRE方案</strong></p>
-<p>SETNX key value 如果这个key不存在，则设置这个value，时间复杂度O(1)，成功返回1，失败返回0</p>
-<p>一般利用setnx来获取到锁，一旦获取到锁之后，采用expire的时间来释放锁，从而实现分布式锁。</p>
-<p>解决setnx长期有效的问题采用的是expire来实现的。</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">// 大致的伪代码</span><br><span class="line">long num = setnx(key,value)</span><br><span class="line">if(num==1)&#123;expire key time;&#125;</span><br></pre></td></tr></table></figure>
-
-<p>这里的缺点在于一旦发生了某个节点的宕机，而此节点正好获取到了锁，此时未能设置expire造成原子性得不到满足。</p>
-<p>setnx是原子操作，expire也是原子操作，但是两者在一起却不是原子操作</p>
-<p><strong>第二种方案：使用SET+EXPIRE方案</strong></p>
-<p>SET key value [EX seconds] [PX milliseconds] [NX|XX]</p>
-<ul>
-<li>EX：设置的是存活的秒数</li>
-<li>PX：设置的是存活的毫秒数</li>
-<li>NX：只有键不存在的时候，才设置值</li>
-<li>XX：只有键存在的时候，才设置值</li>
-</ul>
-<p>SET方法可以满足原子性，设置成功返回1，设置失败返回nil，由此实现Redis的分布式锁。</p>
-<h2 id="8-Redis如何实现消息队列"><a href="#8-Redis如何实现消息队列" class="headerlink" title="8. Redis如何实现消息队列"></a>8. Redis如何实现消息队列</h2><p><strong>第一种方案使用lpush+rpop</strong></p>
-<p>使用<code>lpush testlist &quot;aaa&quot;</code>实现从左向右推元素，完成消息的生产。</p>
-<p>使用<code>rpop testlist</code>实现从右边弹出，完成消息的消费。</p>
-<p><strong>存在的缺点：</strong></p>
-<ul>
-<li>没有等待队列中有值就直接消费</li>
-<li>弥补：可以通过在应用层中引入sleep机制去调用lpop重试</li>
-</ul>
-<p><strong>第二种方法使用blpop+rpush</strong></p>
-<p>BLPOP key[key] timeout：阻塞直到队列有消息或者超时</p>
-<p>BLPOP使用的话是用来精确定时，也就是在设置的timeout中看阻塞队列中是否有消息。</p>
-<p>缺点：每次生产的消息只能够供一个消费者消费。</p>
-<p><strong>多个消费者的问题，使用pub/sub模式来解决：主题订阅者模式</strong></p>
-<ul>
-<li>发送者（pub）发送消息，订阅者（sub）接收消息</li>
-<li>订阅者可以订阅任意数量的频道</li>
-</ul>
-<p><img src="C:%5CUsers%5CAdministrator%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1582621048095.png" alt="1582621048095"></p>
-<p>使用pub/sub主题订阅者模式实现一个消息多个消费者消费的问题。</p>
-<p><strong>缺点：</strong></p>
-<p>消息的发布是无状态的，无法保证可达。</p>
-<p>消息发布的时候下线，然后上线，这个消息，订阅者是接收不到的。如果要保证可达需要使用kafka，专业的消息队列</p>
-<h2 id="9-Redis如何实现持久化"><a href="#9-Redis如何实现持久化" class="headerlink" title="9. Redis如何实现持久化"></a>9. Redis如何实现持久化</h2><h3 id="9-1-RDB"><a href="#9-1-RDB" class="headerlink" title="9.1 RDB"></a>9.1 RDB</h3><p>RDB快照持久化：保存某个时间点的全量数据快照。</p>
-<ul>
-<li>save：阻塞Redis的服务器进程，直到RDB文件被创建完毕</li>
-<li>BGSAVE：Fork出一个子进程来创建RDB文件，不阻塞服务器</li>
-</ul>
-<p><strong>自动触发RDB持久化的方式：</strong></p>
-<ul>
-<li>根据redis.conf中配置的save m n定时触发，用的是bgsave</li>
-<li>主从复制的时候，主节点自动触发</li>
-<li>执行Debug Reload</li>
-<li>执行shutdown且没有开启AOF持久化</li>
-</ul>
-<p>BGSAVE的工作原理：</p>
-<ul>
-<li>检查子进程（看是否有RDB或者AOF的子进程正在工作），存在的话返回错误</li>
-<li>触发持久化，调用rdbSaveBackground</li>
-<li>fork出一个子进程完成save操作，当前进程继续响应其他操作</li>
-</ul>
-<p>系统调用fork()，创建进程，实现copy-on-write:</p>
-<p>如果有多个调用者同时要求相同资源（如内存或者磁盘上的数据存储），他们会共同获取相同的指针指向相同的资源，直到某个调用视图修改资源的内容时，系统才会真正复制一份专用副本给调用者，而其他调用者所见到的最初的资源仍然保持不变。</p>
-<p><strong>RDB持久化的缺点：</strong></p>
-<ul>
-<li>内存数据的全量同步，数据量大会由于I/O而严重影响性能。</li>
-<li>可能会因为Redis挂掉而丢失从当前至最近一次快照期间的数据。</li>
-</ul>
-<h3 id="9-3-AOF"><a href="#9-3-AOF" class="headerlink" title="9.3 AOF"></a>9.3 AOF</h3><p><strong>AOF：append-only-file ：保持写状态</strong></p>
-<ul>
-<li>记录下除了查询以外所有变更数据库的指令</li>
-<li>以append的形式追加保存到AOF文件中（增量）</li>
-</ul>
-<p><strong>由于AOF文件是不断追加形式的，日志重写解决AOF文件不断增大的问题，步骤如下：</strong></p>
-<ul>
-<li>调用fork()，创建一个子进程</li>
-<li>子进程把新的AOF写到一个临时文件中，不依赖原来的AOF文件</li>
-<li>主进程持续将新的变动写到内存和原来的AOF文件中</li>
-<li>主进程获取子进程重写AOF的完成信号，往新AOF同步增量变动</li>
-<li>使用新AOF文件替换掉旧的AOF文件</li>
-</ul>
-<p><strong>Redis数据的恢复：</strong>一般是RDB和AOF文件共存时候的问题。</p>
-<ul>
-<li>存在AOF，则加载AOF文件，否则加载RDB，如果两者都不存在，报加载失败。</li>
-</ul>
-<p><strong>RDB和AOF的对比：</strong></p>
-<ul>
-<li>RDB优点：全量数据快照，文件小，恢复快</li>
-<li>RDB缺点：无法保存最近一次快照以后的数据</li>
-<li>AOF优点：可读性高，适合保存增量数据，数据不易丢失</li>
-<li>AOF缺点：文件体积大，恢复时间长</li>
-</ul>
-<p><strong>Redis如何做持久化</strong>：现在支持RDB-AOF混合持久化</p>
-<ul>
-<li>BGSAVE做镜像全量持久化，AOF做增量持久化</li>
-</ul>
-<h2 id="10-Pipeline"><a href="#10-Pipeline" class="headerlink" title="10. Pipeline"></a>10. Pipeline</h2><p>使用Pipeline的好处：</p>
-<ul>
-<li>Pipeline和Linux的管道相似</li>
-<li>Redis基于请求/响应模式，单个请求处理需要一一应答</li>
-<li>Pipeline批量执行指令，节省多次I/O往返的时间</li>
-<li>有顺序依赖的指令建议分批分送</li>
-</ul>
-<h2 id="11-Redis的同步机制"><a href="#11-Redis的同步机制" class="headerlink" title="11. Redis的同步机制"></a>11. Redis的同步机制</h2><p><strong>主从同步的全同步过程：</strong></p>
-<ul>
-<li>Slave发送sync命令到Master</li>
-<li>Master启动一个后台进程，将Redis中的数据快照保存到文件中</li>
-<li>Master将保存数据快照期间接收到的写命令缓存起来（此时写命令属于增量）</li>
-<li>Master完成写操作之后，将该文件发送给slave</li>
-<li>使用新的AOF替换掉旧的AOF文件</li>
-<li>Master将这期间收集到的增量写命令发送给slave端</li>
-</ul>
-<p><strong>增量同步过程</strong>：</p>
-<ul>
-<li>Master接收到用户的操作指令，判断是否需要传播到slave</li>
-<li>将操作记录追加到AOF文件</li>
-<li>将操作传播到其他slave：1. 对齐主从库；2.往响应缓存写入指令</li>
-<li>将缓存中的数据发送给slave</li>
-</ul>
-<p><strong>Redis Sentinel哨兵：高可用</strong></p>
-<ul>
-<li>监控：检查主从服务器是否运行正常</li>
-<li>提醒：通过API向管理员或者其他应用程序发送故障通知</li>
-<li>自动故障迁移：主从切换</li>
-</ul>
-<p><strong>流言协议Gossip</strong>：在杂乱无章中寻求一致</p>
-<ul>
-<li>每个节点都随机地与对方通信，最终所有节点的状态达成一致</li>
-<li>种子节点定期随机向其他节点发送节点列表以及需要传播的消息</li>
-<li>不保证信息一定会传递给所有节点，但是最终会趋于一致</li>
-</ul>
-<h2 id="12-Redis的集群原理"><a href="#12-Redis的集群原理" class="headerlink" title="12. Redis的集群原理"></a>12. Redis的集群原理</h2><p><strong>从海量的数据中找到所需：</strong></p>
-<ul>
-<li>分片：按照某种规则去划分数据，分散存储在多个节点上</li>
-<li>常规的按照哈希划分无法实现节点的动态增减。</li>
-</ul>
-<p><strong>一致性哈希算法</strong>：对2<sup>32</sup>取模，将哈希值组织成虚拟的圆环</p>
-<p><strong>将数据key使用相同的函数Hash计算出hash值，由于是环状的，所有的节点计算出的hash值都会按照顺时针归属为自己最近的节点。无论是节点宕机还是增加节点都比较方便。但是这样不可避免的会出现节点过少，此时由于节点分布不均匀，将会导致数据的倾斜问题产生，此时需要引入虚拟节点来解决数据倾斜的问题，也就是同一节点再细分成不同的编号组，以此使得数据倾斜问题被解决。</strong></p>
-<h2 id="13-总结"><a href="#13-总结" class="headerlink" title="13. 总结"></a>13. 总结</h2><p>本章主要介绍的是redis的相关知识，首先从基础的结构将其，redis作为内存型数据库，操作数据的能力是非常快的，且有丰富的数据类型，数据操作简单。连接Memcache与Redis的区别，随后为什么redis这么快，主要是直接操作内存，数据操作简单，单线程，多了I/O复用，随后通过从海量的key中找出固定前缀的key，引出keys pattern和scan基于游标的迭代获取结果数据方式。</p>
-<p>随后介绍分布式锁，分布式锁需要解决的问题是，互斥性，安全性，死锁以及容错四个特性，使用SETNX+EXPIRE实现分布式锁，由于存在破坏原子性的可能，使用SET直接设置可以实现原子性，实现分布式锁。随后通过list中的常用的lpush+rpop实现消息队列，使用BLPOP+RPUSH+timeout实现定时获取消息的机制。但是这存在一个消息只能有一个消费者。</p>
-<p>如果一个消息需要被多个消费者消费的话，需要使用pub/sub模式，订阅发布模式来实现，虽然能够实现一个消息被多个消费者消费，但是不能够保证消息的可达性，也就是发布者不能保证订阅者一定能够接收到消息。（一个是发送的无状态，不能保证可达，还有一个就是如果发布消息的时候订阅者上线，然后上线，这条消息也是接收不到的。如果需要解决需要依赖于专业的消息队列中间件KafKa）</p>
-<p>随后介绍持久化的实现基于BGSAVE的快照RDB实现，以及操作数据的AOF文件追加实现，现在支持两种方案并行使用。</p>
-<p>然后就是介绍Pipeline的机制，节省多次I/O往返时间。介绍了Redis的主从同步机制以及增量的同步机制。Redis哨兵的高可用性以及流言协议Gossip对于同步的最后趋于一致性的作用。</p>
-<p>最后就是介绍Redis的集群原理，主要是通过分片，对数据Hash取模值，最后形成hash环以此将数据相对比较均匀的分散到各个节点之上。如果遇到节点数过少，此时数据可能产生倾斜，此时需要使用单个节点多次编号来解决这个问题，使得数据分布相对均匀。</p>
-]]></content>
+    <title>Leetcode之栈</title>
+    <url>/2020/03/21/Leetcode%E4%B9%8B%E6%A0%88/</url>
+    <content><![CDATA[]]></content>
       <categories>
-        <category>中间件</category>
+        <category>算法</category>
       </categories>
       <tags>
-        <tag>redis 数据库</tag>
+        <tag>算法</tag>
       </tags>
   </entry>
   <entry>
@@ -1798,44 +1938,6 @@
       </categories>
       <tags>
         <tag>源码|并发</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>OJ输入输出学习</title>
-    <url>/2020/03/21/OJ%E5%9C%A8%E7%BA%BF%E5%88%A4%E9%A2%98%E5%AD%A6%E4%B9%A0/</url>
-    <content><![CDATA[<h1 id="OJ在线判题学习"><a href="#OJ在线判题学习" class="headerlink" title="OJ在线判题学习"></a>OJ在线判题学习</h1><h2 id="1-正确处理输入格式"><a href="#1-正确处理输入格式" class="headerlink" title="1. 正确处理输入格式"></a>1. 正确处理输入格式</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//预先不知道数据的组数---直接读到文件结尾</span></span><br><span class="line">Scanner scanner = <span class="keyword">new</span> Scanner(System.in);</span><br><span class="line"><span class="keyword">while</span> (scanner.hasNext()) &#123;</span><br><span class="line">    <span class="keyword">int</span> a = scanner.nextInt();</span><br><span class="line">    <span class="keyword">int</span> b = scanner.nextInt();</span><br><span class="line">    System.out.println(a + b);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 事先知道数据组数---读数据组然后循环</span></span><br><span class="line">Scanner scanner = <span class="keyword">new</span> Scanner(System.in);</span><br><span class="line"><span class="keyword">int</span> n = scanner.nextInt(); <span class="comment">// 数据的组数</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">    <span class="keyword">int</span> a = scanner.nextInt();</span><br><span class="line">    <span class="keyword">int</span> b = scanner.nextInt();</span><br><span class="line">    System.out.println(a+b);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 最简单的只有一组数据---直接读</span></span><br><span class="line">Scanner scanner = <span class="keyword">new</span> Scanner(System.in);</span><br><span class="line"><span class="keyword">int</span> a = scanner.nextInt();</span><br><span class="line"><span class="keyword">int</span> b = scanner.nextInt();</span><br><span class="line">System.out.println(a+b);</span><br></pre></td></tr></table></figure>
-
-<h2 id="2-正确处理输出格式"><a href="#2-正确处理输出格式" class="headerlink" title="2. 正确处理输出格式"></a>2. 正确处理输出格式</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 不要输出case数</span></span><br><span class="line">Scanner scanner = <span class="keyword">new</span> Scanner(System.in);</span><br><span class="line"><span class="keyword">int</span> n = scanner.nextInt(); <span class="comment">// 数据的组数</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">    <span class="keyword">int</span> a = scanner.nextInt();</span><br><span class="line">    <span class="keyword">int</span> b = scanner.nextInt();</span><br><span class="line">    System.out.println(a+b);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 需要输出case数</span></span><br><span class="line">Scanner scanner = <span class="keyword">new</span> Scanner(System.in);</span><br><span class="line"><span class="keyword">int</span> n = scanner.nextInt(); <span class="comment">// 数组的组数</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">    <span class="keyword">int</span> a = scanner.nextInt();</span><br><span class="line">    <span class="keyword">int</span> b = scanner.nextInt();</span><br><span class="line">    System.out.println(<span class="string">"Case:"</span> + (i + <span class="number">1</span>) + <span class="string">" "</span> + (a + b));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 每个case之后要有空行</span></span><br><span class="line">Scanner scanner = <span class="keyword">new</span> Scanner(System.in);</span><br><span class="line"><span class="keyword">int</span> n = scanner.nextInt(); <span class="comment">// 数组的组数</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">    <span class="keyword">int</span> a = scanner.nextInt();</span><br><span class="line">    <span class="keyword">int</span> b = scanner.nextInt();</span><br><span class="line">    System.out.println(<span class="string">"Case:"</span> + (i + <span class="number">1</span>) + <span class="string">" "</span> + (a + b)+<span class="string">"\n"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 两个case之间有空行</span></span><br><span class="line">Scanner scanner = <span class="keyword">new</span> Scanner(System.in);</span><br><span class="line"><span class="keyword">int</span> n = scanner.nextInt(); <span class="comment">// 数组的组数</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">    <span class="keyword">int</span> a = scanner.nextInt();</span><br><span class="line">    <span class="keyword">int</span> b = scanner.nextInt();</span><br><span class="line">    <span class="keyword">if</span>(i &gt; <span class="number">0</span>)&#123;</span><br><span class="line">        System.out.println();</span><br><span class="line">    &#125;</span><br><span class="line">    System.out.println(<span class="string">"Case:"</span> + (i + <span class="number">1</span>) + <span class="string">"结果为: "</span> + (a + b));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="3-处理细节和技巧"><a href="#3-处理细节和技巧" class="headerlink" title="3. 处理细节和技巧"></a>3. 处理细节和技巧</h2><ul>
-<li><p>不用实现可以保存所有输入，读一组计算一组，Java建议使用BufferedInputStream</p>
-</li>
-<li><p>注意输出格式</p>
-<ul>
-<li>字母大小写</li>
-<li>换行的时刻</li>
-<li>输出“case”之后有没有”#”或者”:”之类的</li>
-<li>每行末尾有”\n”，但一般没有空白</li>
-<li>java尽量使用BufferedOutputStream</li>
-</ul>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>工具</category>
-      </categories>
-      <tags>
-        <tag>工具</tag>
       </tags>
   </entry>
   <entry>
@@ -2099,6 +2201,17 @@
       </categories>
       <tags>
         <tag>并发</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Leetcode之链表</title>
+    <url>/2020/03/21/Leetcode%E4%B9%8B%E9%93%BE%E8%A1%A8/</url>
+    <content><![CDATA[]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
       </tags>
   </entry>
   <entry>
