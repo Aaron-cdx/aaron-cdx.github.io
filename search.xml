@@ -1,6 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>面试相关技巧掌握学习</title>
+    <url>/2020/03/22/%E9%9D%A2%E8%AF%95%E4%B8%89%E5%B1%82%E6%9E%B6%E6%9E%84/</url>
+    <content><![CDATA[<h2 id="1-面试的三层架构"><a href="#1-面试的三层架构" class="headerlink" title="1. 面试的三层架构"></a>1. 面试的三层架构</h2><ul>
+<li>首轮：面试技术基本功</li>
+<li>次轮：架构设计，通过技术解决某些场景下的问题</li>
+<li>末轮：稳定性以及未来规划，压工资（可能会）</li>
+</ul>
+<h2 id="2-备战心仪公司"><a href="#2-备战心仪公司" class="headerlink" title="2. 备战心仪公司"></a>2. 备战心仪公司</h2><ul>
+<li><p>认真研究职位要求，提炼出特别需要准备的知识点</p>
+</li>
+<li><p>主要是针对岗位JD的描述提炼出知识点</p>
+</li>
+<li><p>通过内部人士打听团队所做的项目的信息，重点备战这些知识点</p>
+</li>
+</ul>
+<h2 id="3-面试中项目介绍如何表达比较好"><a href="#3-面试中项目介绍如何表达比较好" class="headerlink" title="3. 面试中项目介绍如何表达比较好"></a>3. 面试中项目介绍如何表达比较好</h2><p><strong><font color="red">属于面试中的重点，前几天的面试，感觉自己项目介绍的不太好，面试官感觉不是太好，有减分。</font></strong></p>
+<ul>
+<li>站在码农的角度介绍项目，专注技术指标以及解决思路</li>
+<li>自信，脉路要清晰：项目用途-&gt;自己的角色-&gt;如何解决难题</li>
+<li>项目如果找不到难点，则谈谈改进，前提是熟悉相关设计的知识点</li>
+<li>事前用图形将你的项目勾画清楚(细节不是很重要，但是自己需要掌握，表达出大致模块即可，问到再说细节)</li>
+</ul>
+<h2 id="4-小结"><a href="#4-小结" class="headerlink" title="4. 小结"></a>4. 小结</h2><p>准备面试的过程中，技巧也是很重要的一个部分，虽然能力重要，但是展示出你的能力更加重要，有很多时候面试感觉很糟不是因为我们能力不够，而是因为我们能够展现出来的能力没有机会展示出来，最后面试结果不理想。</p>
+<p>面试之前的准备，有技巧的准备很重要，基础知识、算法、项目三大主力面试集需要重点抓牢。</p>
+<blockquote>
+<p>Keep thinking，Keep coding！加油~</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>面试</category>
+      </categories>
+      <tags>
+        <tag>面试</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>面试常见SQL语句</title>
     <url>/2020/03/22/%E9%9D%A2%E8%AF%95SQL%E5%AD%A6%E4%B9%A0/</url>
     <content><![CDATA[<h2 id="1-SQL基本语法"><a href="#1-SQL基本语法" class="headerlink" title="1. SQL基本语法"></a>1. SQL基本语法</h2><p><strong>关键语法：</strong></p>
