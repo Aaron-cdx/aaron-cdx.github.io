@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://yoursite.com').hostname,
+    root: '/',
+    scheme: 'Mist',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="Java秋招整体复习之Java集合类复习，常见的List,Map,Set,Queue结构介绍&amp;源码介绍">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java基础复习">
+<meta property="og:url" content="http://yoursite.com/2020/04/14/%E9%9B%86%E5%90%88%E7%B1%BB%E5%A4%8D%E4%B9%A0/index.html">
+<meta property="og:site_name" content="cdx">
+<meta property="og:description" content="Java秋招整体复习之Java集合类复习，常见的List,Map,Set,Queue结构介绍&amp;源码介绍">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200412232416291.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NhbzEzMTUwMjA2MjY=,size_16,color_FFFFFF,t_70">
+<meta property="article:published_time" content="2020-04-14T14:58:25.000Z">
+<meta property="article:modified_time" content="2020-04-14T14:59:53.932Z">
+<meta property="article:author" content="Cao Duanxi">
+<meta property="article:tag" content="Java集合类|秋招">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20200412232416291.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NhbzEzMTUwMjA2MjY=,size_16,color_FFFFFF,t_70">
+
+<link rel="canonical" href="http://yoursite.com/2020/04/14/%E9%9B%86%E5%90%88%E7%B1%BB%E5%A4%8D%E4%B9%A0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>Java基础复习 | cdx</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">cdx</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">人生没有Debug!</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/Aaron-cdx" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/14/%E9%9B%86%E5%90%88%E7%B1%BB%E5%A4%8D%E4%B9%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/1.jpg">
+      <meta itemprop="name" content="Cao Duanxi">
+      <meta itemprop="description" content="静心，摒弃表面的浮华，多思考内在的深度!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cdx">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Java基础复习
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-04-14 22:58:25 / 修改时间：22:59:53" itemprop="dateCreated datePublished" datetime="2020-04-14T22:58:25+08:00">2020-04-14</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%A7%8B%E6%8B%9B%E5%A4%8D%E4%B9%A0/" itemprop="url" rel="index">
+                    <span itemprop="name">秋招复习</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>21k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>19 分钟</span>
+            </span>
+            <div class="post-description">Java秋招整体复习之Java集合类复习，常见的List,Map,Set,Queue结构介绍&源码介绍</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="集合类-2020-04-12"><a href="#集合类-2020-04-12" class="headerlink" title="集合类(2020-04-12)"></a>集合类(2020-04-12)</h2><h3 id="1-整体介绍"><a href="#1-整体介绍" class="headerlink" title="1. 整体介绍"></a>1. 整体介绍</h3><p>常见的集合类有：Map/Set/List/Queue</p>
+<p><strong>Map:</strong></p>
+<ul>
+<li>TreeMap：红黑树实现，支持有序性操作，查找时间复杂度O(logn)</li>
+<li>HashMap：底层数组+链表+红黑树实现，查找时间复杂度O(1)</li>
+<li>LinkedHashMap：基于HashMap实现，但是底层相比HashMap维护了双向链表（LRU算法），双向链表维持了元素的顺序</li>
+<li>HashTable：与HashMap基本一致，但是是线程安全的，使用synchronized关键字修饰</li>
+</ul>
+<p><strong>Set：</strong>插入的元素不能保证有序性，所以是无序的</p>
+<ul>
+<li>TreeSet：红黑树实现，支持有序性操作。</li>
+<li>HashSet：基于HashMap实现，只是将其中的键值变化为只存取值，从而实现了去重的特性。</li>
+<li>LinkedHashSet：具有HashSet的查找效率，内部使用双向链表维持元素的插入顺序。</li>
+</ul>
+<p><strong>List：</strong>有序</p>
+<ul>
+<li>ArrayList：基于动态数组实现，支持随机访问</li>
+<li>LinkedList：基于双向链表实现，只能顺序访问，但是支持快速插入和快速删除，可用作栈、队列、双向队列的实现</li>
+<li>Vector：与ArrayList类似，但是是线程安全的，使用synchronized关键字修饰</li>
+</ul>
+<p><strong>Queue：</strong>双向队列</p>
+<ul>
+<li>LinkedList：如上介绍</li>
+<li>PriorityQueue：底层基于堆结构实现（堆底层还是数组），可以保证最顶端的元素是最小（大）的，不能保证整体有序。</li>
+</ul>
+<h3 id="2-ArrayList"><a href="#2-ArrayList" class="headerlink" title="2. ArrayList"></a>2. ArrayList</h3><p>ArrayList中的快速失败机制，何为快速失败机制，就是在迭代器遍历的过程中对数据进行一个修改，会抛出一个<code>ConcurrentModificationException</code>，这个异常是因为期待的expectedModCount与实际的modeCount数值不一样大。ArrayList的没一次操作，都会使得modeCount++。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">list.add(<span class="number">1</span>);</span><br><span class="line">list.add(<span class="number">2</span>);</span><br><span class="line">list.add(<span class="number">3</span>);</span><br><span class="line"><span class="keyword">for</span> (Integer integer : list) &#123;</span><br><span class="line">  list.remove(integer);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><font color="red">Exception in thread “main” java.util.ConcurrentModificationException</font></p>
+<p>错误的起因是因为3次add操作，此时modeCount为3，期待的expectedModCount也为3，但是在迭代过程中，发生了一次remove操作，此时modeCount=4，但是expectedModCount是在迭代器简历的时候赋值，仍然为3，于是就抛出异常。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> E <span class="title">next</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  checkForComodification(); <span class="comment">// 在每一次的迭代下一个元素的过程中会检查，一旦不等，直接抛出异常</span></span><br><span class="line">  <span class="keyword">int</span> i = cursor;</span><br><span class="line">  <span class="keyword">if</span> (i &gt;= size)</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> NoSuchElementException();</span><br><span class="line">  Object[] elementData = ArrayList.<span class="keyword">this</span>.elementData;</span><br><span class="line">  <span class="keyword">if</span> (i &gt;= elementData.length)</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> ConcurrentModificationException();</span><br><span class="line">  cursor = i + <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">return</span> (E) elementData[lastRet = i];</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">final</span> <span class="keyword">void</span> <span class="title">checkForComodification</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (modCount != expectedModCount)</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> ConcurrentModificationException();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上述就是所谓的快速失败机制。</p>
+<p><strong>简单看看ArrayList的源码</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DEFAULT_CAPACITY = <span class="number">10</span>; <span class="comment">// 默认容量大小为10</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Object[] EMPTY_ELEMENTDATA = &#123;&#125;; <span class="comment">// 初始化的是一个空的数组</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 添加元素操作</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">add</span><span class="params">(E e)</span> </span>&#123;</span><br><span class="line">  ensureCapacityInternal(size + <span class="number">1</span>);  <span class="comment">// Increments modCount!!</span></span><br><span class="line">  elementData[size++] = e;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 一系列扩容操作</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">ensureCapacityInternal</span><span class="params">(<span class="keyword">int</span> minCapacity)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (elementData == DEFAULTCAPACITY_EMPTY_ELEMENTDATA) &#123;</span><br><span class="line">    minCapacity = Math.max(DEFAULT_CAPACITY, minCapacity);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  ensureExplicitCapacity(minCapacity);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">ensureExplicitCapacity</span><span class="params">(<span class="keyword">int</span> minCapacity)</span> </span>&#123;</span><br><span class="line">  modCount++;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// overflow-conscious code</span></span><br><span class="line">  <span class="keyword">if</span> (minCapacity - elementData.length &gt; <span class="number">0</span>)</span><br><span class="line">    grow(minCapacity);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">grow</span><span class="params">(<span class="keyword">int</span> minCapacity)</span> </span>&#123;</span><br><span class="line">  <span class="comment">// overflow-conscious code</span></span><br><span class="line">  <span class="keyword">int</span> oldCapacity = elementData.length;</span><br><span class="line">  <span class="keyword">int</span> newCapacity = oldCapacity + (oldCapacity &gt;&gt; <span class="number">1</span>); <span class="comment">// 扩容按照1.5倍速</span></span><br><span class="line">  <span class="keyword">if</span> (newCapacity - minCapacity &lt; <span class="number">0</span>)</span><br><span class="line">    newCapacity = minCapacity;</span><br><span class="line">  <span class="keyword">if</span> (newCapacity - MAX_ARRAY_SIZE &gt; <span class="number">0</span>)</span><br><span class="line">    newCapacity = hugeCapacity(minCapacity);</span><br><span class="line">  <span class="comment">// minCapacity is usually close to size, so this is a win:</span></span><br><span class="line">  elementData = Arrays.copyOf(elementData, newCapacity);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">hugeCapacity</span><span class="params">(<span class="keyword">int</span> minCapacity)</span> </span>&#123; <span class="comment">// 最大是有限制的</span></span><br><span class="line">  <span class="keyword">if</span> (minCapacity &lt; <span class="number">0</span>) <span class="comment">// overflow</span></span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> OutOfMemoryError();</span><br><span class="line">  <span class="keyword">return</span> (minCapacity &gt; MAX_ARRAY_SIZE) ?</span><br><span class="line">    Integer.MAX_VALUE :</span><br><span class="line">  MAX_ARRAY_SIZE;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>移除元素remove：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> E <span class="title">remove</span><span class="params">(<span class="keyword">int</span> index)</span> </span>&#123;</span><br><span class="line">  rangeCheck(index);</span><br><span class="line"></span><br><span class="line">  modCount++;</span><br><span class="line">  E oldValue = elementData(index);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">int</span> numMoved = size - index - <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">if</span> (numMoved &gt; <span class="number">0</span>) <span class="comment">// 意思就是复制当前元素后面的元素到移除这个元素的位置，长度为中间减去的长度</span></span><br><span class="line">    System.arraycopy(elementData, index+<span class="number">1</span>, elementData, index,</span><br><span class="line">                     numMoved);</span><br><span class="line">  elementData[--size] = <span class="keyword">null</span>; <span class="comment">// clear to let GC do its work</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> oldValue;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-Vector"><a href="#3-Vector" class="headerlink" title="3. Vector"></a>3. Vector</h3><p>基本与ArrayList类似，但是所有的方法都是线程安全的，使用了synchronized关键字修饰。扩容是直接两倍的库容。</p>
+<p><strong>与ArrayList的区别</strong></p>
+<ul>
+<li>Vector是同步的，开销比ArrayList要大，访问速度更慢。建议最好使用ArrayList而不是Vector，同步的过程可以由程序员自主控制。</li>
+<li>扩容，Vector是两倍，ArrayList是1.5倍</li>
+</ul>
+<h3 id="4-线程安全的List"><a href="#4-线程安全的List" class="headerlink" title="4. 线程安全的List"></a>4. 线程安全的List</h3><h4 id="4-1-java-util-Collections-SynchronizedList"><a href="#4-1-java-util-Collections-SynchronizedList" class="headerlink" title="4.1 java.util.Collections.SynchronizedList"></a>4.1 java.util.Collections.SynchronizedList</h4><p>可以使用<code>Collections.Synchronizedlist</code>获取一个线程安全的List</p>
+<h4 id="4-2-java-util-concurrent-CopyOnWriteArrayList"><a href="#4-2-java-util-concurrent-CopyOnWriteArrayList" class="headerlink" title="4.2 java.util.concurrent.CopyOnWriteArrayList"></a>4.2 java.util.concurrent.CopyOnWriteArrayList</h4><p><code>CopyOnWriteArrayList</code>主要是利用ReentrantLock来实现的在写的时候加锁操作，防止并发出现问题，但是读的时候是不加锁的，这就是所谓的”读写分离“操作。“写时复制”</p>
+<p>来看看写数据的方法：add()</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">add</span><span class="params">(E e)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">final</span> ReentrantLock lock = <span class="keyword">this</span>.lock; <span class="comment">// 获取到锁</span></span><br><span class="line">  lock.lock(); <span class="comment">// 加锁</span></span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    Object[] elements = getArray();</span><br><span class="line">    <span class="keyword">int</span> len = elements.length;</span><br><span class="line">    Object[] newElements = Arrays.copyOf(elements, len + <span class="number">1</span>);<span class="comment">// 赋值一个新的数组进行操作</span></span><br><span class="line">    newElements[len] = e;</span><br><span class="line">    setArray(newElements);<span class="comment">// 设置复制后的数组</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">  &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">    lock.unlock();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">final</span> <span class="keyword">void</span> <span class="title">setArray</span><span class="params">(Object[] a)</span> </span>&#123;</span><br><span class="line">  array = a;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>读数据的话，直接再array中读：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> E <span class="title">get</span><span class="params">(<span class="keyword">int</span> index)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> get(getArray(), index);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>适用场景</strong></p>
+<p>CopyOnWriteArrayList适合在写操作的时允许读操作，提高了读操作的性能，适合读多写少的场景。</p>
+<p>存在的缺点：</p>
+<ul>
+<li>从上面add的代码中可以看到，是复制出了一个副本，此时内存占用是两倍的形式。</li>
+<li>数据不一致问题：可以看出上面读的数据并不能够保证它的实时性，因为写操作加了锁，读操作并没有加锁，可能读的时候写操作的数据还未同步到读的数组中。</li>
+</ul>
+<p>综上：CopyOnWriteArrayList并不适合内存敏感以及实时性要求很高的场景。</p>
+<h3 id="5-LinkedList"><a href="#5-LinkedList" class="headerlink" title="5. LinkedList"></a>5. LinkedList</h3><p>底层基于链表实现，在整个list中维护着first与last节点，数据存放在Node&lt;E&gt;</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Node</span>&lt;<span class="title">E</span>&gt; </span>&#123;</span><br><span class="line">  E item;</span><br><span class="line">  Node&lt;E&gt; next;</span><br><span class="line">  Node&lt;E&gt; prev;</span><br><span class="line"></span><br><span class="line">  Node(Node&lt;E&gt; prev, E element, Node&lt;E&gt; next) &#123;</span><br><span class="line">    <span class="keyword">this</span>.item = element;</span><br><span class="line">    <span class="keyword">this</span>.next = next;</span><br><span class="line">    <span class="keyword">this</span>.prev = prev;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>添加元素操作：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">add</span><span class="params">(E e)</span> </span>&#123;</span><br><span class="line">  linkLast(e);<span class="comment">// 连接最后一个元素，默认是从后面插入的</span></span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">linkLast</span><span class="params">(E e)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">final</span> Node&lt;E&gt; l = last; <span class="comment">// 获取当前的last节点</span></span><br><span class="line">  <span class="keyword">final</span> Node&lt;E&gt; newNode = <span class="keyword">new</span> Node&lt;&gt;(l, e, <span class="keyword">null</span>); <span class="comment">// 由于插入也是一个节点，构造一个节点</span></span><br><span class="line">  last = newNode; <span class="comment">// 移动last节点到当前的newNode节点</span></span><br><span class="line">  <span class="keyword">if</span> (l == <span class="keyword">null</span>)<span class="comment">// 如果last节点为null，表明当前list中没有元素，first指向newNode(唯一的元素)</span></span><br><span class="line">    first = newNode;</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    l.next = newNode; <span class="comment">// 如果不为null的话，表示前面有元素，此时连接前后的关系。pre在new Node建立</span></span><br><span class="line">  size++;</span><br><span class="line">  modCount++;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>与ArrayList比较</strong></p>
+<ul>
+<li>LinkedList底层基于链表实现，ArrayList底层基于动态数组实现</li>
+<li>LinkedList不支持随机访问，只能挨个遍历。ArrayList支持随机访问</li>
+<li>LinkedList插入删除O(1)，查找O(n)（实质是O(n/2)，遍历了一半的链表）；ArrayList插入删除O(n)，查找O(1)</li>
+</ul>
+<h3 id="6-HashMap"><a href="#6-HashMap" class="headerlink" title="6. HashMap"></a>6. HashMap</h3><p>HashMap的话，首先说底层实现JDK1.7底层是数组+链表实现，而在JDK1.8中底层是数组+链表+红黑树实现，当节点个数超过8个，此时会树化为红黑树。但是当节点为6个时，此时需要恢复为链表。为什么负载因子是o.75，这个是有说是泊松分布的原因。</p>
+<p><strong>以下是基于JDK1.8源码</strong></p>
+<p>存储结构Node&lt;K,V&gt;，可以看出如果出现哈希冲突，是使用拉链法来解决（next指针）。每一个Node代表一个节点数据，遇到哈希冲突，直接通过next指针来连接即可。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Node</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; <span class="keyword">implements</span> <span class="title">Map</span>.<span class="title">Entry</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; </span>&#123;</span><br><span class="line">  <span class="keyword">final</span> <span class="keyword">int</span> hash;</span><br><span class="line">  <span class="keyword">final</span> K key;</span><br><span class="line">  V value;</span><br><span class="line">  Node&lt;K,V&gt; next;</span><br><span class="line"></span><br><span class="line">  Node(<span class="keyword">int</span> hash, K key, V value, Node&lt;K,V&gt; next) &#123;</span><br><span class="line">    <span class="keyword">this</span>.hash = hash;</span><br><span class="line">    <span class="keyword">this</span>.key = key;</span><br><span class="line">    <span class="keyword">this</span>.value = value;</span><br><span class="line">    <span class="keyword">this</span>.next = next;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="6-1-put操作"><a href="#6-1-put操作" class="headerlink" title="6.1 put操作"></a>6.1 put操作</h4><p><strong>put插入元素操作</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">final</span> V <span class="title">putVal</span><span class="params">(<span class="keyword">int</span> hash, K key, V value, <span class="keyword">boolean</span> onlyIfAbsent,</span></span></span><br><span class="line"><span class="function"><span class="params">               <span class="keyword">boolean</span> evict)</span> </span>&#123;</span><br><span class="line">  Node&lt;K,V&gt;[] tab; Node&lt;K,V&gt; p; <span class="keyword">int</span> n, i;</span><br><span class="line">  <span class="keyword">if</span> ((tab = table) == <span class="keyword">null</span> || (n = tab.length) == <span class="number">0</span>) <span class="comment">// 存储元素表是否为空，是的话初始化</span></span><br><span class="line">    n = (tab = resize()).length;</span><br><span class="line">  <span class="keyword">if</span> ((p = tab[i = (n - <span class="number">1</span>) &amp; hash]) == <span class="keyword">null</span>) <span class="comment">// 否则判断tab中当前hash位置是否为null，表示没有元素</span></span><br><span class="line">    tab[i] = newNode(hash, key, value, <span class="keyword">null</span>);<span class="comment">// 构造新新节点直接插入</span></span><br><span class="line">  <span class="keyword">else</span> &#123;</span><br><span class="line">    Node&lt;K,V&gt; e; K k; <span class="comment">// 都不是的话，就等于找到了tab中的那个槽，判断是否与第一个hash相等且值相等</span></span><br><span class="line">    <span class="keyword">if</span> (p.hash == hash &amp;&amp;</span><br><span class="line">        ((k = p.key) == key || (key != <span class="keyword">null</span> &amp;&amp; key.equals(k))))</span><br><span class="line">      e = p; <span class="comment">// 是的话，直接覆盖</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (p <span class="keyword">instanceof</span> TreeNode) <span class="comment">// 否则判断为树的话，直接树化</span></span><br><span class="line">      e = ((TreeNode&lt;K,V&gt;)p).putTreeVal(<span class="keyword">this</span>, tab, hash, key, value);</span><br><span class="line">    <span class="keyword">else</span> &#123; <span class="comment">// 否则只能是出现了hash冲突，采用拉链法解决，就往下找</span></span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">int</span> binCount = <span class="number">0</span>; ; ++binCount) &#123; <span class="comment">// binCount统计个数，8个需要树化操作</span></span><br><span class="line">        <span class="keyword">if</span> ((e = p.next) == <span class="keyword">null</span>) &#123;<span class="comment">// 看是不是到了最后一个，是的话，构造新节点即可</span></span><br><span class="line">          p.next = newNode(hash, key, value, <span class="keyword">null</span>);</span><br><span class="line">          <span class="keyword">if</span> (binCount &gt;= TREEIFY_THRESHOLD - <span class="number">1</span>) <span class="comment">// -1 for 1st</span></span><br><span class="line">            treeifyBin(tab, hash); <span class="comment">// 树化</span></span><br><span class="line">          <span class="keyword">break</span>;</span><br><span class="line">        &#125; <span class="comment">// 不是最后一个，判断是否找到了，放心第一次绝对不会命中！因为上面有阶段判断。精辟！</span></span><br><span class="line">        <span class="keyword">if</span> (e.hash == hash &amp;&amp;</span><br><span class="line">            ((k = e.key) == key || (key != <span class="keyword">null</span> &amp;&amp; key.equals(k))))</span><br><span class="line">          <span class="keyword">break</span>;</span><br><span class="line">        p = e; <span class="comment">// 否则继续下移，直到找到，或者把节点安放为止</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125; <span class="comment">// 判断上面是否是覆盖了原来的值，是的话需要取出</span></span><br><span class="line">    <span class="keyword">if</span> (e != <span class="keyword">null</span>) &#123; <span class="comment">// existing mapping for key</span></span><br><span class="line">      V oldValue = e.value;</span><br><span class="line">      <span class="keyword">if</span> (!onlyIfAbsent || oldValue == <span class="keyword">null</span>) <span class="comment">// 仅仅是当前节点不存在或者</span></span><br><span class="line">        e.value = value;</span><br><span class="line">      afterNodeAccess(e); <span class="comment">// 这是LinkedHashMap中的访问节点后操作</span></span><br><span class="line">      <span class="keyword">return</span> oldValue;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  ++modCount; <span class="comment">// 改变次数+1</span></span><br><span class="line">  <span class="keyword">if</span> (++size &gt; threshold)</span><br><span class="line">    resize();</span><br><span class="line">  afterNodeInsertion(evict);</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">null</span>; <span class="comment">// 这是为了没有替换的元素，直接插入导致的null</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="6-3-resize扩容操作"><a href="#6-3-resize扩容操作" class="headerlink" title="6.3 resize扩容操作"></a>6.3 resize扩容操作</h4><p><strong>扩容resize操作：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> Node&lt;K,V&gt;[] resize() &#123;</span><br><span class="line">  Node&lt;K,V&gt;[] oldTab = table;</span><br><span class="line">  <span class="keyword">int</span> oldCap = (oldTab == <span class="keyword">null</span>) ? <span class="number">0</span> : oldTab.length;</span><br><span class="line">  <span class="keyword">int</span> oldThr = threshold;</span><br><span class="line">  <span class="keyword">int</span> newCap, newThr = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">if</span> (oldCap &gt; <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (oldCap &gt;= MAXIMUM_CAPACITY) &#123;</span><br><span class="line">      threshold = Integer.MAX_VALUE;</span><br><span class="line">      <span class="keyword">return</span> oldTab;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> ((newCap = oldCap &lt;&lt; <span class="number">1</span>) &lt; MAXIMUM_CAPACITY &amp;&amp;</span><br><span class="line">             oldCap &gt;= DEFAULT_INITIAL_CAPACITY)</span><br><span class="line">      newThr = oldThr &lt;&lt; <span class="number">1</span>; <span class="comment">// double threshold</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span> (oldThr &gt; <span class="number">0</span>) <span class="comment">// initial capacity was placed in threshold</span></span><br><span class="line">    newCap = oldThr;</span><br><span class="line">  <span class="keyword">else</span> &#123;               <span class="comment">// zero initial threshold signifies using defaults</span></span><br><span class="line">    newCap = DEFAULT_INITIAL_CAPACITY;</span><br><span class="line">    newThr = (<span class="keyword">int</span>)(DEFAULT_LOAD_FACTOR * DEFAULT_INITIAL_CAPACITY);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (newThr == <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">float</span> ft = (<span class="keyword">float</span>)newCap * loadFactor;</span><br><span class="line">    newThr = (newCap &lt; MAXIMUM_CAPACITY &amp;&amp; ft &lt; (<span class="keyword">float</span>)MAXIMUM_CAPACITY ?</span><br><span class="line">              (<span class="keyword">int</span>)ft : Integer.MAX_VALUE);</span><br><span class="line">  &#125;</span><br><span class="line">  threshold = newThr; <span class="comment">// 上面基本是容量翻倍，门限值翻倍</span></span><br><span class="line">  <span class="meta">@SuppressWarnings</span>(&#123;<span class="string">"rawtypes"</span>,<span class="string">"unchecked"</span>&#125;)</span><br><span class="line">  Node&lt;K,V&gt;[] newTab = (Node&lt;K,V&gt;[])<span class="keyword">new</span> Node[newCap]; <span class="comment">// 构建新的map数据表</span></span><br><span class="line">  table = newTab;<span class="comment">// table变为新表</span></span><br><span class="line">  <span class="keyword">if</span> (oldTab != <span class="keyword">null</span>) &#123; <span class="comment">// 不为null才遍历赋值，否则直接返回新表</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; oldCap; ++j) &#123;</span><br><span class="line">      Node&lt;K,V&gt; e; </span><br><span class="line">      <span class="keyword">if</span> ((e = oldTab[j]) != <span class="keyword">null</span>) &#123;</span><br><span class="line">        oldTab[j] = <span class="keyword">null</span>;<span class="comment">// 这里是清楚老表，方便回收，同时获取到当前e节点</span></span><br><span class="line">        <span class="keyword">if</span> (e.next == <span class="keyword">null</span>)<span class="comment">// 如果只有一个，直接与新的节点&amp;操作获取自己的槽</span></span><br><span class="line">          newTab[e.hash &amp; (newCap - <span class="number">1</span>)] = e;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (e <span class="keyword">instanceof</span> TreeNode)<span class="comment">// 如果是树类型，使用树的操作</span></span><br><span class="line">          ((TreeNode&lt;K,V&gt;)e).split(<span class="keyword">this</span>, newTab, j, oldCap);</span><br><span class="line">        <span class="keyword">else</span> &#123; <span class="comment">// preserve order 保存顺序 否则就是链表多个节点了</span></span><br><span class="line">          Node&lt;K,V&gt; loHead = <span class="keyword">null</span>, loTail = <span class="keyword">null</span>;</span><br><span class="line">          Node&lt;K,V&gt; hiHead = <span class="keyword">null</span>, hiTail = <span class="keyword">null</span>;</span><br><span class="line">          Node&lt;K,V&gt; next;</span><br><span class="line">          <span class="keyword">do</span> &#123;</span><br><span class="line">            next = e.next; <span class="comment">// 这里使用next保存下一个几点</span></span><br><span class="line">            <span class="keyword">if</span> ((e.hash &amp; oldCap) == <span class="number">0</span>) &#123; <span class="comment">// 老节点&amp;老容量必定为0</span></span><br><span class="line">              <span class="keyword">if</span> (loTail == <span class="keyword">null</span>) <span class="comment">// </span></span><br><span class="line">                loHead = e;</span><br><span class="line">              <span class="keyword">else</span></span><br><span class="line">                loTail.next = e; <span class="comment">// 这里是尾插入法</span></span><br><span class="line">              loTail = e;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> &#123; <span class="comment">// 如果&amp;操作为1，必定是新的槽位上的数据</span></span><br><span class="line">              <span class="keyword">if</span> (hiTail == <span class="keyword">null</span>)</span><br><span class="line">                hiHead = e;</span><br><span class="line">              <span class="keyword">else</span></span><br><span class="line">                hiTail.next = e; <span class="comment">// 尾插法</span></span><br><span class="line">              hiTail = e;</span><br><span class="line">            &#125;</span><br><span class="line">          &#125; <span class="keyword">while</span> ((e = next) != <span class="keyword">null</span>);</span><br><span class="line">          <span class="keyword">if</span> (loTail != <span class="keyword">null</span>) &#123; <span class="comment">// 如果再最后位置，将j位置放入老的链表</span></span><br><span class="line">            loTail.next = <span class="keyword">null</span>;</span><br><span class="line">            newTab[j] = loHead;</span><br><span class="line">          &#125;</span><br><span class="line">          <span class="keyword">if</span> (hiTail != <span class="keyword">null</span>) &#123; <span class="comment">// 如果是在最后位置，将j+oldCap位置放入新的链表</span></span><br><span class="line">            hiTail.next = <span class="keyword">null</span>;</span><br><span class="line">            newTab[j + oldCap] = hiHead;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> newTab; <span class="comment">// 返回链表</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里解释一下<code>e.hash &amp; oldCap == 0</code>可以断定为低位的数据。为1可以断定为高位的数据</p>
+<blockquote>
+<p>举个例子，从容量16扩容到32，即10000 -&gt; 100000</p>
+<p>此时在0-15的槽位中的数据，hash值只能为0-15，此时可以知道如果是低位数据值最大为01111即15，此时进行&amp;操作10000 &amp; 01111 = 0必为0，但是如果是高位数据呢，一般来说是处于16-31范围之内，此时我们举个31的例子，即011111 &amp; 010000 = 16也就是不为1。所以可以断定为是高位数据。</p>
+</blockquote>
+<p>对于为什么要进行resize操作，也就是扩容操作，这里我的理解是当元素达到map表装不下的时候，此时需要进行扩容，但是对于数据之前如果是在16的槽位的数据表中，最大的也不过15，但是注意它那个使用自己hash&amp;15 = {0,15}，有些数据其实是高位，但是没办法啊，只有16个槽位。</p>
+<p>这也就是为什么在进行resize操作的时候有高低位数据之间的区分了。主要就是为了拯救那些委曲求全的高位大佬们，帮助它们找到自己新的释放才能的槽位处。</p>
+<p><font color="red">注意：上面的高低位数据的插入都是使用的尾插法，这一举措解决了jdk1.7中以后的头插法会导致死循环的问题。</font>jdk1.7中的头插法，在下面列出来。</p>
+<h4 id="6-3-jdk1-7的resize扩容操作"><a href="#6-3-jdk1-7的resize扩容操作" class="headerlink" title="6.3 jdk1.7的resize扩容操作"></a>6.3 jdk1.7的resize扩容操作</h4><p><strong><font color="red">JDK1.7的扩容</font></strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"> <span class="number">1</span> <span class="function"><span class="keyword">void</span> <span class="title">resize</span><span class="params">(<span class="keyword">int</span> newCapacity)</span> </span>&#123;   <span class="comment">//传入新的容量</span></span><br><span class="line"> <span class="number">2</span>     Entry[] oldTable = table;    <span class="comment">//引用扩容前的Entry数组</span></span><br><span class="line"> <span class="number">3</span>     <span class="keyword">int</span> oldCapacity = oldTable.length;         </span><br><span class="line"> <span class="number">4</span>     <span class="keyword">if</span> (oldCapacity == MAXIMUM_CAPACITY) &#123;  <span class="comment">//扩容前的数组大小如果已经达到最大(2^30)了</span></span><br><span class="line"> <span class="number">5</span>         threshold = Integer.MAX_VALUE; <span class="comment">//修改阈值为int的最大值(2^31-1)，这样以后就不会扩容了</span></span><br><span class="line"> <span class="number">6</span>         <span class="keyword">return</span>;</span><br><span class="line"> <span class="number">7</span>     &#125;</span><br><span class="line"> <span class="number">8</span>  </span><br><span class="line"> <span class="number">9</span>     Entry[] newTable = <span class="keyword">new</span> Entry[newCapacity];  <span class="comment">//初始化一个新的Entry数组</span></span><br><span class="line"><span class="number">10</span>     transfer(newTable，initHashSeedAdNeeded(newCapacity)); <span class="comment">// 数据转移</span></span><br><span class="line"><span class="number">11</span>     table = newTable;                           <span class="comment">//HashMap的table属性引用新的Entry数组</span></span><br><span class="line"><span class="number">12</span>     threshold = (<span class="keyword">int</span>)Math.min(newCapacity * loadFactor,MAXMUM_CAPACITY+<span class="number">1</span>);<span class="comment">//修改阈值</span></span><br><span class="line"><span class="number">13</span> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>重点在这个转移数据的方法transfer中</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"> <span class="number">1</span> <span class="function"><span class="keyword">void</span> <span class="title">transfer</span><span class="params">(Entry[] newTable)</span> </span>&#123;</span><br><span class="line"> <span class="number">2</span>     Entry[] src = table;                   <span class="comment">//src引用了旧的Entry数组</span></span><br><span class="line"> <span class="number">3</span>     <span class="keyword">int</span> newCapacity = newTable.length;</span><br><span class="line"> <span class="number">4</span>     <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; src.length; j++) &#123; <span class="comment">//遍历旧的Entry数组</span></span><br><span class="line"> <span class="number">5</span>         Entry&lt;K,V&gt; e = src[j];             <span class="comment">//取得旧Entry数组的每个元素</span></span><br><span class="line"> <span class="number">6</span>         <span class="keyword">if</span> (e != <span class="keyword">null</span>) &#123;</span><br><span class="line"> <span class="number">7</span>             src[j] = <span class="keyword">null</span>;<span class="comment">//释放旧Entry数组的对象引用（for循环后，旧的Entry数组不再引用任何对象）</span></span><br><span class="line"> <span class="number">8</span>             <span class="keyword">do</span> &#123;</span><br><span class="line"> <span class="number">9</span>                 Entry&lt;K,V&gt; next = e.next;</span><br><span class="line"><span class="number">10</span>                 <span class="keyword">int</span> i = indexFor(e.hash, newCapacity); <span class="comment">// 重新计算每个元素在数组中的位置</span></span><br><span class="line"><span class="number">11</span>                 e.next = newTable[i]; <span class="comment">// 头插法</span></span><br><span class="line"><span class="number">12</span>                 newTable[i] = e;      <span class="comment">// 将元素放在数组上</span></span><br><span class="line"><span class="number">13</span>                 e = next;             <span class="comment">// 访问下一个Entry链上的元素</span></span><br><span class="line"><span class="number">14</span>             &#125; <span class="keyword">while</span> (e != <span class="keyword">null</span>);</span><br><span class="line"><span class="number">15</span>         &#125;</span><br><span class="line"><span class="number">16</span>     &#125;</span><br><span class="line"><span class="number">17</span> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里解释一下头插法怎么形成链表的情况：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200412232416291.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NhbzEzMTUwMjA2MjY=,size_16,color_FFFFFF,t_70" alt="img"></p>
+<h4 id="6-4-remove操作"><a href="#6-4-remove操作" class="headerlink" title="6.4 remove操作"></a>6.4 remove操作</h4><p><strong>移除node的操作，remove方法：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">final</span> Node&lt;K,V&gt; <span class="title">removeNode</span><span class="params">(<span class="keyword">int</span> hash, Object key, Object value,</span></span></span><br><span class="line"><span class="function"><span class="params">                           <span class="keyword">boolean</span> matchValue, <span class="keyword">boolean</span> movable)</span> </span>&#123;</span><br><span class="line">  Node&lt;K,V&gt;[] tab; Node&lt;K,V&gt; p; <span class="keyword">int</span> n, index; <span class="comment">// 当前tab，节点p，n：表长度，index：哈希的下标</span></span><br><span class="line">  <span class="keyword">if</span> ((tab = table) != <span class="keyword">null</span> &amp;&amp; (n = tab.length) &gt; <span class="number">0</span> &amp;&amp;</span><br><span class="line">      (p = tab[index = (n - <span class="number">1</span>) &amp; hash]) != <span class="keyword">null</span>)&#123;<span class="comment">//确保表不为空，长度大于0，当前hash的下标不为null</span></span><br><span class="line">    Node&lt;K,V&gt; node = <span class="keyword">null</span>, e; K k; V v;</span><br><span class="line">    <span class="keyword">if</span> (p.hash == hash &amp;&amp;</span><br><span class="line">        ((k = p.key) == key || (key != <span class="keyword">null</span> &amp;&amp; key.equals(k))))</span><br><span class="line">      node = p;<span class="comment">// 正好找到的话。直接替换</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> ((e = p.next) != <span class="keyword">null</span>) &#123; <span class="comment">// 如果不是当前节点，且存在下一个，</span></span><br><span class="line">      <span class="keyword">if</span> (p <span class="keyword">instanceof</span> TreeNode) <span class="comment">// 看是否是红黑树</span></span><br><span class="line">        node = ((TreeNode&lt;K,V&gt;)p).getTreeNode(hash, key);</span><br><span class="line">      <span class="keyword">else</span> &#123; <span class="comment">// 只能是链表了</span></span><br><span class="line">        <span class="keyword">do</span> &#123; <span class="comment">// 循环找到节点</span></span><br><span class="line">          <span class="keyword">if</span> (e.hash == hash &amp;&amp;</span><br><span class="line">              ((k = e.key) == key ||</span><br><span class="line">               (key != <span class="keyword">null</span> &amp;&amp; key.equals(k)))) &#123;</span><br><span class="line">            node = e;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">          &#125;</span><br><span class="line">          p = e;</span><br><span class="line">        &#125; <span class="keyword">while</span> ((e = e.next) != <span class="keyword">null</span>);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;<span class="comment">// 最后判断是否有要返回的值</span></span><br><span class="line">    <span class="comment">// 如果不是值必须相等才能替换，或者说值相等</span></span><br><span class="line">    <span class="keyword">if</span> (node != <span class="keyword">null</span> &amp;&amp; (!matchValue || (v = node.value) == value ||</span><br><span class="line">                         (value != <span class="keyword">null</span> &amp;&amp; value.equals(v)))) &#123;</span><br><span class="line">      <span class="keyword">if</span> (node <span class="keyword">instanceof</span> TreeNode) <span class="comment">// 移除节点</span></span><br><span class="line">        ((TreeNode&lt;K,V&gt;)node).removeTreeNode(<span class="keyword">this</span>, tab, movable);</span><br><span class="line">      <span class="keyword">else</span> <span class="keyword">if</span> (node == p)<span class="comment">// 如果替换的正好就是这个槽位，直接将下一个放到你这个槽位上来</span></span><br><span class="line">        tab[index] = node.next;</span><br><span class="line">      <span class="keyword">else</span></span><br><span class="line">        p.next = node.next;<span class="comment">// 如果不是正好就是槽位，仅是替换了节点的话，此时需要将p.next -&gt; node.next</span></span><br><span class="line">      ++modCount;</span><br><span class="line">      --size;</span><br><span class="line">      afterNodeRemoval(node);</span><br><span class="line">      <span class="keyword">return</span> node;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="6-5-get操作"><a href="#6-5-get操作" class="headerlink" title="6.5 get操作"></a>6.5 get操作</h4><p><strong>获取元素get操作</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">final</span> Node&lt;K,V&gt; <span class="title">getNode</span><span class="params">(<span class="keyword">int</span> hash, Object key)</span> </span>&#123;</span><br><span class="line">  Node&lt;K,V&gt;[] tab; Node&lt;K,V&gt; first, e; <span class="keyword">int</span> n; K k;</span><br><span class="line">  <span class="keyword">if</span> ((tab = table) != <span class="keyword">null</span> &amp;&amp; (n = tab.length) &gt; <span class="number">0</span> &amp;&amp;</span><br><span class="line">      (first = tab[(n - <span class="number">1</span>) &amp; hash]) != <span class="keyword">null</span>) &#123; <span class="comment">// 一定要保证hash值所在的位置有元素</span></span><br><span class="line">    <span class="keyword">if</span> (first.hash == hash &amp;&amp; <span class="comment">// always check first node 检查头是否就是需要的</span></span><br><span class="line">        ((k = first.key) == key || (key != <span class="keyword">null</span> &amp;&amp; key.equals(k))))</span><br><span class="line">      <span class="keyword">return</span> first;</span><br><span class="line">    <span class="keyword">if</span> ((e = first.next) != <span class="keyword">null</span>) &#123;</span><br><span class="line">      <span class="keyword">if</span> (first <span class="keyword">instanceof</span> TreeNode) <span class="comment">// 树的话，从树中拿</span></span><br><span class="line">        <span class="keyword">return</span> ((TreeNode&lt;K,V&gt;)first).getTreeNode(hash, key);</span><br><span class="line">      <span class="keyword">do</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (e.hash == hash &amp;&amp;</span><br><span class="line">            ((k = e.key) == key || (key != <span class="keyword">null</span> &amp;&amp; key.equals(k))))</span><br><span class="line">          <span class="keyword">return</span> e;</span><br><span class="line">      &#125; <span class="keyword">while</span> ((e = e.next) != <span class="keyword">null</span>); <span class="comment">// 否则从链表中遍历</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>与HashTable比较：</strong></p>
+<ul>
+<li>HashTable使用synchronized关键字来实现同步，是线程安全的</li>
+<li>HashMap可以插入键值对为null的数据Node</li>
+<li>HashMap的迭代器是fail-fast</li>
+<li>HashMap不能保证随着时间的推移Map中的元素次序是不变的，即无序性</li>
+</ul>
+<p>上述的数据无序性需要声明一下，为什么是无序的，因为hashMap是利用散列函数来获取位置的，存取的时候就是散列，所以导致了它的无序性，由于HashSet底层也是HashMap实现的所以也是无序的。</p>
+<h3 id="7-ConcurrentHashMap"><a href="#7-ConcurrentHashMap" class="headerlink" title="7. ConcurrentHashMap"></a>7. ConcurrentHashMap</h3><p>为解决HashMap的线程不安全以及HashTable的效率低问题，就有了我们的ConcurrentHashMap</p>
+<p>在jdk1.7中利用的是Segment+链表实现，基于ReentrantLock锁来实现的。</p>
+<p>存在的问题是链表查找的速度慢，且在jdk1.7中还是使用的头插法，但是在并发情况下似乎没啥影响，只是对于HashMap中并发操作会造成死循环操作。</p>
+<p>jdk1.8的话，做的改进是抛弃了Segment，使用Node这种结构来代替了，从而使得并发的数量为Node个数，Node内部为链表或者红黑树结构。使用的是CAS+synchronized来实现的。大大提高了并发度。</p>
+<p><strong>数据节点Node&lt;K,V&gt;：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Node</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; <span class="keyword">implements</span> <span class="title">Map</span>.<span class="title">Entry</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; </span>&#123;</span><br><span class="line">  <span class="keyword">final</span> <span class="keyword">int</span> hash;</span><br><span class="line">  <span class="keyword">final</span> K key;</span><br><span class="line">  <span class="keyword">volatile</span> V val; <span class="comment">// 注意这里用了volatile关键字修饰，也就是去主内存中获取值，而不是当前线程的工作内存</span></span><br><span class="line">  <span class="keyword">volatile</span> Node&lt;K,V&gt; next;</span><br><span class="line"></span><br><span class="line">  Node(<span class="keyword">int</span> hash, K key, V val, Node&lt;K,V&gt; next) &#123;</span><br><span class="line">    <span class="keyword">this</span>.hash = hash;</span><br><span class="line">    <span class="keyword">this</span>.key = key;</span><br><span class="line">    <span class="keyword">this</span>.val = val;</span><br><span class="line">    <span class="keyword">this</span>.next = next;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="7-1-put操作"><a href="#7-1-put操作" class="headerlink" title="7.1 put操作"></a>7.1 put操作</h4><p><strong>数据插入put操作：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> V <span class="title">put</span><span class="params">(K key, V value)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> putVal(key, value, <span class="keyword">false</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">final</span> V <span class="title">putVal</span><span class="params">(K key, V value, <span class="keyword">boolean</span> onlyIfAbsent)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (key == <span class="keyword">null</span> || value == <span class="keyword">null</span>) <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException();</span><br><span class="line">  <span class="keyword">int</span> hash = spread(key.hashCode());<span class="comment">// 获取hash值</span></span><br><span class="line">  <span class="keyword">int</span> binCount = <span class="number">0</span>;<span class="comment">// 统计元素个数</span></span><br><span class="line">  <span class="keyword">for</span> (Node&lt;K,V&gt;[] tab = table;;) &#123;</span><br><span class="line">    Node&lt;K,V&gt; f; <span class="keyword">int</span> n, i, fh;</span><br><span class="line">    <span class="keyword">if</span> (tab == <span class="keyword">null</span> || (n = tab.length) == <span class="number">0</span>)</span><br><span class="line">      tab = initTable(); <span class="comment">// 啥都没有，初始化</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> ((f = tabAt(tab, i = (n - <span class="number">1</span>) &amp; hash)) == <span class="keyword">null</span>) &#123; <span class="comment">// 当前位置为空，直接通过cas填充</span></span><br><span class="line">      <span class="keyword">if</span> (casTabAt(tab, i, <span class="keyword">null</span>,</span><br><span class="line">                   <span class="keyword">new</span> Node&lt;K,V&gt;(hash, key, value, <span class="keyword">null</span>)))</span><br><span class="line">        <span class="keyword">break</span>;                   <span class="comment">// no lock when adding to empty bin</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> ((fh = f.hash) == MOVED) <span class="comment">// 如果是-1，帮助转移</span></span><br><span class="line">      tab = helpTransfer(tab, f);</span><br><span class="line">    <span class="keyword">else</span> &#123; </span><br><span class="line">      V oldVal = <span class="keyword">null</span>;</span><br><span class="line">      <span class="keyword">synchronized</span> (f) &#123; <span class="comment">// 否则就是需要和其他元素打交道了，此时需要加锁，否则会出问题</span></span><br><span class="line">        <span class="keyword">if</span> (tabAt(tab, i) == f) &#123;</span><br><span class="line">          <span class="keyword">if</span> (fh &gt;= <span class="number">0</span>) &#123; <span class="comment">// 看是否大于0</span></span><br><span class="line">            binCount = <span class="number">1</span>; <span class="comment">// 置为1，统计数量从1开始</span></span><br><span class="line">            <span class="keyword">for</span> (Node&lt;K,V&gt; e = f;; ++binCount) &#123;</span><br><span class="line">              K ek;<span class="comment">// 如果正好相等的话，直接覆盖</span></span><br><span class="line">              <span class="keyword">if</span> (e.hash == hash &amp;&amp;</span><br><span class="line">                  ((ek = e.key) == key ||</span><br><span class="line">                   (ek != <span class="keyword">null</span> &amp;&amp; key.equals(ek)))) &#123;</span><br><span class="line">                oldVal = e.val;</span><br><span class="line">                <span class="keyword">if</span> (!onlyIfAbsent)</span><br><span class="line">                  e.val = value;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">              &#125; <span class="comment">// 不相等的话，继续往链表下面走，直到找到为止</span></span><br><span class="line">              Node&lt;K,V&gt; pred = e;</span><br><span class="line">              <span class="keyword">if</span> ((e = e.next) == <span class="keyword">null</span>) &#123;</span><br><span class="line">                pred.next = <span class="keyword">new</span> Node&lt;K,V&gt;(hash, key,</span><br><span class="line">                                          value, <span class="keyword">null</span>);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">              &#125;</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">          <span class="keyword">else</span> <span class="keyword">if</span> (f <span class="keyword">instanceof</span> TreeBin) &#123;<span class="comment">// 否则就是小于0，判断是否是树类型</span></span><br><span class="line">            Node&lt;K,V&gt; p;</span><br><span class="line">            binCount = <span class="number">2</span>;<span class="comment">// 数量定位2，放入</span></span><br><span class="line">            <span class="keyword">if</span> ((p = ((TreeBin&lt;K,V&gt;)f).putTreeVal(hash, key,</span><br><span class="line">                                                  value)) != <span class="keyword">null</span>) &#123;</span><br><span class="line">              oldVal = p.val;</span><br><span class="line">              <span class="keyword">if</span> (!onlyIfAbsent)</span><br><span class="line">                p.val = value;</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> (binCount != <span class="number">0</span>) &#123; <span class="comment">// 对数量进行界定，看是否满足8，树化</span></span><br><span class="line">        <span class="keyword">if</span> (binCount &gt;= TREEIFY_THRESHOLD)</span><br><span class="line">          treeifyBin(tab, i);</span><br><span class="line">        <span class="keyword">if</span> (oldVal != <span class="keyword">null</span>)</span><br><span class="line">          <span class="keyword">return</span> oldVal;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  addCount(<span class="number">1L</span>, binCount);<span class="comment">// 数量进行+1操作</span></span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="7-2-get操作"><a href="#7-2-get操作" class="headerlink" title="7.2 get操作"></a>7.2 get操作</h4><p><strong>获取元素get操作</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> V <span class="title">get</span><span class="params">(Object key)</span> </span>&#123;</span><br><span class="line">  Node&lt;K,V&gt;[] tab; Node&lt;K,V&gt; e, p; <span class="keyword">int</span> n, eh; K ek;</span><br><span class="line">  <span class="keyword">int</span> h = spread(key.hashCode());<span class="comment">// 获取hash值</span></span><br><span class="line">  <span class="keyword">if</span> ((tab = table) != <span class="keyword">null</span> &amp;&amp; (n = tab.length) &gt; <span class="number">0</span> &amp;&amp;</span><br><span class="line">      (e = tabAt(tab, (n - <span class="number">1</span>) &amp; h)) != <span class="keyword">null</span>) &#123; <span class="comment">// 如果找到了当前Node&lt;K,V&gt;</span></span><br><span class="line">    <span class="keyword">if</span> ((eh = e.hash) == h) &#123;</span><br><span class="line">      <span class="keyword">if</span> ((ek = e.key) == key || (ek != <span class="keyword">null</span> &amp;&amp; key.equals(ek)))</span><br><span class="line">        <span class="keyword">return</span> e.val;<span class="comment">// 如果正好是当头元素，直接取出，返回</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (eh &lt; <span class="number">0</span>) <span class="comment">// 否则需要去树中找了</span></span><br><span class="line">      <span class="keyword">return</span> (p = e.find(h, key)) != <span class="keyword">null</span> ? p.val : <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">while</span> ((e = e.next) != <span class="keyword">null</span>) &#123; <span class="comment">// 如果上述两步操作都没有成功，证明是在链表非头结点出</span></span><br><span class="line">      <span class="keyword">if</span> (e.hash == h &amp;&amp;           <span class="comment">// 继续遍历操作，直到找到为止</span></span><br><span class="line">          ((ek = e.key) == key || (ek != <span class="keyword">null</span> &amp;&amp; key.equals(ek))))</span><br><span class="line">        <span class="keyword">return</span> e.val;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">null</span>; <span class="comment">// 如果到最后还是没有找到，表明没有，返回null</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="7-3-常见面试问题"><a href="#7-3-常见面试问题" class="headerlink" title="7.3 常见面试问题"></a>7.3 常见面试问题</h4><blockquote>
+<p>1.谈谈你理解的 HashMap，讲讲其中的 get put 过程。</p>
+</blockquote>
+<p>HashMap的get过程比较简单，因为是使用Node&lt;K,V&gt;[]数组存储的，此时使用散列函数获取到hash值定位到当前元素的数组所在位置，判断是否是头结点，是的话直接返回，如果不是的话，判断是否是红黑树类型，是的话从红黑树中取值。否则就在链表中遍历取值。</p>
+<p>put的过程，首先同上，也是需要获取到再数组中的位置，此时先判断当前位置上是否存在了元素，如果不存在的直接构建Node节点存放即可。存在的话，表示遭遇了哈希冲突，解决方法是用拉链法，此时就需要判断自己与头结点的key是否相同，想通过的话需要覆盖值，不相同的话，此时需要判断是否为树类型，通过树插入；否则又是链表了，此时通过遍历链表插入即可（注意判断节点个数，超过8需要树化）。</p>
+<blockquote>
+<p>2.jdk1.8做了哪些优化？</p>
+</blockquote>
+<p>jdk1.8的话首先在底层的结构上使用了数组+链表+红黑树实现，对于查找的效率提高了。其次对于并发时候jdk1.7的头插法插入容易使得产生死循环操作，在jdk1.8中使用尾插法，使用高低位判断的方法解决了这个问题。</p>
+<blockquote>
+<p>3.HashMap是否是线程安全的？</p>
+</blockquote>
+<p>不是线程安全的，jdk1.8的put操作如果是多个线程同时操作，没有办法保证获取到的值就是修改后的值，出现值覆盖，保证不了线程安全。jdk1.7的话就是头插法导致链表的死循环问题。</p>
+<blockquote>
+<p>4.线程安全的并发容器？</p>
+</blockquote>
+<p>HashTable，但是由于是统一synchronized修饰，并发度太低。一般使用ConcurrentHashMap来实现！</p>
+<blockquote>
+<p>5.ConcurrentHashMap是如何实现的？1.7和1.8有何区别？为什么这么做？</p>
+</blockquote>
+<p>首先ConcurrentHashMap的实现是因为HashMap的线程不安全，而HashTable的并发度又太小，才出现了ConcurrentHashMap，需要保证线程安全的话，有synchronized，ReentrantLock加锁操作实现，同时还有cas来保证线程安全问题。于是在jdk1.7中中使用了继承ReentrantLock的Segment来存放Node节点数据，使得并发度提升到了Segment数量的级别，每次锁的话都是锁当前定位到的Segment。具体的put操作的话，定位到segment，然后就是put的一系列操作。而jdk1.8话的话使用的是数组+链表+红黑树，存储的结构也变为了Node节点，每次锁都只锁一个Node，此时的并发度提升到了Node的数量个数。put’操作的话，定位Node位置，判断是否为空，是的话，利用cas方式填充节点，然后判断是否为-1，此时需要帮助其他线程转移。如果都不是，此时只能是树或者链表了，此时需要单独加锁保证线程安全。然后及时链表或者树的插入。结束返回被替换的节点，判断总数是否达到了树化的条件。最后数量+1，结束。</p>
+<p>这么做的原因都是为了提升并发度。</p>
+<h3 id="8-LinkedHashMap"><a href="#8-LinkedHashMap" class="headerlink" title="8. LinkedHashMap"></a>8. LinkedHashMap</h3><p>基于HashMap实现，但是在底层维护着双向链表以维持顺序。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 双向链表的头</span></span><br><span class="line"><span class="keyword">transient</span> LinkedHashMap.Entry&lt;K,V&gt; head;</span><br><span class="line"><span class="comment">// 双向链表的尾</span></span><br><span class="line"><span class="keyword">transient</span> LinkedHashMap.Entry&lt;K,V&gt; tail;</span><br><span class="line"><span class="comment">// 访问顺序，true:表示访问顺序;false:表示插入顺序</span></span><br><span class="line"><span class="keyword">final</span> <span class="keyword">boolean</span> accessOrder;</span><br></pre></td></tr></table></figure>
+
+<p>LRU算法的原型：当访问了这个元素以后，需要将当前元素移动到链表的尾部，保证尾部元素是最新访问的元素，而链表的头部是最近最久未使用的元素。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">afterNodeAccess</span><span class="params">(Node&lt;K,V&gt; e)</span> </span>&#123; <span class="comment">// move node to last</span></span><br><span class="line">  LinkedHashMap.Entry&lt;K,V&gt; last;</span><br><span class="line">  <span class="keyword">if</span> (accessOrder &amp;&amp; (last = tail) != e) &#123; <span class="comment">// 是访问&amp;不是链表尾部元素</span></span><br><span class="line">    LinkedHashMap.Entry&lt;K,V&gt; p = <span class="comment">// 定义p为e,b为p的前一个节点，a为p的后一个节点</span></span><br><span class="line">      (LinkedHashMap.Entry&lt;K,V&gt;)e, b = p.before, a = p.after;</span><br><span class="line">    p.after = <span class="keyword">null</span>; <span class="comment">// 因为最后p必定成为最后一个元素，所以p.after=null</span></span><br><span class="line">    <span class="keyword">if</span> (b == <span class="keyword">null</span>) <span class="comment">// 如果b为null的话，表示前面没有元素，此时head=a</span></span><br><span class="line">      head = a;</span><br><span class="line">    <span class="keyword">else</span> <span class="comment">// 如果前面有元素的话，此时b的下一个节点指向a</span></span><br><span class="line">      b.after = a;</span><br><span class="line">    <span class="keyword">if</span> (a != <span class="keyword">null</span>) <span class="comment">// 如果p不是最后一个元素</span></span><br><span class="line">      a.before = b; <span class="comment">// 则将a与b连起来</span></span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">      last = b; <span class="comment">// 将last放到b处</span></span><br><span class="line">    <span class="keyword">if</span> (last == <span class="keyword">null</span>) <span class="comment">// 如果last也为null的话，此时表明head就在p</span></span><br><span class="line">      head = p;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">      p.before = last; <span class="comment">// 如果last不为null的话此时p.before = last</span></span><br><span class="line">      last.after = p; <span class="comment">// last.after = p连接起来</span></span><br><span class="line">    &#125;</span><br><span class="line">    tail = p; <span class="comment">// 把尾节点tail指向p</span></span><br><span class="line">    ++modCount;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>如果是插入的话：</strong><font color="red">注意：<code>removeEldestEntry</code>方法可以继承之后重写，改为true，实现热点数据问题。</font></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">afterNodeInsertion</span><span class="params">(<span class="keyword">boolean</span> evict)</span> </span>&#123; <span class="comment">// possibly remove eldest</span></span><br><span class="line">  LinkedHashMap.Entry&lt;K,V&gt; first; <span class="comment">// 默认removeEldestEntry是false，不移除元素</span></span><br><span class="line">  <span class="keyword">if</span> (evict &amp;&amp; (first = head) != <span class="keyword">null</span> &amp;&amp; removeEldestEntry(first)) &#123;</span><br><span class="line">    K key = first.key;</span><br><span class="line">    removeNode(hash(key), key, <span class="keyword">null</span>, <span class="keyword">false</span>, <span class="keyword">true</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 但是这个方法可以用做固定大小的hashMap淘汰机制，重写，改为true即可，以此保证热点数据</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">boolean</span> <span class="title">removeEldestEntry</span><span class="params">(Map.Entry&lt;K,V&gt; eldest)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="9-WeakHashMap"><a href="#9-WeakHashMap" class="headerlink" title="9. WeakHashMap"></a>9. WeakHashMap</h3><p>可以看到WeakHashMap中的Entry继承了WeakReference，即弱引用，即下一次垃圾回收当前键值对就会被回收。</p>
+<p>作用：主要用来实现缓存，通过使用WeakHashMap来引用缓存对象，由JVM对这部分缓存进行回收。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Entry</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; <span class="keyword">extends</span> <span class="title">WeakReference</span>&lt;<span class="title">Object</span>&gt; <span class="keyword">implements</span> <span class="title">Map</span>.<span class="title">Entry</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; </span>&#123;</span><br><span class="line">       V value;</span><br><span class="line">       <span class="keyword">final</span> <span class="keyword">int</span> hash;</span><br><span class="line">       Entry&lt;K,V&gt; next;</span><br><span class="line"></span><br><span class="line">       <span class="comment">/**</span></span><br><span class="line"><span class="comment">        * Creates new entry.</span></span><br><span class="line"><span class="comment">        */</span></span><br><span class="line">       Entry(Object key, V value,</span><br><span class="line">             ReferenceQueue&lt;Object&gt; queue,</span><br><span class="line">             <span class="keyword">int</span> hash, Entry&lt;K,V&gt; next) &#123;</span><br><span class="line">           <span class="keyword">super</span>(key, queue);</span><br><span class="line">           <span class="keyword">this</span>.value = value;</span><br><span class="line">           <span class="keyword">this</span>.hash  = hash;</span><br><span class="line">           <span class="keyword">this</span>.next  = next;</span><br><span class="line">       &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Tomcat中的ConcurrentHashMaps的longterm区使用的就是WeakHashMap，但是注意这里的话获取的话现在eden中找，找不到去longterm中找寻，随后放入eden中。</p>
+<p>在放入数据的时候，这里需要注意，一旦eden中元素过多，此时采取的是将eden中所有的数据放入到longterm中等待回收，然后放入当前键值对。注意，这里对于缓存eden来说有个建立缓存的过程。</p>
+<p>可以使用SoftReference来，SoftReference的话，表示软引用，与WeakReference之间的区别是它的回收不是下一次GC，而是内存空间不够的时候才会被回收（有更充足的时间来让其建立缓存，不至于GC就从longterm中消失），相比于WeakReference来说的话，是具有绝对的优势的，减少了简历缓存的时间和消耗。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">ConcurrentCache</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> size;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Map&lt;K,V&gt; eden;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Map&lt;K,V&gt; longterm;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ConcurrentCache</span><span class="params">(<span class="keyword">int</span> size)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.size = size;</span><br><span class="line">        <span class="keyword">this</span>.eden = <span class="keyword">new</span> ConcurrentHashMap&lt;&gt;(size);<span class="comment">// 伊甸区不用担心被回收</span></span><br><span class="line">        <span class="keyword">this</span>.longterm = <span class="keyword">new</span> WeakHashMap&lt;&gt;(size);<span class="comment">// 只要垃圾回收就会被回收</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> V <span class="title">get</span><span class="params">(K k)</span> </span>&#123;</span><br><span class="line">        V v = <span class="keyword">this</span>.eden.get(k);</span><br><span class="line">        <span class="keyword">if</span> (v == <span class="keyword">null</span>) &#123; <span class="comment">// 如果eden中获取不到</span></span><br><span class="line">            <span class="keyword">synchronized</span> (longterm) &#123; <span class="comment">// 锁住，防止被回收</span></span><br><span class="line">                v = <span class="keyword">this</span>.longterm.get(k);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (v != <span class="keyword">null</span>) &#123; <span class="comment">// 获取到了的话，将其放入eden中，保证长期访问的对象不会被回收</span></span><br><span class="line">                <span class="keyword">this</span>.eden.put(k, v);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> v;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">put</span><span class="params">(K k, V v)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>.eden.size() &gt;= size) &#123;<span class="comment">// 如果eden中对象的个数超了</span></span><br><span class="line">            <span class="keyword">synchronized</span> (longterm) &#123; <span class="comment">// 此时将所有的eden中的对象放入到longterm，让其被回收一部分</span></span><br><span class="line">                <span class="keyword">this</span>.longterm.putAll(<span class="keyword">this</span>.eden);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">this</span>.eden.clear();<span class="comment">// 清空</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">this</span>.eden.put(k, v);<span class="comment">// 放入当前的键值</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="10-小结"><a href="#10-小结" class="headerlink" title="10. 小结"></a>10. 小结</h3><p>本次集合类复习，相比于前几次收获是大了不少，首先从整体来说，有List,Map,Set,Queue几种，代表的话ArrayList，LinkedList，HashMap，LinkHashMap，TreeMap，HashSet，LinkedHashSet，TreeSet，这里由于散列造就了Map和Set的无序性也是之前只知道无序而不知道原理的地方。随后就是并发操作的HashTable，由于并发太低，且所有方法都加锁资源消耗比较大，一般不用，一般使用ConcurrentHashMap，jdk1.7与jdk1.8之间的区别，底层实现的数据结构的区别，以及对于并发安全的list，Collections.synchronizedList可以实现并发线程安全，以及CopyOnWrite通过复制副本实现了并发安全，但是需要2倍的空间。最后就是LinkedHashMap中的LRU算法，面试也是经常考到，其中的移除元素操作，可以自定义实现热点数据。还有就是用作缓存的WeakHashMap其存活周期为下一次GC，适合用做缓存。</p>
+<blockquote>
+<p>Keep thinking，keep coding~继续加油</p>
+<p>2020年04月14日22:48:54 写于北京市</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Java%E9%9B%86%E5%90%88%E7%B1%BB-%E7%A7%8B%E6%8B%9B/" rel="tag"># Java集合类|秋招</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/04/14/%E5%BF%AB%E6%89%8B%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/" rel="prev" title="快手面试准备">
+      <i class="fa fa-chevron-left"></i> 快手面试准备
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/04/14/Java%E5%9F%BA%E7%A1%80%E5%A4%8D%E4%B9%A0/" rel="next" title="Java基础复习">
+      Java基础复习 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC80NTExNi8yMTYzMw=="></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#集合类-2020-04-12"><span class="nav-number">1.</span> <span class="nav-text">集合类(2020-04-12)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-整体介绍"><span class="nav-number">1.1.</span> <span class="nav-text">1. 整体介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-ArrayList"><span class="nav-number">1.2.</span> <span class="nav-text">2. ArrayList</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-Vector"><span class="nav-number">1.3.</span> <span class="nav-text">3. Vector</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-线程安全的List"><span class="nav-number">1.4.</span> <span class="nav-text">4. 线程安全的List</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-java-util-Collections-SynchronizedList"><span class="nav-number">1.4.1.</span> <span class="nav-text">4.1 java.util.Collections.SynchronizedList</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-java-util-concurrent-CopyOnWriteArrayList"><span class="nav-number">1.4.2.</span> <span class="nav-text">4.2 java.util.concurrent.CopyOnWriteArrayList</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-LinkedList"><span class="nav-number">1.5.</span> <span class="nav-text">5. LinkedList</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-HashMap"><span class="nav-number">1.6.</span> <span class="nav-text">6. HashMap</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#6-1-put操作"><span class="nav-number">1.6.1.</span> <span class="nav-text">6.1 put操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-3-resize扩容操作"><span class="nav-number">1.6.2.</span> <span class="nav-text">6.3 resize扩容操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-3-jdk1-7的resize扩容操作"><span class="nav-number">1.6.3.</span> <span class="nav-text">6.3 jdk1.7的resize扩容操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-4-remove操作"><span class="nav-number">1.6.4.</span> <span class="nav-text">6.4 remove操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-5-get操作"><span class="nav-number">1.6.5.</span> <span class="nav-text">6.5 get操作</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-ConcurrentHashMap"><span class="nav-number">1.7.</span> <span class="nav-text">7. ConcurrentHashMap</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#7-1-put操作"><span class="nav-number">1.7.1.</span> <span class="nav-text">7.1 put操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-2-get操作"><span class="nav-number">1.7.2.</span> <span class="nav-text">7.2 get操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-3-常见面试问题"><span class="nav-number">1.7.3.</span> <span class="nav-text">7.3 常见面试问题</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-LinkedHashMap"><span class="nav-number">1.8.</span> <span class="nav-text">8. LinkedHashMap</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-WeakHashMap"><span class="nav-number">1.9.</span> <span class="nav-text">9. WeakHashMap</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-小结"><span class="nav-number">1.10.</span> <span class="nav-text">10. 小结</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Cao Duanxi"
+      src="/images/1.jpg">
+  <p class="site-author-name" itemprop="name">Cao Duanxi</p>
+  <div class="site-description" itemprop="description">静心，摒弃表面的浮华，多思考内在的深度!</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">25</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Aaron-cdx" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Aaron-cdx" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://blog.csdn.net/cao1315020626" title="CSDN → https:&#x2F;&#x2F;blog.csdn.net&#x2F;cao1315020626" rel="noopener" target="_blank"><i class="fa fa-fw fa-csdn"></i>CSDN</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Cao Duanxi</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">180k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">2:43</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.7.0
+  </div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
