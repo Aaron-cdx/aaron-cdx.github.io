@@ -2689,253 +2689,14 @@
       </tags>
   </entry>
   <entry>
-    <title>Leetcode之数组</title>
-    <url>/2020/03/21/Leetcode%E4%B9%8B%E6%95%B0%E7%BB%84/</url>
-    <content><![CDATA[<p><strong>Leetcode 11 盛水最多的容器</strong></p>
-<p><img src="https://aliyun-lc-upload.oss-cn-hangzhou.aliyuncs.com/aliyun-lc-upload/uploads/2018/07/25/question_11.jpg" alt="img"></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> caoduanxi</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span> 2020/3/24 21:15</span></span><br><span class="line"><span class="comment"> * Leetcode 11 : 盛水最多的容器</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MaxWaterArea</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 时间复杂度：O(n)</span></span><br><span class="line"><span class="comment">     * 空间复杂度：O(1)</span></span><br><span class="line"><span class="comment">     * 思路：</span></span><br><span class="line"><span class="comment">     * 小值的后面遇到获取到更大的容量概率更大，每次移动最小的那个即可</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">maxArea</span><span class="params">(<span class="keyword">int</span>[] height)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 使用双指针</span></span><br><span class="line">        <span class="keyword">int</span> l = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> r = height.length - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span> res = -<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (l &lt; r) &#123;</span><br><span class="line">            <span class="keyword">int</span> width = r - l;</span><br><span class="line">            <span class="keyword">int</span> h = Math.min(height[l], height[r]);</span><br><span class="line">            res = Math.max(res, width * h);</span><br><span class="line">            <span class="comment">// 谁小谁往前走，越小越可能遇到面积大的</span></span><br><span class="line">            <span class="keyword">if</span> (height[l] &lt; height[r]) &#123;</span><br><span class="line">                l++;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                r--;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>Leetcode 15 三数之和</strong> :star:</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.duanxi.leetcode.array;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.*;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> caoduanxi</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span> 2020/3/24 21:26</span></span><br><span class="line"><span class="comment"> * Leetcode 15 : 三数之和</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreeSum</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 时间复杂度分析：排序算法时间复杂度O(nlogn) 遍历时间复杂度O(n^2)</span></span><br><span class="line"><span class="comment">     * 总的时间复杂度为O(nlogn)+O(n^2)=O(n^2)</span></span><br><span class="line"><span class="comment">     * 空间复杂度：O(1)</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * 思路：</span></span><br><span class="line"><span class="comment">     * 首先排序，使用一次遍历数组，遍历的时候注意去重操作。因为三数之和需要为0，当遍历的数大于0的时候，直接返回。</span></span><br><span class="line"><span class="comment">     * 随后使用双指针策略来从两边夹逼，获取到值，注意去除重复，使用while循环</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> List&lt;List&lt;Integer&gt;&gt; threeSum(<span class="keyword">int</span>[] nums) &#123;</span><br><span class="line">        <span class="comment">// res中不能出现重复,如何实现去重?</span></span><br><span class="line">        List&lt;List&lt;Integer&gt;&gt; res = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        Arrays.sort(nums);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.length - <span class="number">2</span>; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (nums[i] &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="comment">// 因为排序了，如果大于零在往右走找不到相加为0的</span></span><br><span class="line">                <span class="keyword">return</span> res;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (i &gt; <span class="number">0</span> &amp;&amp; nums[i - <span class="number">1</span>] == nums[i]) &#123;</span><br><span class="line">                <span class="keyword">continue</span>; <span class="comment">// 去重操作，防止重复的三元组</span></span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">int</span> l = i + <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">int</span> r = nums.length - <span class="number">1</span>;</span><br><span class="line">            <span class="comment">// 使用双指针夹逼</span></span><br><span class="line">            <span class="keyword">while</span> (l &lt; r) &#123;</span><br><span class="line">                <span class="keyword">int</span> sum = nums[l] + nums[r] + nums[i];</span><br><span class="line">                <span class="keyword">if</span> (sum &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                    <span class="keyword">while</span> (l &lt; r &amp;&amp; nums[r - <span class="number">1</span>] == nums[r]) &#123;</span><br><span class="line">                        r--;</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="comment">// 注意一定要先去重然后在走</span></span><br><span class="line">                    r--;</span><br><span class="line">                &#125; <span class="keyword">else</span> <span class="keyword">if</span> (sum &lt; <span class="number">0</span>) &#123;</span><br><span class="line">                    <span class="keyword">while</span> (l &lt; r &amp;&amp; nums[l + <span class="number">1</span>] == nums[l]) &#123;</span><br><span class="line">                        l++;</span><br><span class="line">                    &#125;</span><br><span class="line">                    l++;</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    res.add(Arrays.asList(nums[i], nums[l], nums[r]));</span><br><span class="line">                    <span class="comment">// 两个一起走，这样可以避免漏掉</span></span><br><span class="line">                    <span class="comment">// [-2,0,1,1,2] 如果不是一起走会漏电-2 1 1 因为到了0 2处此时需要同时前进。</span></span><br><span class="line">                    <span class="comment">// [-2,0,0,2,2] 此时注意重复的-2 0 2</span></span><br><span class="line">                    <span class="keyword">while</span> (l &lt; r &amp;&amp; nums[l + <span class="number">1</span>] == nums[l]) &#123;</span><br><span class="line">                        l++;</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">while</span> (l &lt; r &amp;&amp; nums[r - <span class="number">1</span>] == nums[r]) &#123;</span><br><span class="line">                        r--;</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="comment">// 先去除重复，然后依次向中间进一步</span></span><br><span class="line">                    l += <span class="number">1</span>;</span><br><span class="line">                    r -= <span class="number">1</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>*<em>Leetcode 31 下一个排列 *</em></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> caoduanxi</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span> 2020/3/25 22:36</span></span><br><span class="line"><span class="comment"> * Leetcode 31 : 下一个排列</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;</span></span><br><span class="line"><span class="comment"> * 实现获取下一个排列的函数，算法需要将给定数字序列重新排列成字典序中下一个更大的排列。</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;</span></span><br><span class="line"><span class="comment"> * 如果不存在下一个更大的排列，则将数字重新排列成最小的排列（即升序排列）。</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;</span></span><br><span class="line"><span class="comment"> * 必须原地修改，只允许使用额外常数空间。</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;</span></span><br><span class="line"><span class="comment"> * 以下是一些例子，输入位于左侧列，其相应输出位于右侧列。</span></span><br><span class="line"><span class="comment"> * 1,2,3 → 1,3,2</span></span><br><span class="line"><span class="comment"> * 3,2,1 → 1,2,3</span></span><br><span class="line"><span class="comment"> * 1,1,5 → 1,5,1</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;</span></span><br><span class="line"><span class="comment"> * 来源：力扣（LeetCode）</span></span><br><span class="line"><span class="comment"> * 链接：https://leetcode-cn.com/problems/next-permutation</span></span><br><span class="line"><span class="comment"> * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NextPermutation</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 时间复杂度O(n),最坏的情况需要进行两次扫描</span></span><br><span class="line">    <span class="comment">// 空间复杂度O(1)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">nextPermutation</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 原地修改</span></span><br><span class="line">        <span class="comment">// 如何判断是否是最大的排列</span></span><br><span class="line">        <span class="comment">// 1 2 3 =&gt; 1 3 2 =&gt;</span></span><br><span class="line">        <span class="keyword">int</span> l = nums.length - <span class="number">2</span>;</span><br><span class="line">        <span class="comment">// 一直向前走，注意等于的情况</span></span><br><span class="line">        <span class="keyword">while</span> (l &gt;= <span class="number">0</span> &amp;&amp; nums[l + <span class="number">1</span>] &lt;= nums[l]) &#123;</span><br><span class="line">            l--;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 如果没有全部逆序，此时需要从后往前找到第一个大于当前数的数，然后后面的数翻转即可</span></span><br><span class="line">        <span class="keyword">if</span> (l &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="comment">// 表示不是全都是逆序</span></span><br><span class="line">            <span class="keyword">int</span> j = nums.length - <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">while</span> (j &gt;= <span class="number">0</span> &amp;&amp; nums[j] &lt; nums[l]) &#123;</span><br><span class="line">                j--;</span><br><span class="line">            &#125;</span><br><span class="line">            swap(nums, j, l);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 如果是全部逆序，直接全部翻转，注意翻转是从l+1开始</span></span><br><span class="line">        reverse(nums, l + <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">reverse</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> start)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> l = start;</span><br><span class="line">        <span class="keyword">int</span> r = nums.length - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (l &lt; r) &#123;</span><br><span class="line">            swap(nums, l++, r--);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">swap</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> a, <span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> temp = nums[a];</span><br><span class="line">        nums[a] = nums[b];</span><br><span class="line">        nums[b] = temp;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>Leetcode 39 组合总和</strong>:star:</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> caoduanxi</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span> 2020/3/26 23:05</span></span><br><span class="line"><span class="comment"> * Leetcode 39 : 组合总和</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;</span></span><br><span class="line"><span class="comment"> * 数组数字多少个数组合可以组成这个目标数，输出list</span></span><br><span class="line"><span class="comment"> * 标准的回溯法，注意回溯需要剪枝</span></span><br><span class="line"><span class="comment"> * 时间复杂度：O(2^n)</span></span><br><span class="line"><span class="comment"> * 空间复杂度：O(1)</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CombinationSum</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> List&lt;List&lt;Integer&gt;&gt; combinationSum(<span class="keyword">int</span>[] candidates, <span class="keyword">int</span> target) &#123;</span><br><span class="line">        List&lt;List&lt;Integer&gt;&gt; res = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        Arrays.sort(candidates);</span><br><span class="line">        <span class="keyword">if</span> (candidates.length &lt; <span class="number">1</span>) <span class="keyword">return</span> res;</span><br><span class="line">        <span class="comment">// 有一个开始的起点</span></span><br><span class="line">        combine(candidates, target, res, <span class="number">0</span>, <span class="keyword">new</span> ArrayList&lt;&gt;());</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">combine</span><span class="params">(<span class="keyword">int</span>[] candidates, <span class="keyword">int</span> target, List&lt;List&lt;Integer&gt;&gt; res, <span class="keyword">int</span> start, List&lt;Integer&gt; list)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (start &lt; <span class="number">0</span>) <span class="keyword">return</span>; <span class="comment">// 如果回溯到小于0</span></span><br><span class="line">        <span class="keyword">if</span> (target == <span class="number">0</span>) &#123;</span><br><span class="line">            res.add(<span class="keyword">new</span> ArrayList&lt;&gt;(list));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// break是直接终止当前for循环</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = start; i &lt; candidates.length; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span>(target - candidates[i] &lt; <span class="number">0</span>) <span class="keyword">break</span>;</span><br><span class="line">            list.add(candidates[i]);</span><br><span class="line">            <span class="comment">// 对于当前的i来说target需要变为那么大</span></span><br><span class="line">            combine(candidates,target-candidates[i],res,i,list);</span><br><span class="line">            <span class="comment">// 需要回退一个</span></span><br><span class="line">            list.remove(list.size()-<span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-]]></content>
+    <title>Leetcode之栈</title>
+    <url>/2020/03/21/Leetcode%E4%B9%8B%E6%A0%88/</url>
+    <content><![CDATA[]]></content>
       <categories>
         <category>算法</category>
       </categories>
       <tags>
         <tag>算法</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>面试常见算法题</title>
-    <url>/2020/03/21/%E9%9D%A2%E8%AF%95%E5%B8%B8%E8%A7%81%E7%AE%97%E6%B3%95%E9%A2%98/</url>
-    <content><![CDATA[<p><strong>1. 最长公共子序列(Leetcode 1143)</strong></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> caoduanxi</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span> 2020/3/23 22:10</span></span><br><span class="line"><span class="comment"> * 最长公共子序列</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;</span></span><br><span class="line"><span class="comment"> * 找出两个字符串的最长公共子序列长度</span></span><br><span class="line"><span class="comment"> * "abcde" "ace" 3</span></span><br><span class="line"><span class="comment"> * "bcde"  "de" 2 </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LongestCommonSubsequence</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 如果第一个都不相等怎么解决这个问题？</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">longestCommonSubsequence</span><span class="params">(String text1, String text2)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (text1.length() == <span class="number">0</span> || text2.length() == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> len1 = text1.length() + <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span> len2 = text2.length() + <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span>[][] dp = <span class="keyword">new</span> <span class="keyword">int</span>[len1][len2];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; len1; i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt; len2; j++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (text1.charAt(i-<span class="number">1</span>) == text2.charAt(j-<span class="number">1</span>)) &#123;</span><br><span class="line">                    <span class="comment">// 如果相等的话,即1的前i-1与2的前j-1的基础上加1</span></span><br><span class="line">                    dp[i][j] = dp[i-<span class="number">1</span>][j-<span class="number">1</span>]+<span class="number">1</span>;</span><br><span class="line">                &#125;<span class="keyword">else</span>&#123; <span class="comment">// 如果不能的话就看1的前i个与2的前j-1个，与1的前i-1个与2的前j个之间的大小情况</span></span><br><span class="line">                    dp[i][j] = Math.max(dp[i][j - <span class="number">1</span>], dp[i - <span class="number">1</span>][j]);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[text1.length()][text2.length()];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        LongestCommonSubsequence test = <span class="keyword">new</span> LongestCommonSubsequence();</span><br><span class="line">        <span class="keyword">int</span> i = test.longestCommonSubsequence(<span class="string">"abcde"</span>, <span class="string">"ace"</span>);</span><br><span class="line">        System.out.println(i);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>2. 硬币组合问题（Leetcode面试题）</strong></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> caoduanxi</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span> 2020/3/23 21:49</span></span><br><span class="line"><span class="comment"> * 换硬币问题，典型的背包问题</span></span><br><span class="line"><span class="comment"> * dp[i][j] 表示第i个物品是j空间的总数</span></span><br><span class="line"><span class="comment"> * dp[i][j] 一方面等于没有取第i个物品，此时背包空间j</span></span><br><span class="line"><span class="comment"> * 另一方面的等于去了第i个物品，此时背包空间为j-coins[i]</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WaysToChange</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">waysToChange</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span>[][] dp = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">4</span>][n + <span class="number">1</span>];</span><br><span class="line">        <span class="keyword">int</span>[] coins = <span class="keyword">new</span> <span class="keyword">int</span>[]&#123;<span class="number">1</span>, <span class="number">5</span>, <span class="number">10</span>, <span class="number">25</span>&#125;;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">4</span>; i++) &#123;</span><br><span class="line">            dp[i][<span class="number">0</span>] = <span class="number">1</span>; <span class="comment">// 第一列</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;= n; i++) &#123;</span><br><span class="line">            dp[<span class="number">0</span>][i] = <span class="number">1</span>; <span class="comment">// 第一行</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 从第一个硬币值开始</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; <span class="number">4</span>; i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= n; j++) &#123; <span class="comment">// 空间为n</span></span><br><span class="line">                <span class="comment">// 前提是硬币需要大于当前适配的硬币值</span></span><br><span class="line">                <span class="keyword">if</span> (j &gt;= coins[i]) &#123;</span><br><span class="line">                    dp[i][j] = (dp[i - <span class="number">1</span>][j] + dp[i][j - coins[i]]) % <span class="number">1000000007</span>;</span><br><span class="line">                &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                    <span class="comment">// 如果当前硬币值不大于适配的硬币面值，则只能顺应上一级的</span></span><br><span class="line">                    dp[i][j] = dp[i-<span class="number">1</span>][j]; <span class="comment">// 放不下，价值没法增加</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[<span class="number">3</span>][n];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>3. 零钱兑换(Leetcode 322)</strong></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 可选的面额，一定的钱，用最少的硬币个数凑成面额值</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">coinChange</span><span class="params">(<span class="keyword">int</span>[] coins, <span class="keyword">int</span> amount)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(amount == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> dp[] = <span class="keyword">new</span> <span class="keyword">int</span>[amount+<span class="number">1</span>];</span><br><span class="line">        Arrays.fill(dp,amount+<span class="number">1</span>);</span><br><span class="line">        dp[<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= amount; i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> coin : coins) &#123;</span><br><span class="line">                <span class="keyword">if</span>(coin &gt; i)&#123;</span><br><span class="line">                    <span class="keyword">continue</span>;<span class="comment">// 背包装不下，直接下一个</span></span><br><span class="line">                &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                    <span class="comment">// 否则的话，判断背包装了这个硬币+1，之后与之前的大小，取最小的</span></span><br><span class="line">                    dp[i] = Math.min(dp[i],<span class="number">1</span>+dp[i-coin]);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[amount] &gt; amount ? -<span class="number">1</span> : dp[amount];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>算法</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>备战面试基础知识-2</title>
-    <url>/2020/03/21/%E5%A4%87%E6%88%98%E6%BB%B4%E6%BB%B4%E9%9D%A2%E8%AF%95/</url>
-    <content><![CDATA[<h2 id="备战滴滴面试"><a href="#备战滴滴面试" class="headerlink" title="备战滴滴面试"></a>备战滴滴面试</h2><h3 id="———————————–第一部分———————————–"><a href="#———————————–第一部分———————————–" class="headerlink" title="———————————–第一部分———————————–"></a>———————————–第一部分———————————–</h3><p><strong>1.set map list</strong></p>
-<p>常见的HashSet HashMap ArrayList</p>
-<p>一般是HashMap和LinkedHashMap，然后就是HashSet的实现。以及ArrayList与LinkedList之间的区别。</p>
-<p><strong>2.TreeSet和HashSet对比之间的区别？</strong></p>
-<p>一个有序一个无序</p>
-<p><strong>3.HashMap和ConcurrentHashMap的区别？</strong></p>
-<p>HashMap底层是基于数组+链表+红黑树实现的，ConcurrentHashMap的底层是Node+链表+红黑树来实现的，且并发安全的实现是依赖synchronized+CAS来实现的。</p>
-<p><strong>4.线程池的参数有哪些？</strong></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">ThreadPoolExecutor</span><span class="params">(<span class="keyword">int</span> corePoolSize, <span class="keyword">int</span> maximumPoolSize,<span class="keyword">long</span> keepAliveTime,       TimeUnit unit,BlockingQueue&lt;Runnable&gt; workQueue)</span></span></span><br></pre></td></tr></table></figure>
-
-<p>corePoolSize核心线程个数，最大的线程个数，线程池中线程存活时间，时间的单位，阻塞队列</p>
-<p><strong>5.线程池的拒绝策略？</strong></p>
-<p>如果超出了线程池的数量限制大小，此时需要使用到线程池的拒绝策略。被拒绝的理由可能是由于：1.线程池异常关闭，2. 任务数量超过线程池的最大限制</p>
-<p>其中在ThrealPoolExecutor构建线程池的时候，底层会调用ThreadPoolExecutor来构建线程池。其中有线程策略handler：</p>
-<p>默认的拒绝策略为AbortPolicy</p>
-<ul>
-<li>AbortPolicy：任务到线程池中被拒绝时，将会抛出RejectedExecutionException异常</li>
-<li>DiscardPolicy：拒绝任务的处理程序，静默丢弃被拒绝的任务。</li>
-<li>DiscardOldestPolicy：线程池会放弃等待最久的未处理任务，然后将被拒绝的任务添加到等待队列中</li>
-<li>CallerRunsPolicy：在线程池当前正在运行的Thread线程池中处理被拒绝的任务</li>
-</ul>
-<p><strong>5.SynchronizedBlockQueue中到底可以存几个？</strong></p>
-<p>存一个，他是一个缓存值为1的阻塞队列，但是IsEmpty()方法永远返回true。remove方法返回false，iterator方法永远返回空，peek方法永远返回null</p>
-<p><strong>6.锁用过吗？常见的有哪些锁？</strong></p>
-<p>用过，乐观锁，悲观锁，synchronized, reentrantLock, 偏向锁，轻量级锁，自旋锁。重量级锁</p>
-<p><strong>7.锁的方法：tryLock，lock, lockInterruptily()</strong></p>
-<p>lock的方法不能被外部打断，但是lockInterruptily可以，但是会抛出异常</p>
-<p><strong>8.lock和tryLock的区别？</strong></p>
-<p>一个是直接锁，一个是尝试获取锁。区别就是直接锁也会去做判断，看看自己是否能获取锁，尝试锁的话就要去判断当前的线程的状态值，看看是否锁被占用或者有可重入锁的机会，如果都没有的话，返回false</p>
-<p><strong>10.公平锁与非公平锁的实现有什么区别？</strong></p>
-<p>公平锁的话就是直接获取锁，出现了在尝试获取锁的时候如果当前对象没有被上锁，需要先判断队列中自己前面是否有线程，保证按照顺序来。</p>
-<p>非公平锁的话，就是在调用lock方法的时候如果没有人上锁，就直接上锁了，不然的话就要去tryAcquire获取锁，这个大家都是争抢锁资源。</p>
-<p><strong>11.类加载的机制是怎么样的？</strong></p>
-<p>类加载过程：加载—连接（验证、准备、解析）—初始化—使用—卸载</p>
-<p><strong>12.tomcat的加载过程？</strong></p>
-<p>getServer–getConnector–Server.start–startService–启动Engine–启动host–启动context–启动connector–EndPoint启动</p>
-<p><strong>13.Spring的生命周期？Spring的源代码一定要看啊！！！**</strong></p>
-<p>Bean的生命周期：创建（调用构造函数）—set方法注入属性–BeanNameAware–BeanFactoryAware–ApplicationContextAware–BeanPostProcessor的before方法–InitializingBean—自定义init方法–BeanPostProcessord的after方法–使用–容器的销毁–DisposableBean的destory–自定义销毁方法。</p>
-<p><strong>14.AOP</strong></p>
-<p>Spring的AOP是面向切面编程，可以通过切面向类或者方法中插入日志，通知等方法。可以通过BaseSchema实现以及AspectJ或者其注解来实现，主要是通过动态代理技术来实现的，动态代理分为JDK动态代理，能够代理实现了其接口的类。还有就是cglib代理，通过字节码构造这个类的一个实例对象进行代理。静态代理和动态代理的区别，静态代理只能代理实现了其接口的一个类，且静态代理在代理之前就知道了代理对象，而动态代理是在运行过程中才知道代理的对象。{jdk动态代理的实现主要是实现了InnovationHandler接口，重写其中的invoke方法来调用。而CGLIB动态代理的话是通过实现接口MethodInterceptor重写intercept方法来实现代理，其中是通过字节码来动态的构建代理对象的子类重写其方法来实现的}</p>
-<p><strong>15.ASM怎么实现AOP？</strong></p>
-<p>ASM是一个Java字节码操纵框架，能够被用来动态生成类或者增强其持有类的功能。ASM可以直接产生二进制class文件，也可以在类被加载进Java虚拟机之前就动态改变类的行为，Java class被存储在严格格式定义的.class文件中，这些类文件拥有足够的源数据来解析出类中所有元素：类名称、方法、属性以及Java字节码。ASM从类文件中读入信息后，能够改变类行为，分析类信息，甚至能够根据用户要求生成新类。</p>
-<p><strong>16.MyBatis的插件？</strong></p>
-<p>pageHelper，但是一般用的都是MyBatisPlus</p>
-<p><strong>17.项目：自己在自己的项目中干了什么？从项目中学习到了什么？复盘自己的项目</strong></p>
-<p>首先是在工作中，暑期实习的地方是做电商的B2b，记忆深一点的就是当时做的活动模块，大致的环境配置就是使用SpringBoot来搭建开发的，主要有使用到的的技术有spring,springmvc,redis,mybatis,mysql,等等，使用postman作为测试组件来测试代码的功能完整性。对于在测试环境下的出现的代码错误，会通过linux查看具体错误的心底，定位到具体的错误代码。</p>
-<p>在项目java高并发秒杀系统中，主要使用的SSM搭建的环境开发框架，其中使用到了redis做后端的缓存，因为项目不是太大，在慕课网上看的，所以用到的技术不是很多，这个项目分成三个部分，前端模块，后端模块，数据库模块，在这之中的话，因为是高并发项目，所以前端的优化是使用 CDN内容分发网络（Content Delivery Network）将前端的静态资源存储减少并发，同时对于用户多点对于后台造成的并发，使用前端点击之后按钮变灰，对于用户多次刷新页面的可以采用拦截，限制某个账户访问的次数。同时还可以使用中间件例如消息队列，来将高峰时期的请求都存入消息队列中，后端根据自己的处理能力从消息队列中获取请求然后处理。数据库层面的话，如果都直接访问mysql数据库的话，数据库可能会崩掉，可以采用redis对数据库中的部分数据做一个缓存，这样的话可以适当减小数据库的压力，或者使用redis来保存数据库中的数据，在redis中进行相应的数据操作，最后将redis中的数据同步至mysql数据库中即可。</p>
-<p><strong>18.数据库中的隔离级别有什么用？</strong></p>
-<p>解决数据库<strong>并发</strong>操作中可能出现的脏读，幻读等问题</p>
-<p><strong>19.隔离级别什么时候起作用呢？</strong></p>
-<p>事务对数据库中的数据进行操作的时候起作用</p>
-<hr>
-<h3 id="———————————–第二部分———————————–"><a href="#———————————–第二部分———————————–" class="headerlink" title="———————————–第二部分———————————–"></a>———————————–第二部分———————————–</h3><p><strong>1.数据库的索引类型？</strong></p>
-<p>唯一索引，聚簇索引，非聚簇索引</p>
-<p><strong>2.聚簇索引和非聚簇索引的区别？</strong></p>
-<p>在实现上面，都是使用的B+数实现的，但是实现的方式却不同，聚簇索引的话是节点中存储数据索引（键和指针），所有的数据都存储在叶子节点中，比如说一张数据表吧，聚簇索引主索引使用的是主键Row，辅助索引使用的是key+PK cols，也就是找到了当前的辅助索引之后还需要再根据主键来查找，需要查找两次。叶子节点之间通过构成单向链表，适合范围查询</p>
-<p>非聚簇索引的话，是每个节点都存储数据索引与数据，主索引使用的是pkcols + rowNumber，辅助索引使用的是key+rowNumber，也就是只需要查一遍。无论是主索引还是从索引，都可以直接定位到数据。</p>
-<p><strong>3.二叉树和B+树的区别？</strong></p>
-<ul>
-<li>B+树所有的数据都是存储在叶子节点上，每次的查找时间稳定</li>
-<li>叶子节点都有指向下一个节点的指针，范围查找比较方便</li>
-</ul>
-<p><strong>4.如果说二叉树的数据都存储在叶子节点上呢？</strong></p>
-<p>会线性化成链表</p>
-<p><strong>5.平衡二叉树呢？</strong></p>
-<p>B+数可以减少磁盘IO次数，如何减少IO次数呢。通过减少构造的树的高度来，B树的高度比平衡二叉树的高度要低，本来是效率更快，但是由于B树对于每一个节点需要比较多次，所以一般来说B树的效率和平衡二叉树是差不多的！</p>
-<p>且B树相对于B+树而言，B+树的效率更高磁盘IO更少，因为B+数的data中不存储数据，所以可以存放更多的key，查找肯定更快。一个索引节点只需要一次IO即可</p>
-<p><strong>6.磁盘中的文件都是使用B+树格式存储的吗？</strong></p>
-<p><strong>7.磁盘怎么存储这些数据？</strong></p>
-<p><strong>8.了解哪些文件格式？</strong></p>
-<p><strong>9.linux操作系统了解吗？</strong></p>
-<p><strong>了解，了解一些它常用的命令。</strong></p>
-<p><strong>10.相关的命令用过哪些？</strong></p>
-<p>ps -ef/grep/cat/find/netstat -tunpl/-a（表示列出当前网络所有的连接）/vim/tail -f查看日志/tar zxvf 解压缩</p>
-<p><strong>11.linux根目录下有哪些文件夹</strong></p>
-<p>/etc/bin/var/usr/home/opt/proc/sbin/root</p>
-<p><strong>12.手撕翻转二叉树</strong></p>
-<p><strong>13.最小路径和</strong></p>
-<h3 id="———————————–第三部分———————————–"><a href="#———————————–第三部分———————————–" class="headerlink" title="———————————–第三部分———————————–"></a>———————————–第三部分———————————–</h3><p><strong>1.开源项目了解哪些？</strong></p>
-<p>SpringBoot，SpringCloud</p>
-<p>2.SpringBoot如何加载源码？</p>
-<p>==<strong>待补充</strong>==</p>
-<p><strong>3.源码是如何深入学习的？</strong></p>
-<p>一般是通过看博客，自己跟着看源码。</p>
-<p><strong>4.Spring的启动过程如何了解？</strong></p>
-<p>通过Debug的方式来看在启动中都执行了哪些操作</p>
-<p><strong>5.tomcat启动的流程，需要加载哪些资源？</strong></p>
-<p>getServer–getConnector–Server.start–startService–启动Engine–启动host–启动context–启动connector–EndPoint启动，需要加载服务器资源，连接器资源，host资源，上下文资源，加载web.xml中设置的监听器，过滤器，servlet</p>
-<p><strong>6.项目中的收获？</strong></p>
-<p><strong>7.负责项目中的哪些点，技术方向的？</strong></p>
-<p><strong>8.为什么使用MVC架构？</strong></p>
-<p>主要是因为MVC的优点，具有低耦合性，高重用性以及可适用性。拥有较低的生命周期成本，快速的部署，好维护，有利于软件工程化管理。</p>
-<p><strong>9.项目中的事务如何实现？</strong></p>
-<p>通过加@Transactional注解来实现。</p>
-<p><strong>10.事务注解底层是怎么实现的？以及为什么加了这个注解可以实现事务？</strong></p>
-<p><strong>源码…..待补充!</strong></p>
-<p><strong>11.这个事务和数据库事务的区别？</strong></p>
-<p>本质上是一样的，Spring的事务就是对数据库事务的封装，最后本质的实现还是在数据库中实现的，假如数据库不支持事务的话，Spring中的事务是没有任何作用的。数据库的事务简单来说就是开启，回滚和关闭，Spring对数据库事务的包装，原理就是拿一个连接，根据Spring的事务配置，操作这个数据连接对数据库进行事务开启，回滚或者关闭操作。但是Spring除了实现这些功能之外，还配合Spring的传播行为对事务进行了广泛的管理，事务中涉及的隔离级别，以及Spring如何对数据库的隔离级别进行封装，事务与隔离级别放在一起会好理解一点。</p>
-<p><strong>12.mybatis你用的是什么数据库连接池c3p0？</strong></p>
-<p><strong>13.你还知道其他的数据库连接池吗？</strong></p>
-<p>DBCP：依赖Jakarta commons-pool对象池机制的数据库连接池，DBCP可以直接在应用程序中使用，Tomcat中的数据源就是使用的DBCP</p>
-<p>c3p0：是一个开源的JDBC连接池，它在lib目录下和Hibernate一起发布，包括实现jdbc3和jdbc2扩展规范说明的Connnection和Statement池的Datasources对象</p>
-<p>Durid：阿里出品，淘宝和支付宝专用数据库连接池。Druid的功能十分强大。</p>
-<p><strong>14.数据库连接池的功能有哪些？</strong></p>
-<ul>
-<li>资源重用</li>
-<li>更快的系统响应速度</li>
-<li>新的资源分配手段</li>
-<li>统一的连接管理</li>
-<li>避免数据库连接池泄露</li>
-</ul>
-<p><strong>15.JUC看过哪些，说下AQS实现的机制？</strong></p>
-<p>看过Atomic，AQS下的一些类，AQS实现机制。他主要是同步器和锁机制的构建框架。使用AQS能简单高效地构造出应用广泛的大量的同步器。ReentrantLock，Semaphore都是基于AQS。</p>
-<p>AQS核心的思想就是，如果被请求的共享资源空闲，则将当前请求资源的线程设置为有效的工作县策划稿，并且将共享资源设置为锁定状态。如果被请求的共享资源被占用，就需要一套线程阻塞等待以及被唤醒时锁分配的机制，这个机制AQS使用CLH队列锁来实现的，即将暂时获取不到锁的线程加入队列中。</p>
-<p><strong>16.公平锁与非公平锁的区别？</strong></p>
-<p>这个就是一个是按照顺序的，一个不是按照顺序的，这个在尝试获取锁的代码是不同的，公平锁，会先查询队列中是否前面还有节点，而非公平锁不查直接过去锁。</p>
-<p><strong>17.lock如何分配线程锁？</strong></p>
-<p>看情况而定！没有人占有锁自己就获取锁，如果有人占有锁，看看是不是自己，是的话就重入，如果不是就返回false，获取锁失败。</p>
-<p><strong>18.队列呢？了解哪些？</strong></p>
-<ul>
-<li>ConcurrentLinkedQueue：基础链表同步队列。</li>
-<li>LinkedBlockingQueue：阻塞队列，队列容量不足自动阻塞，队列容量为0时自动阻塞</li>
-<li>ArrayBlockingQueue：底层数组实现的有界队列，自动阻塞，根据API（add/put/offer）不同，有不同特定，当容量不足的时候，有阻塞能力，add方法在容量不足的时候，能够抛出异常。put方法在容量不足的时候，阻塞等待。offer方法，单参数offer方法不阻塞，容量不足的时候，返回false，当前新增数据操作放弃。三参数offer方法（offer(value,times,timeunit)），容量不足的时候，阻塞times时长，如果在阻塞时长内，有容量空闲，新增数据返回true，如果阻塞时长范围内，无容量空闲，放弃新增数据，返回false。</li>
-<li>DelayQueue：延时队列，根据比较机制，实现自定义处理顺序的队列，常用于定时任务。如定时关机，对于缓存超时的数据进行删除，任务超时处理，空闲连接的关闭</li>
-<li>LinkedTransferQueue：转移队列，使用transfer方法，实现数据的即时处理。没有消费者就阻塞。</li>
-<li>SynchronusQueue：同步队列，是一个容量为0的队列。是一个特殊的TransferQueue。必须现有消费线程等待才可以使用。add方法，无阻塞，若没有消费线程阻塞等待数据，则抛出异常。put方法，有阻塞，若没有消费线程阻塞等待数据，则阻塞。（游戏匹配）</li>
-</ul>
-<p><strong>19.添加的方法都有哪些？具体讲讲？</strong></p>
-<p>add offer put方法</p>
-<p><strong>20.各个队列的使用场景：</strong></p>
-<p><strong>这一块的东西要实践！</strong></p>
-<p><strong>21.JVM看过什么？JVM的常用命令？</strong></p>
-<p><font color="red">JVM看过深入理解java虚拟机。常用命令。jstat？如果看一个线程内存回收情况，如何看？</font></p>
-<p><strong>22.JVM的类加载解析？如何解析到字节码？</strong></p>
-<p><strong>待补充</strong></p>
-<p><strong>23.如何验证jdk版本的冲突？jdk.1.6-&gt;1.7</strong></p>
-<p><strong>24.类加载器的初始化如何去做？</strong></p>
-<p><strong>25.实际运用中的classLoader都有哪些了解？</strong></p>
-<p><strong>26.如何实现动态加载，需要使用哪些方法？继承classLoader类，重写findClass方法，调用defineClass方法</strong></p>
-<p><strong>27.如何获取当前类的classLoader？</strong></p>
-<p><strong>使用getClassLoader方法</strong></p>
-<p><strong>28.如何保持建立多个ClassLoader</strong></p>
-<p><strong>29.为什么类加载器加载出来的类不一样？</strong></p>
-<p>因为每个加载器都有自己的隔离机制</p>
-<p><strong>30.jvm的内存模型？</strong></p>
-<p>程序计数器，虚拟机栈，本地方法栈，堆，方法区，常量池</p>
-<p><strong>31.多线程如何实现主存同步的？</strong></p>
-<p>synchronized关键字或者使用锁lock</p>
-<p><strong>32.linux通过什么命令去使其他工作内存无效呢？</strong></p>
-<p><strong>待补充，没听过的知识点</strong></p>
-<p><strong>33.java如何是实现缓存一致性？</strong></p>
-<p>volatile，synchronized，lock，wait/notify</p>
-<p><strong>34.jvm的锁优化有哪些？</strong></p>
-<p>synchronized互斥的重量级锁。（作用：确保线程互斥的访问代码，保证共享变量的修改能够及时可见，可以阻止jvm的指令重排）锁优化的话，采用了锁粗化，锁消除，适应性自旋。不存在多线程竞争，默认是偏向锁。轻量级锁，过渡锁，一般是偏向锁不满足，有多线程并发访问锁定同一个对象的时候，先提升为轻量级锁。只有两个线程争抢锁标记记录的时候，优先使用轻量级锁。适应性自旋，在轻量级锁获取失败的时候，为了避免线程在真实的系统层面被挂起，还会进行一项为自旋锁的优化手段。</p>
-<p>锁粗化：一般在使用锁的时候，需要让同步的作用范围尽可能的小，仅在共享数据的操作中才进行。这样做的目的，是为了让同步操作的数量尽可能的小，如果出现锁的竞争，也能尽快的获取锁。但是如果遇到已连续的lock和unlock的操作，会导致性能的不必要损耗。<strong>锁粗化就是将连续的同步操作连在一起，粗化为一个范围更大的锁。</strong>锁消除：所消除是jvm进行的另外一项锁优化，该优化更加的彻底。jvm在进行<em>JIT</em>编译(just-in-time compilation)的时候，通过对上下文的扫描，<strong>JVM检测到不可能存在共享数据的晶振，如果这些资源有锁，就会消除这些资源的锁。可以节省毫无意义的锁请求时间</strong>。锁消除的依据，是逃逸分析的数据支持。</p>
-<p><strong>35.网络编程了解多少？TCP、UDP，如何创建网络之间的通信？</strong></p>
-<p>udp直接就是创建数据报的DatagramSocket通信即可。传输也是使用DatagramPacket来接收</p>
-<p>tcp的话需要使用同一个接口来是的数据的传递是可靠的，服务器端使用的是阻塞式的接收客户端的连接。连接之后获取客户端的发送的数据流，将流读出来即可。</p>
-<p><strong>36.java的IO了解吗？他们有什么区别？</strong></p>
-<p>javaIo主要分为InputStream、OutputStream和Reader、Writer。他们的区别是Stream结尾的都是用来读取字节流，Reader结尾的都是用来读取字符流。</p>
-<p><strong>37.BIO、NIO、AIO响应的类了解吗？</strong></p>
-<p>BiO：Blocking IO 同步阻塞IO，服务器实现模式为一个连接一个线程，即客户端有连接请求时，服务器端就需要启动一个线程进行处理，如果这个连接不做任何事情会造成不必要的线程开销，当然可以通过线程池机制改善</p>
-<p>NIO：UNblocking IO 同步非阻塞编程，服务器实现模式为一个请求一个通道，即客户端发送的连接请求都不能会被注册到多路复用器上面，多路复用器轮询到连接有IO请求时才启动一个下线程进行处理。</p>
-<p>AIO：Asychronous IO：异步非阻塞IO，可以理解为read/write方法都是异步的，完成后会主动调用回调函数。服务器实现模式为一个有效请求一个线程，客户端的IO请求都是由OS先完成了再通知服务器应用去启动线程进行处理。</p>
-<p><strong>38.shell命令</strong></p>
-<p>ls ll  cd pwd mkdir rmdir  cp mv rm du df cat echo head tail wc grep man logout </p>
-<p><strong>39.进程的通信方式？</strong></p>
-<p>管道、信号量、消息队列、套接字socket</p>
-<p><strong>40.Linux的调度方式？</strong></p>
-<p>调度机制分为抢占式内核和非抢占式内核。</p>
-<p><strong>41.linux的缓存有几级？</strong></p>
-<p><strong>待补充</strong></p>
-<p><strong>42.jdbc连接mysql的几个步骤，以及如何读取数据，如何实现statement？</strong></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConnectedMySQLTest</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> String driverClassName = <span class="string">"com.mysql.cj.jdbc.Driver"</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> String url = <span class="string">"jdbc:mysql://localhost:3306/407?serverTimezone=UTC&amp;useUnicode=true&amp;characterEncoding=utf8&amp;useSSL=false"</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> String user = <span class="string">"root"</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> String password = <span class="string">"cao236476"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Class&lt;?&gt; className = Class.forName(driverClassName);<span class="comment">// 加载mysql的驱动</span></span><br><span class="line">            Connection connection = DriverManager.getConnection(url, user, password);</span><br><span class="line"></span><br><span class="line"><span class="comment">//            Statement statement = connection.createStatement(); // 这个是先产生statement，然后载入sql语句</span></span><br><span class="line">            String sql = <span class="string">"select * from test_user"</span>;</span><br><span class="line">            PreparedStatement statement = connection.prepareStatement(sql);<span class="comment">// 这个必须和sql语句同时载入</span></span><br><span class="line"></span><br><span class="line">            ResultSet resultSet = statement.executeQuery(sql);</span><br><span class="line">            List&lt;User&gt; lists = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">            <span class="keyword">while</span> (resultSet.next()) &#123;</span><br><span class="line">                lists.add(<span class="keyword">new</span> User(resultSet.getInt(<span class="string">"id"</span>),</span><br><span class="line">                        resultSet.getString(<span class="string">"name"</span>),</span><br><span class="line">                        resultSet.getInt(<span class="string">"age"</span>)));</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">for</span> (User list : lists) &#123;</span><br><span class="line">                System.out.println(list);</span><br><span class="line">            &#125;</span><br><span class="line">            resultSet.close();</span><br><span class="line">            statement.close();</span><br><span class="line">            connection.close();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (SQLException | ClassNotFoundException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="———————————–第四部分———————————–"><a href="#———————————–第四部分———————————–" class="headerlink" title="———————————–第四部分———————————–"></a>———————————–第四部分———————————–</h3><p><strong>1.字节流和字符流的区别</strong></p>
-<p>字节流读取单个字节，字符流读取单个字符。字节流来处理二进制文件（图片，MP3，视频文件），字符流用来处理文本文件（可以看做是特殊的二进制文件，使用了某种编码，人可以阅读）。字节是给计算机看的，字符是给人看的。</p>
-<p><strong>2.死锁的四个条件</strong></p>
-<ol>
-<li>互斥条件：一个资源每次只能被一个进程使用</li>
-<li>请求和保持条件：一个进程因为请求资源而被阻塞时，对已获得的资源保持不放</li>
-<li>不剥夺条件：进程已经获得的资源在没有释放之前，不能强行剥夺。</li>
-<li>循环等待条件：若干进程之间形成了一种头尾相连的循环等待资源关系。</li>
-</ol>
-<p>解除死锁的方法：</p>
-<ol>
-<li>剥夺资源：从其他进程剥夺足够数量的资源给死锁线程，以解除死锁状态</li>
-<li>撤销进程：可以直接撤销死锁进程或者撤销代价最小的进程，直至有足够的资源可用</li>
-</ol>
-<p>3.给1G的数据，内存限制为100M，怎么排序？</p>
-<p>首先不能选择内存排序，需要选择外存排序，使用多路归并的思路，把数据分为N部分，每部分100M，在使用内存来排序，将排序结果使用外存记录，然后每次从外存冲取记录，在内存中进行比较，从而获取排序的结果。</p>
-<p>4.CDN是什么，能谈一谈吗？</p>
-<p>CDN是content distribute network，内容分发网络，应用了HTTP协议中的缓存和代理技术，代替源站响应客户端的请求。CDN是构建在现有网络基础之上的网络，它依靠部署在各地的边缘服务器，通过中心平台的负载均衡，内容分发、调度等功能模块，使用户就近获取所需的内容，降低网络阻塞，提高用户访问响应速度和命中率。CDN中的关键技术有内容存储和分发技术。</p>
-<p>5.PUT和POST的区别？</p>
-<p>PUT具有幂等性，幂等性是指一次和多次请求同一个资源对于资源本身应该具有同样的结果。即任意多次执行对资源本身所产生的应该与一次执行产生的影响相同。</p>
-]]></content>
-      <categories>
-        <category>面试</category>
-      </categories>
-      <tags>
-        <tag>面试</tag>
       </tags>
   </entry>
   <entry>
@@ -3563,6 +3324,232 @@
       </tags>
   </entry>
   <entry>
+    <title>备战面试基础知识-2</title>
+    <url>/2020/03/21/%E5%A4%87%E6%88%98%E6%BB%B4%E6%BB%B4%E9%9D%A2%E8%AF%95/</url>
+    <content><![CDATA[<h2 id="备战滴滴面试"><a href="#备战滴滴面试" class="headerlink" title="备战滴滴面试"></a>备战滴滴面试</h2><h3 id="———————————–第一部分———————————–"><a href="#———————————–第一部分———————————–" class="headerlink" title="———————————–第一部分———————————–"></a>———————————–第一部分———————————–</h3><p><strong>1.set map list</strong></p>
+<p>常见的HashSet HashMap ArrayList</p>
+<p>一般是HashMap和LinkedHashMap，然后就是HashSet的实现。以及ArrayList与LinkedList之间的区别。</p>
+<p><strong>2.TreeSet和HashSet对比之间的区别？</strong></p>
+<p>一个有序一个无序</p>
+<p><strong>3.HashMap和ConcurrentHashMap的区别？</strong></p>
+<p>HashMap底层是基于数组+链表+红黑树实现的，ConcurrentHashMap的底层是Node+链表+红黑树来实现的，且并发安全的实现是依赖synchronized+CAS来实现的。</p>
+<p><strong>4.线程池的参数有哪些？</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">ThreadPoolExecutor</span><span class="params">(<span class="keyword">int</span> corePoolSize, <span class="keyword">int</span> maximumPoolSize,<span class="keyword">long</span> keepAliveTime,       TimeUnit unit,BlockingQueue&lt;Runnable&gt; workQueue)</span></span></span><br></pre></td></tr></table></figure>
+
+<p>corePoolSize核心线程个数，最大的线程个数，线程池中线程存活时间，时间的单位，阻塞队列</p>
+<p><strong>5.线程池的拒绝策略？</strong></p>
+<p>如果超出了线程池的数量限制大小，此时需要使用到线程池的拒绝策略。被拒绝的理由可能是由于：1.线程池异常关闭，2. 任务数量超过线程池的最大限制</p>
+<p>其中在ThrealPoolExecutor构建线程池的时候，底层会调用ThreadPoolExecutor来构建线程池。其中有线程策略handler：</p>
+<p>默认的拒绝策略为AbortPolicy</p>
+<ul>
+<li>AbortPolicy：任务到线程池中被拒绝时，将会抛出RejectedExecutionException异常</li>
+<li>DiscardPolicy：拒绝任务的处理程序，静默丢弃被拒绝的任务。</li>
+<li>DiscardOldestPolicy：线程池会放弃等待最久的未处理任务，然后将被拒绝的任务添加到等待队列中</li>
+<li>CallerRunsPolicy：在线程池当前正在运行的Thread线程池中处理被拒绝的任务</li>
+</ul>
+<p><strong>5.SynchronizedBlockQueue中到底可以存几个？</strong></p>
+<p>存一个，他是一个缓存值为1的阻塞队列，但是IsEmpty()方法永远返回true。remove方法返回false，iterator方法永远返回空，peek方法永远返回null</p>
+<p><strong>6.锁用过吗？常见的有哪些锁？</strong></p>
+<p>用过，乐观锁，悲观锁，synchronized, reentrantLock, 偏向锁，轻量级锁，自旋锁。重量级锁</p>
+<p><strong>7.锁的方法：tryLock，lock, lockInterruptily()</strong></p>
+<p>lock的方法不能被外部打断，但是lockInterruptily可以，但是会抛出异常</p>
+<p><strong>8.lock和tryLock的区别？</strong></p>
+<p>一个是直接锁，一个是尝试获取锁。区别就是直接锁也会去做判断，看看自己是否能获取锁，尝试锁的话就要去判断当前的线程的状态值，看看是否锁被占用或者有可重入锁的机会，如果都没有的话，返回false</p>
+<p><strong>10.公平锁与非公平锁的实现有什么区别？</strong></p>
+<p>公平锁的话就是直接获取锁，出现了在尝试获取锁的时候如果当前对象没有被上锁，需要先判断队列中自己前面是否有线程，保证按照顺序来。</p>
+<p>非公平锁的话，就是在调用lock方法的时候如果没有人上锁，就直接上锁了，不然的话就要去tryAcquire获取锁，这个大家都是争抢锁资源。</p>
+<p><strong>11.类加载的机制是怎么样的？</strong></p>
+<p>类加载过程：加载—连接（验证、准备、解析）—初始化—使用—卸载</p>
+<p><strong>12.tomcat的加载过程？</strong></p>
+<p>getServer–getConnector–Server.start–startService–启动Engine–启动host–启动context–启动connector–EndPoint启动</p>
+<p><strong>13.Spring的生命周期？Spring的源代码一定要看啊！！！**</strong></p>
+<p>Bean的生命周期：创建（调用构造函数）—set方法注入属性–BeanNameAware–BeanFactoryAware–ApplicationContextAware–BeanPostProcessor的before方法–InitializingBean—自定义init方法–BeanPostProcessord的after方法–使用–容器的销毁–DisposableBean的destory–自定义销毁方法。</p>
+<p><strong>14.AOP</strong></p>
+<p>Spring的AOP是面向切面编程，可以通过切面向类或者方法中插入日志，通知等方法。可以通过BaseSchema实现以及AspectJ或者其注解来实现，主要是通过动态代理技术来实现的，动态代理分为JDK动态代理，能够代理实现了其接口的类。还有就是cglib代理，通过字节码构造这个类的一个实例对象进行代理。静态代理和动态代理的区别，静态代理只能代理实现了其接口的一个类，且静态代理在代理之前就知道了代理对象，而动态代理是在运行过程中才知道代理的对象。{jdk动态代理的实现主要是实现了InnovationHandler接口，重写其中的invoke方法来调用。而CGLIB动态代理的话是通过实现接口MethodInterceptor重写intercept方法来实现代理，其中是通过字节码来动态的构建代理对象的子类重写其方法来实现的}</p>
+<p><strong>15.ASM怎么实现AOP？</strong></p>
+<p>ASM是一个Java字节码操纵框架，能够被用来动态生成类或者增强其持有类的功能。ASM可以直接产生二进制class文件，也可以在类被加载进Java虚拟机之前就动态改变类的行为，Java class被存储在严格格式定义的.class文件中，这些类文件拥有足够的源数据来解析出类中所有元素：类名称、方法、属性以及Java字节码。ASM从类文件中读入信息后，能够改变类行为，分析类信息，甚至能够根据用户要求生成新类。</p>
+<p><strong>16.MyBatis的插件？</strong></p>
+<p>pageHelper，但是一般用的都是MyBatisPlus</p>
+<p><strong>17.项目：自己在自己的项目中干了什么？从项目中学习到了什么？复盘自己的项目</strong></p>
+<p>首先是在工作中，暑期实习的地方是做电商的B2b，记忆深一点的就是当时做的活动模块，大致的环境配置就是使用SpringBoot来搭建开发的，主要有使用到的的技术有spring,springmvc,redis,mybatis,mysql,等等，使用postman作为测试组件来测试代码的功能完整性。对于在测试环境下的出现的代码错误，会通过linux查看具体错误的心底，定位到具体的错误代码。</p>
+<p>在项目java高并发秒杀系统中，主要使用的SSM搭建的环境开发框架，其中使用到了redis做后端的缓存，因为项目不是太大，在慕课网上看的，所以用到的技术不是很多，这个项目分成三个部分，前端模块，后端模块，数据库模块，在这之中的话，因为是高并发项目，所以前端的优化是使用 CDN内容分发网络（Content Delivery Network）将前端的静态资源存储减少并发，同时对于用户多点对于后台造成的并发，使用前端点击之后按钮变灰，对于用户多次刷新页面的可以采用拦截，限制某个账户访问的次数。同时还可以使用中间件例如消息队列，来将高峰时期的请求都存入消息队列中，后端根据自己的处理能力从消息队列中获取请求然后处理。数据库层面的话，如果都直接访问mysql数据库的话，数据库可能会崩掉，可以采用redis对数据库中的部分数据做一个缓存，这样的话可以适当减小数据库的压力，或者使用redis来保存数据库中的数据，在redis中进行相应的数据操作，最后将redis中的数据同步至mysql数据库中即可。</p>
+<p><strong>18.数据库中的隔离级别有什么用？</strong></p>
+<p>解决数据库<strong>并发</strong>操作中可能出现的脏读，幻读等问题</p>
+<p><strong>19.隔离级别什么时候起作用呢？</strong></p>
+<p>事务对数据库中的数据进行操作的时候起作用</p>
+<hr>
+<h3 id="———————————–第二部分———————————–"><a href="#———————————–第二部分———————————–" class="headerlink" title="———————————–第二部分———————————–"></a>———————————–第二部分———————————–</h3><p><strong>1.数据库的索引类型？</strong></p>
+<p>唯一索引，聚簇索引，非聚簇索引</p>
+<p><strong>2.聚簇索引和非聚簇索引的区别？</strong></p>
+<p>在实现上面，都是使用的B+数实现的，但是实现的方式却不同，聚簇索引的话是节点中存储数据索引（键和指针），所有的数据都存储在叶子节点中，比如说一张数据表吧，聚簇索引主索引使用的是主键Row，辅助索引使用的是key+PK cols，也就是找到了当前的辅助索引之后还需要再根据主键来查找，需要查找两次。叶子节点之间通过构成单向链表，适合范围查询</p>
+<p>非聚簇索引的话，是每个节点都存储数据索引与数据，主索引使用的是pkcols + rowNumber，辅助索引使用的是key+rowNumber，也就是只需要查一遍。无论是主索引还是从索引，都可以直接定位到数据。</p>
+<p><strong>3.二叉树和B+树的区别？</strong></p>
+<ul>
+<li>B+树所有的数据都是存储在叶子节点上，每次的查找时间稳定</li>
+<li>叶子节点都有指向下一个节点的指针，范围查找比较方便</li>
+</ul>
+<p><strong>4.如果说二叉树的数据都存储在叶子节点上呢？</strong></p>
+<p>会线性化成链表</p>
+<p><strong>5.平衡二叉树呢？</strong></p>
+<p>B+数可以减少磁盘IO次数，如何减少IO次数呢。通过减少构造的树的高度来，B树的高度比平衡二叉树的高度要低，本来是效率更快，但是由于B树对于每一个节点需要比较多次，所以一般来说B树的效率和平衡二叉树是差不多的！</p>
+<p>且B树相对于B+树而言，B+树的效率更高磁盘IO更少，因为B+数的data中不存储数据，所以可以存放更多的key，查找肯定更快。一个索引节点只需要一次IO即可</p>
+<p><strong>6.磁盘中的文件都是使用B+树格式存储的吗？</strong></p>
+<p><strong>7.磁盘怎么存储这些数据？</strong></p>
+<p><strong>8.了解哪些文件格式？</strong></p>
+<p><strong>9.linux操作系统了解吗？</strong></p>
+<p><strong>了解，了解一些它常用的命令。</strong></p>
+<p><strong>10.相关的命令用过哪些？</strong></p>
+<p>ps -ef/grep/cat/find/netstat -tunpl/-a（表示列出当前网络所有的连接）/vim/tail -f查看日志/tar zxvf 解压缩</p>
+<p><strong>11.linux根目录下有哪些文件夹</strong></p>
+<p>/etc/bin/var/usr/home/opt/proc/sbin/root</p>
+<p><strong>12.手撕翻转二叉树</strong></p>
+<p><strong>13.最小路径和</strong></p>
+<h3 id="———————————–第三部分———————————–"><a href="#———————————–第三部分———————————–" class="headerlink" title="———————————–第三部分———————————–"></a>———————————–第三部分———————————–</h3><p><strong>1.开源项目了解哪些？</strong></p>
+<p>SpringBoot，SpringCloud</p>
+<p>2.SpringBoot如何加载源码？</p>
+<p>==<strong>待补充</strong>==</p>
+<p><strong>3.源码是如何深入学习的？</strong></p>
+<p>一般是通过看博客，自己跟着看源码。</p>
+<p><strong>4.Spring的启动过程如何了解？</strong></p>
+<p>通过Debug的方式来看在启动中都执行了哪些操作</p>
+<p><strong>5.tomcat启动的流程，需要加载哪些资源？</strong></p>
+<p>getServer–getConnector–Server.start–startService–启动Engine–启动host–启动context–启动connector–EndPoint启动，需要加载服务器资源，连接器资源，host资源，上下文资源，加载web.xml中设置的监听器，过滤器，servlet</p>
+<p><strong>6.项目中的收获？</strong></p>
+<p><strong>7.负责项目中的哪些点，技术方向的？</strong></p>
+<p><strong>8.为什么使用MVC架构？</strong></p>
+<p>主要是因为MVC的优点，具有低耦合性，高重用性以及可适用性。拥有较低的生命周期成本，快速的部署，好维护，有利于软件工程化管理。</p>
+<p><strong>9.项目中的事务如何实现？</strong></p>
+<p>通过加@Transactional注解来实现。</p>
+<p><strong>10.事务注解底层是怎么实现的？以及为什么加了这个注解可以实现事务？</strong></p>
+<p><strong>源码…..待补充!</strong></p>
+<p><strong>11.这个事务和数据库事务的区别？</strong></p>
+<p>本质上是一样的，Spring的事务就是对数据库事务的封装，最后本质的实现还是在数据库中实现的，假如数据库不支持事务的话，Spring中的事务是没有任何作用的。数据库的事务简单来说就是开启，回滚和关闭，Spring对数据库事务的包装，原理就是拿一个连接，根据Spring的事务配置，操作这个数据连接对数据库进行事务开启，回滚或者关闭操作。但是Spring除了实现这些功能之外，还配合Spring的传播行为对事务进行了广泛的管理，事务中涉及的隔离级别，以及Spring如何对数据库的隔离级别进行封装，事务与隔离级别放在一起会好理解一点。</p>
+<p><strong>12.mybatis你用的是什么数据库连接池c3p0？</strong></p>
+<p><strong>13.你还知道其他的数据库连接池吗？</strong></p>
+<p>DBCP：依赖Jakarta commons-pool对象池机制的数据库连接池，DBCP可以直接在应用程序中使用，Tomcat中的数据源就是使用的DBCP</p>
+<p>c3p0：是一个开源的JDBC连接池，它在lib目录下和Hibernate一起发布，包括实现jdbc3和jdbc2扩展规范说明的Connnection和Statement池的Datasources对象</p>
+<p>Durid：阿里出品，淘宝和支付宝专用数据库连接池。Druid的功能十分强大。</p>
+<p><strong>14.数据库连接池的功能有哪些？</strong></p>
+<ul>
+<li>资源重用</li>
+<li>更快的系统响应速度</li>
+<li>新的资源分配手段</li>
+<li>统一的连接管理</li>
+<li>避免数据库连接池泄露</li>
+</ul>
+<p><strong>15.JUC看过哪些，说下AQS实现的机制？</strong></p>
+<p>看过Atomic，AQS下的一些类，AQS实现机制。他主要是同步器和锁机制的构建框架。使用AQS能简单高效地构造出应用广泛的大量的同步器。ReentrantLock，Semaphore都是基于AQS。</p>
+<p>AQS核心的思想就是，如果被请求的共享资源空闲，则将当前请求资源的线程设置为有效的工作县策划稿，并且将共享资源设置为锁定状态。如果被请求的共享资源被占用，就需要一套线程阻塞等待以及被唤醒时锁分配的机制，这个机制AQS使用CLH队列锁来实现的，即将暂时获取不到锁的线程加入队列中。</p>
+<p><strong>16.公平锁与非公平锁的区别？</strong></p>
+<p>这个就是一个是按照顺序的，一个不是按照顺序的，这个在尝试获取锁的代码是不同的，公平锁，会先查询队列中是否前面还有节点，而非公平锁不查直接过去锁。</p>
+<p><strong>17.lock如何分配线程锁？</strong></p>
+<p>看情况而定！没有人占有锁自己就获取锁，如果有人占有锁，看看是不是自己，是的话就重入，如果不是就返回false，获取锁失败。</p>
+<p><strong>18.队列呢？了解哪些？</strong></p>
+<ul>
+<li>ConcurrentLinkedQueue：基础链表同步队列。</li>
+<li>LinkedBlockingQueue：阻塞队列，队列容量不足自动阻塞，队列容量为0时自动阻塞</li>
+<li>ArrayBlockingQueue：底层数组实现的有界队列，自动阻塞，根据API（add/put/offer）不同，有不同特定，当容量不足的时候，有阻塞能力，add方法在容量不足的时候，能够抛出异常。put方法在容量不足的时候，阻塞等待。offer方法，单参数offer方法不阻塞，容量不足的时候，返回false，当前新增数据操作放弃。三参数offer方法（offer(value,times,timeunit)），容量不足的时候，阻塞times时长，如果在阻塞时长内，有容量空闲，新增数据返回true，如果阻塞时长范围内，无容量空闲，放弃新增数据，返回false。</li>
+<li>DelayQueue：延时队列，根据比较机制，实现自定义处理顺序的队列，常用于定时任务。如定时关机，对于缓存超时的数据进行删除，任务超时处理，空闲连接的关闭</li>
+<li>LinkedTransferQueue：转移队列，使用transfer方法，实现数据的即时处理。没有消费者就阻塞。</li>
+<li>SynchronusQueue：同步队列，是一个容量为0的队列。是一个特殊的TransferQueue。必须现有消费线程等待才可以使用。add方法，无阻塞，若没有消费线程阻塞等待数据，则抛出异常。put方法，有阻塞，若没有消费线程阻塞等待数据，则阻塞。（游戏匹配）</li>
+</ul>
+<p><strong>19.添加的方法都有哪些？具体讲讲？</strong></p>
+<p>add offer put方法</p>
+<p><strong>20.各个队列的使用场景：</strong></p>
+<p><strong>这一块的东西要实践！</strong></p>
+<p><strong>21.JVM看过什么？JVM的常用命令？</strong></p>
+<p><font color="red">JVM看过深入理解java虚拟机。常用命令。jstat？如果看一个线程内存回收情况，如何看？</font></p>
+<p><strong>22.JVM的类加载解析？如何解析到字节码？</strong></p>
+<p><strong>待补充</strong></p>
+<p><strong>23.如何验证jdk版本的冲突？jdk.1.6-&gt;1.7</strong></p>
+<p><strong>24.类加载器的初始化如何去做？</strong></p>
+<p><strong>25.实际运用中的classLoader都有哪些了解？</strong></p>
+<p><strong>26.如何实现动态加载，需要使用哪些方法？继承classLoader类，重写findClass方法，调用defineClass方法</strong></p>
+<p><strong>27.如何获取当前类的classLoader？</strong></p>
+<p><strong>使用getClassLoader方法</strong></p>
+<p><strong>28.如何保持建立多个ClassLoader</strong></p>
+<p><strong>29.为什么类加载器加载出来的类不一样？</strong></p>
+<p>因为每个加载器都有自己的隔离机制</p>
+<p><strong>30.jvm的内存模型？</strong></p>
+<p>程序计数器，虚拟机栈，本地方法栈，堆，方法区，常量池</p>
+<p><strong>31.多线程如何实现主存同步的？</strong></p>
+<p>synchronized关键字或者使用锁lock</p>
+<p><strong>32.linux通过什么命令去使其他工作内存无效呢？</strong></p>
+<p><strong>待补充，没听过的知识点</strong></p>
+<p><strong>33.java如何是实现缓存一致性？</strong></p>
+<p>volatile，synchronized，lock，wait/notify</p>
+<p><strong>34.jvm的锁优化有哪些？</strong></p>
+<p>synchronized互斥的重量级锁。（作用：确保线程互斥的访问代码，保证共享变量的修改能够及时可见，可以阻止jvm的指令重排）锁优化的话，采用了锁粗化，锁消除，适应性自旋。不存在多线程竞争，默认是偏向锁。轻量级锁，过渡锁，一般是偏向锁不满足，有多线程并发访问锁定同一个对象的时候，先提升为轻量级锁。只有两个线程争抢锁标记记录的时候，优先使用轻量级锁。适应性自旋，在轻量级锁获取失败的时候，为了避免线程在真实的系统层面被挂起，还会进行一项为自旋锁的优化手段。</p>
+<p>锁粗化：一般在使用锁的时候，需要让同步的作用范围尽可能的小，仅在共享数据的操作中才进行。这样做的目的，是为了让同步操作的数量尽可能的小，如果出现锁的竞争，也能尽快的获取锁。但是如果遇到已连续的lock和unlock的操作，会导致性能的不必要损耗。<strong>锁粗化就是将连续的同步操作连在一起，粗化为一个范围更大的锁。</strong>锁消除：所消除是jvm进行的另外一项锁优化，该优化更加的彻底。jvm在进行<em>JIT</em>编译(just-in-time compilation)的时候，通过对上下文的扫描，<strong>JVM检测到不可能存在共享数据的晶振，如果这些资源有锁，就会消除这些资源的锁。可以节省毫无意义的锁请求时间</strong>。锁消除的依据，是逃逸分析的数据支持。</p>
+<p><strong>35.网络编程了解多少？TCP、UDP，如何创建网络之间的通信？</strong></p>
+<p>udp直接就是创建数据报的DatagramSocket通信即可。传输也是使用DatagramPacket来接收</p>
+<p>tcp的话需要使用同一个接口来是的数据的传递是可靠的，服务器端使用的是阻塞式的接收客户端的连接。连接之后获取客户端的发送的数据流，将流读出来即可。</p>
+<p><strong>36.java的IO了解吗？他们有什么区别？</strong></p>
+<p>javaIo主要分为InputStream、OutputStream和Reader、Writer。他们的区别是Stream结尾的都是用来读取字节流，Reader结尾的都是用来读取字符流。</p>
+<p><strong>37.BIO、NIO、AIO响应的类了解吗？</strong></p>
+<p>BiO：Blocking IO 同步阻塞IO，服务器实现模式为一个连接一个线程，即客户端有连接请求时，服务器端就需要启动一个线程进行处理，如果这个连接不做任何事情会造成不必要的线程开销，当然可以通过线程池机制改善</p>
+<p>NIO：UNblocking IO 同步非阻塞编程，服务器实现模式为一个请求一个通道，即客户端发送的连接请求都不能会被注册到多路复用器上面，多路复用器轮询到连接有IO请求时才启动一个下线程进行处理。</p>
+<p>AIO：Asychronous IO：异步非阻塞IO，可以理解为read/write方法都是异步的，完成后会主动调用回调函数。服务器实现模式为一个有效请求一个线程，客户端的IO请求都是由OS先完成了再通知服务器应用去启动线程进行处理。</p>
+<p><strong>38.shell命令</strong></p>
+<p>ls ll  cd pwd mkdir rmdir  cp mv rm du df cat echo head tail wc grep man logout </p>
+<p><strong>39.进程的通信方式？</strong></p>
+<p>管道、信号量、消息队列、套接字socket</p>
+<p><strong>40.Linux的调度方式？</strong></p>
+<p>调度机制分为抢占式内核和非抢占式内核。</p>
+<p><strong>41.linux的缓存有几级？</strong></p>
+<p><strong>待补充</strong></p>
+<p><strong>42.jdbc连接mysql的几个步骤，以及如何读取数据，如何实现statement？</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConnectedMySQLTest</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> String driverClassName = <span class="string">"com.mysql.cj.jdbc.Driver"</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> String url = <span class="string">"jdbc:mysql://localhost:3306/407?serverTimezone=UTC&amp;useUnicode=true&amp;characterEncoding=utf8&amp;useSSL=false"</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> String user = <span class="string">"root"</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> String password = <span class="string">"cao236476"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Class&lt;?&gt; className = Class.forName(driverClassName);<span class="comment">// 加载mysql的驱动</span></span><br><span class="line">            Connection connection = DriverManager.getConnection(url, user, password);</span><br><span class="line"></span><br><span class="line"><span class="comment">//            Statement statement = connection.createStatement(); // 这个是先产生statement，然后载入sql语句</span></span><br><span class="line">            String sql = <span class="string">"select * from test_user"</span>;</span><br><span class="line">            PreparedStatement statement = connection.prepareStatement(sql);<span class="comment">// 这个必须和sql语句同时载入</span></span><br><span class="line"></span><br><span class="line">            ResultSet resultSet = statement.executeQuery(sql);</span><br><span class="line">            List&lt;User&gt; lists = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">            <span class="keyword">while</span> (resultSet.next()) &#123;</span><br><span class="line">                lists.add(<span class="keyword">new</span> User(resultSet.getInt(<span class="string">"id"</span>),</span><br><span class="line">                        resultSet.getString(<span class="string">"name"</span>),</span><br><span class="line">                        resultSet.getInt(<span class="string">"age"</span>)));</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">for</span> (User list : lists) &#123;</span><br><span class="line">                System.out.println(list);</span><br><span class="line">            &#125;</span><br><span class="line">            resultSet.close();</span><br><span class="line">            statement.close();</span><br><span class="line">            connection.close();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (SQLException | ClassNotFoundException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="———————————–第四部分———————————–"><a href="#———————————–第四部分———————————–" class="headerlink" title="———————————–第四部分———————————–"></a>———————————–第四部分———————————–</h3><p><strong>1.字节流和字符流的区别</strong></p>
+<p>字节流读取单个字节，字符流读取单个字符。字节流来处理二进制文件（图片，MP3，视频文件），字符流用来处理文本文件（可以看做是特殊的二进制文件，使用了某种编码，人可以阅读）。字节是给计算机看的，字符是给人看的。</p>
+<p><strong>2.死锁的四个条件</strong></p>
+<ol>
+<li>互斥条件：一个资源每次只能被一个进程使用</li>
+<li>请求和保持条件：一个进程因为请求资源而被阻塞时，对已获得的资源保持不放</li>
+<li>不剥夺条件：进程已经获得的资源在没有释放之前，不能强行剥夺。</li>
+<li>循环等待条件：若干进程之间形成了一种头尾相连的循环等待资源关系。</li>
+</ol>
+<p>解除死锁的方法：</p>
+<ol>
+<li>剥夺资源：从其他进程剥夺足够数量的资源给死锁线程，以解除死锁状态</li>
+<li>撤销进程：可以直接撤销死锁进程或者撤销代价最小的进程，直至有足够的资源可用</li>
+</ol>
+<p>3.给1G的数据，内存限制为100M，怎么排序？</p>
+<p>首先不能选择内存排序，需要选择外存排序，使用多路归并的思路，把数据分为N部分，每部分100M，在使用内存来排序，将排序结果使用外存记录，然后每次从外存冲取记录，在内存中进行比较，从而获取排序的结果。</p>
+<p>4.CDN是什么，能谈一谈吗？</p>
+<p>CDN是content distribute network，内容分发网络，应用了HTTP协议中的缓存和代理技术，代替源站响应客户端的请求。CDN是构建在现有网络基础之上的网络，它依靠部署在各地的边缘服务器，通过中心平台的负载均衡，内容分发、调度等功能模块，使用户就近获取所需的内容，降低网络阻塞，提高用户访问响应速度和命中率。CDN中的关键技术有内容存储和分发技术。</p>
+<p>5.PUT和POST的区别？</p>
+<p>PUT具有幂等性，幂等性是指一次和多次请求同一个资源对于资源本身应该具有同样的结果。即任意多次执行对资源本身所产生的应该与一次执行产生的影响相同。</p>
+]]></content>
+      <categories>
+        <category>面试</category>
+      </categories>
+      <tags>
+        <tag>面试</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>面试常见算法题</title>
+    <url>/2020/03/21/%E9%9D%A2%E8%AF%95%E5%B8%B8%E8%A7%81%E7%AE%97%E6%B3%95%E9%A2%98/</url>
+    <content><![CDATA[<p><strong>1. 最长公共子序列(Leetcode 1143)</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> caoduanxi</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span> 2020/3/23 22:10</span></span><br><span class="line"><span class="comment"> * 最长公共子序列</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;</span></span><br><span class="line"><span class="comment"> * 找出两个字符串的最长公共子序列长度</span></span><br><span class="line"><span class="comment"> * "abcde" "ace" 3</span></span><br><span class="line"><span class="comment"> * "bcde"  "de" 2 </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LongestCommonSubsequence</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 如果第一个都不相等怎么解决这个问题？</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">longestCommonSubsequence</span><span class="params">(String text1, String text2)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (text1.length() == <span class="number">0</span> || text2.length() == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> len1 = text1.length() + <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span> len2 = text2.length() + <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span>[][] dp = <span class="keyword">new</span> <span class="keyword">int</span>[len1][len2];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; len1; i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt; len2; j++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (text1.charAt(i-<span class="number">1</span>) == text2.charAt(j-<span class="number">1</span>)) &#123;</span><br><span class="line">                    <span class="comment">// 如果相等的话,即1的前i-1与2的前j-1的基础上加1</span></span><br><span class="line">                    dp[i][j] = dp[i-<span class="number">1</span>][j-<span class="number">1</span>]+<span class="number">1</span>;</span><br><span class="line">                &#125;<span class="keyword">else</span>&#123; <span class="comment">// 如果不能的话就看1的前i个与2的前j-1个，与1的前i-1个与2的前j个之间的大小情况</span></span><br><span class="line">                    dp[i][j] = Math.max(dp[i][j - <span class="number">1</span>], dp[i - <span class="number">1</span>][j]);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[text1.length()][text2.length()];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        LongestCommonSubsequence test = <span class="keyword">new</span> LongestCommonSubsequence();</span><br><span class="line">        <span class="keyword">int</span> i = test.longestCommonSubsequence(<span class="string">"abcde"</span>, <span class="string">"ace"</span>);</span><br><span class="line">        System.out.println(i);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>2. 硬币组合问题（Leetcode面试题）</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> caoduanxi</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span> 2020/3/23 21:49</span></span><br><span class="line"><span class="comment"> * 换硬币问题，典型的背包问题</span></span><br><span class="line"><span class="comment"> * dp[i][j] 表示第i个物品是j空间的总数</span></span><br><span class="line"><span class="comment"> * dp[i][j] 一方面等于没有取第i个物品，此时背包空间j</span></span><br><span class="line"><span class="comment"> * 另一方面的等于去了第i个物品，此时背包空间为j-coins[i]</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WaysToChange</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">waysToChange</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span>[][] dp = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">4</span>][n + <span class="number">1</span>];</span><br><span class="line">        <span class="keyword">int</span>[] coins = <span class="keyword">new</span> <span class="keyword">int</span>[]&#123;<span class="number">1</span>, <span class="number">5</span>, <span class="number">10</span>, <span class="number">25</span>&#125;;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">4</span>; i++) &#123;</span><br><span class="line">            dp[i][<span class="number">0</span>] = <span class="number">1</span>; <span class="comment">// 第一列</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;= n; i++) &#123;</span><br><span class="line">            dp[<span class="number">0</span>][i] = <span class="number">1</span>; <span class="comment">// 第一行</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 从第一个硬币值开始</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; <span class="number">4</span>; i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= n; j++) &#123; <span class="comment">// 空间为n</span></span><br><span class="line">                <span class="comment">// 前提是硬币需要大于当前适配的硬币值</span></span><br><span class="line">                <span class="keyword">if</span> (j &gt;= coins[i]) &#123;</span><br><span class="line">                    dp[i][j] = (dp[i - <span class="number">1</span>][j] + dp[i][j - coins[i]]) % <span class="number">1000000007</span>;</span><br><span class="line">                &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                    <span class="comment">// 如果当前硬币值不大于适配的硬币面值，则只能顺应上一级的</span></span><br><span class="line">                    dp[i][j] = dp[i-<span class="number">1</span>][j]; <span class="comment">// 放不下，价值没法增加</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[<span class="number">3</span>][n];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>3. 零钱兑换(Leetcode 322)</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 可选的面额，一定的钱，用最少的硬币个数凑成面额值</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">coinChange</span><span class="params">(<span class="keyword">int</span>[] coins, <span class="keyword">int</span> amount)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(amount == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> dp[] = <span class="keyword">new</span> <span class="keyword">int</span>[amount+<span class="number">1</span>];</span><br><span class="line">        Arrays.fill(dp,amount+<span class="number">1</span>);</span><br><span class="line">        dp[<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= amount; i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> coin : coins) &#123;</span><br><span class="line">                <span class="keyword">if</span>(coin &gt; i)&#123;</span><br><span class="line">                    <span class="keyword">continue</span>;<span class="comment">// 背包装不下，直接下一个</span></span><br><span class="line">                &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                    <span class="comment">// 否则的话，判断背包装了这个硬币+1，之后与之前的大小，取最小的</span></span><br><span class="line">                    dp[i] = Math.min(dp[i],<span class="number">1</span>+dp[i-coin]);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[amount] &gt; amount ? -<span class="number">1</span> : dp[amount];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>OJ输入输出学习</title>
     <url>/2020/03/21/OJ%E5%9C%A8%E7%BA%BF%E5%88%A4%E9%A2%98%E5%AD%A6%E4%B9%A0/</url>
     <content><![CDATA[<h1 id="OJ在线判题学习"><a href="#OJ在线判题学习" class="headerlink" title="OJ在线判题学习"></a>OJ在线判题学习</h1><h2 id="1-正确处理输入格式"><a href="#1-正确处理输入格式" class="headerlink" title="1. 正确处理输入格式"></a>1. 正确处理输入格式</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//预先不知道数据的组数---直接读到文件结尾</span></span><br><span class="line">Scanner scanner = <span class="keyword">new</span> Scanner(System.in);</span><br><span class="line"><span class="keyword">while</span> (scanner.hasNext()) &#123;</span><br><span class="line">    <span class="keyword">int</span> a = scanner.nextInt();</span><br><span class="line">    <span class="keyword">int</span> b = scanner.nextInt();</span><br><span class="line">    System.out.println(a + b);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -3601,8 +3588,8 @@
       </tags>
   </entry>
   <entry>
-    <title>Leetcode之双指针</title>
-    <url>/2020/03/21/Leetcode%E4%B9%8B%E5%8F%8C%E6%8C%87%E9%92%88/</url>
+    <title>Leetcode之字符串</title>
+    <url>/2020/03/21/Leetcode%E4%B9%8B%E5%AD%97%E7%AC%A6%E4%B8%B2/</url>
     <content><![CDATA[]]></content>
       <categories>
         <category>算法</category>
@@ -3739,8 +3726,8 @@
       </tags>
   </entry>
   <entry>
-    <title>Leetcode之字符串</title>
-    <url>/2020/03/21/Leetcode%E4%B9%8B%E5%AD%97%E7%AC%A6%E4%B8%B2/</url>
+    <title>Leetcode之双指针</title>
+    <url>/2020/03/21/Leetcode%E4%B9%8B%E5%8F%8C%E6%8C%87%E9%92%88/</url>
     <content><![CDATA[]]></content>
       <categories>
         <category>算法</category>
@@ -3750,9 +3737,22 @@
       </tags>
   </entry>
   <entry>
-    <title>Leetcode之栈</title>
-    <url>/2020/03/21/Leetcode%E4%B9%8B%E6%A0%88/</url>
-    <content><![CDATA[]]></content>
+    <title>Leetcode之数组</title>
+    <url>/2020/03/21/Leetcode%E4%B9%8B%E6%95%B0%E7%BB%84/</url>
+    <content><![CDATA[<p><strong>Leetcode 11 盛水最多的容器</strong></p>
+<p><img src="https://aliyun-lc-upload.oss-cn-hangzhou.aliyuncs.com/aliyun-lc-upload/uploads/2018/07/25/question_11.jpg" alt="img"></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> caoduanxi</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span> 2020/3/24 21:15</span></span><br><span class="line"><span class="comment"> * Leetcode 11 : 盛水最多的容器</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MaxWaterArea</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 时间复杂度：O(n)</span></span><br><span class="line"><span class="comment">     * 空间复杂度：O(1)</span></span><br><span class="line"><span class="comment">     * 思路：</span></span><br><span class="line"><span class="comment">     * 小值的后面遇到获取到更大的容量概率更大，每次移动最小的那个即可</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">maxArea</span><span class="params">(<span class="keyword">int</span>[] height)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 使用双指针</span></span><br><span class="line">        <span class="keyword">int</span> l = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> r = height.length - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span> res = -<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (l &lt; r) &#123;</span><br><span class="line">            <span class="keyword">int</span> width = r - l;</span><br><span class="line">            <span class="keyword">int</span> h = Math.min(height[l], height[r]);</span><br><span class="line">            res = Math.max(res, width * h);</span><br><span class="line">            <span class="comment">// 谁小谁往前走，越小越可能遇到面积大的</span></span><br><span class="line">            <span class="keyword">if</span> (height[l] &lt; height[r]) &#123;</span><br><span class="line">                l++;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                r--;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>Leetcode 15 三数之和</strong> :star:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.duanxi.leetcode.array;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.*;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> caoduanxi</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span> 2020/3/24 21:26</span></span><br><span class="line"><span class="comment"> * Leetcode 15 : 三数之和</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreeSum</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 时间复杂度分析：排序算法时间复杂度O(nlogn) 遍历时间复杂度O(n^2)</span></span><br><span class="line"><span class="comment">     * 总的时间复杂度为O(nlogn)+O(n^2)=O(n^2)</span></span><br><span class="line"><span class="comment">     * 空间复杂度：O(1)</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * 思路：</span></span><br><span class="line"><span class="comment">     * 首先排序，使用一次遍历数组，遍历的时候注意去重操作。因为三数之和需要为0，当遍历的数大于0的时候，直接返回。</span></span><br><span class="line"><span class="comment">     * 随后使用双指针策略来从两边夹逼，获取到值，注意去除重复，使用while循环</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> List&lt;List&lt;Integer&gt;&gt; threeSum(<span class="keyword">int</span>[] nums) &#123;</span><br><span class="line">        <span class="comment">// res中不能出现重复,如何实现去重?</span></span><br><span class="line">        List&lt;List&lt;Integer&gt;&gt; res = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        Arrays.sort(nums);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.length - <span class="number">2</span>; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (nums[i] &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="comment">// 因为排序了，如果大于零在往右走找不到相加为0的</span></span><br><span class="line">                <span class="keyword">return</span> res;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (i &gt; <span class="number">0</span> &amp;&amp; nums[i - <span class="number">1</span>] == nums[i]) &#123;</span><br><span class="line">                <span class="keyword">continue</span>; <span class="comment">// 去重操作，防止重复的三元组</span></span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">int</span> l = i + <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">int</span> r = nums.length - <span class="number">1</span>;</span><br><span class="line">            <span class="comment">// 使用双指针夹逼</span></span><br><span class="line">            <span class="keyword">while</span> (l &lt; r) &#123;</span><br><span class="line">                <span class="keyword">int</span> sum = nums[l] + nums[r] + nums[i];</span><br><span class="line">                <span class="keyword">if</span> (sum &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                    <span class="keyword">while</span> (l &lt; r &amp;&amp; nums[r - <span class="number">1</span>] == nums[r]) &#123;</span><br><span class="line">                        r--;</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="comment">// 注意一定要先去重然后在走</span></span><br><span class="line">                    r--;</span><br><span class="line">                &#125; <span class="keyword">else</span> <span class="keyword">if</span> (sum &lt; <span class="number">0</span>) &#123;</span><br><span class="line">                    <span class="keyword">while</span> (l &lt; r &amp;&amp; nums[l + <span class="number">1</span>] == nums[l]) &#123;</span><br><span class="line">                        l++;</span><br><span class="line">                    &#125;</span><br><span class="line">                    l++;</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    res.add(Arrays.asList(nums[i], nums[l], nums[r]));</span><br><span class="line">                    <span class="comment">// 两个一起走，这样可以避免漏掉</span></span><br><span class="line">                    <span class="comment">// [-2,0,1,1,2] 如果不是一起走会漏电-2 1 1 因为到了0 2处此时需要同时前进。</span></span><br><span class="line">                    <span class="comment">// [-2,0,0,2,2] 此时注意重复的-2 0 2</span></span><br><span class="line">                    <span class="keyword">while</span> (l &lt; r &amp;&amp; nums[l + <span class="number">1</span>] == nums[l]) &#123;</span><br><span class="line">                        l++;</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">while</span> (l &lt; r &amp;&amp; nums[r - <span class="number">1</span>] == nums[r]) &#123;</span><br><span class="line">                        r--;</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="comment">// 先去除重复，然后依次向中间进一步</span></span><br><span class="line">                    l += <span class="number">1</span>;</span><br><span class="line">                    r -= <span class="number">1</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>*<em>Leetcode 31 下一个排列 *</em></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> caoduanxi</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span> 2020/3/25 22:36</span></span><br><span class="line"><span class="comment"> * Leetcode 31 : 下一个排列</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;</span></span><br><span class="line"><span class="comment"> * 实现获取下一个排列的函数，算法需要将给定数字序列重新排列成字典序中下一个更大的排列。</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;</span></span><br><span class="line"><span class="comment"> * 如果不存在下一个更大的排列，则将数字重新排列成最小的排列（即升序排列）。</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;</span></span><br><span class="line"><span class="comment"> * 必须原地修改，只允许使用额外常数空间。</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;</span></span><br><span class="line"><span class="comment"> * 以下是一些例子，输入位于左侧列，其相应输出位于右侧列。</span></span><br><span class="line"><span class="comment"> * 1,2,3 → 1,3,2</span></span><br><span class="line"><span class="comment"> * 3,2,1 → 1,2,3</span></span><br><span class="line"><span class="comment"> * 1,1,5 → 1,5,1</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;</span></span><br><span class="line"><span class="comment"> * 来源：力扣（LeetCode）</span></span><br><span class="line"><span class="comment"> * 链接：https://leetcode-cn.com/problems/next-permutation</span></span><br><span class="line"><span class="comment"> * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NextPermutation</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 时间复杂度O(n),最坏的情况需要进行两次扫描</span></span><br><span class="line">    <span class="comment">// 空间复杂度O(1)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">nextPermutation</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 原地修改</span></span><br><span class="line">        <span class="comment">// 如何判断是否是最大的排列</span></span><br><span class="line">        <span class="comment">// 1 2 3 =&gt; 1 3 2 =&gt;</span></span><br><span class="line">        <span class="keyword">int</span> l = nums.length - <span class="number">2</span>;</span><br><span class="line">        <span class="comment">// 一直向前走，注意等于的情况</span></span><br><span class="line">        <span class="keyword">while</span> (l &gt;= <span class="number">0</span> &amp;&amp; nums[l + <span class="number">1</span>] &lt;= nums[l]) &#123;</span><br><span class="line">            l--;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 如果没有全部逆序，此时需要从后往前找到第一个大于当前数的数，然后后面的数翻转即可</span></span><br><span class="line">        <span class="keyword">if</span> (l &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="comment">// 表示不是全都是逆序</span></span><br><span class="line">            <span class="keyword">int</span> j = nums.length - <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">while</span> (j &gt;= <span class="number">0</span> &amp;&amp; nums[j] &lt; nums[l]) &#123;</span><br><span class="line">                j--;</span><br><span class="line">            &#125;</span><br><span class="line">            swap(nums, j, l);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 如果是全部逆序，直接全部翻转，注意翻转是从l+1开始</span></span><br><span class="line">        reverse(nums, l + <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">reverse</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> start)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> l = start;</span><br><span class="line">        <span class="keyword">int</span> r = nums.length - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (l &lt; r) &#123;</span><br><span class="line">            swap(nums, l++, r--);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">swap</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> a, <span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> temp = nums[a];</span><br><span class="line">        nums[a] = nums[b];</span><br><span class="line">        nums[b] = temp;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>Leetcode 39 组合总和</strong>:star:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> caoduanxi</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span> 2020/3/26 23:05</span></span><br><span class="line"><span class="comment"> * Leetcode 39 : 组合总和</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;</span></span><br><span class="line"><span class="comment"> * 数组数字多少个数组合可以组成这个目标数，输出list</span></span><br><span class="line"><span class="comment"> * 标准的回溯法，注意回溯需要剪枝</span></span><br><span class="line"><span class="comment"> * 时间复杂度：O(2^n)</span></span><br><span class="line"><span class="comment"> * 空间复杂度：O(1)</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CombinationSum</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> List&lt;List&lt;Integer&gt;&gt; combinationSum(<span class="keyword">int</span>[] candidates, <span class="keyword">int</span> target) &#123;</span><br><span class="line">        List&lt;List&lt;Integer&gt;&gt; res = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        Arrays.sort(candidates);</span><br><span class="line">        <span class="keyword">if</span> (candidates.length &lt; <span class="number">1</span>) <span class="keyword">return</span> res;</span><br><span class="line">        <span class="comment">// 有一个开始的起点</span></span><br><span class="line">        combine(candidates, target, res, <span class="number">0</span>, <span class="keyword">new</span> ArrayList&lt;&gt;());</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">combine</span><span class="params">(<span class="keyword">int</span>[] candidates, <span class="keyword">int</span> target, List&lt;List&lt;Integer&gt;&gt; res, <span class="keyword">int</span> start, List&lt;Integer&gt; list)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (start &lt; <span class="number">0</span>) <span class="keyword">return</span>; <span class="comment">// 如果回溯到小于0</span></span><br><span class="line">        <span class="keyword">if</span> (target == <span class="number">0</span>) &#123;</span><br><span class="line">            res.add(<span class="keyword">new</span> ArrayList&lt;&gt;(list));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// break是直接终止当前for循环</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = start; i &lt; candidates.length; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span>(target - candidates[i] &lt; <span class="number">0</span>) <span class="keyword">break</span>;</span><br><span class="line">            list.add(candidates[i]);</span><br><span class="line">            <span class="comment">// 对于当前的i来说target需要变为那么大</span></span><br><span class="line">            combine(candidates,target-candidates[i],res,i,list);</span><br><span class="line">            <span class="comment">// 需要回退一个</span></span><br><span class="line">            list.remove(list.size()-<span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
       <categories>
         <category>算法</category>
       </categories>
