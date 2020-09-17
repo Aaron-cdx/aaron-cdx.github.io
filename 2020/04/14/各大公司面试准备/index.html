@@ -49,17 +49,17 @@
   <meta name="description" content="快手面试准备的相关面经知识，查漏补缺，还待补充！">
 <meta property="og:type" content="article">
 <meta property="og:title" content="快手面试准备">
-<meta property="og:url" content="http://yoursite.com/2020/04/14/%E5%BF%AB%E6%89%8B%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/index.html">
+<meta property="og:url" content="http://yoursite.com/2020/04/14/%E5%90%84%E5%A4%A7%E5%85%AC%E5%8F%B8%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/index.html">
 <meta property="og:site_name" content="cdx">
 <meta property="og:description" content="快手面试准备的相关面经知识，查漏补缺，还待补充！">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-04-14T13:58:25.000Z">
-<meta property="article:modified_time" content="2020-04-14T15:01:48.545Z">
+<meta property="article:modified_time" content="2020-09-14T02:26:06.545Z">
 <meta property="article:author" content="Cao Duanxi">
 <meta property="article:tag" content="面试|快手">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://yoursite.com/2020/04/14/%E5%BF%AB%E6%89%8B%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
+<link rel="canonical" href="http://yoursite.com/2020/04/14/%E5%90%84%E5%A4%A7%E5%85%AC%E5%8F%B8%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
 
 
 <script id="page-configurations">
@@ -213,7 +213,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/14/%E5%BF%AB%E6%89%8B%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/14/%E5%90%84%E5%A4%A7%E5%85%AC%E5%8F%B8%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/1.jpg">
@@ -235,10 +235,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-04-14 21:58:25 / 修改时间：23:01:48" itemprop="dateCreated datePublished" datetime="2020-04-14T21:58:25+08:00">2020-04-14</time>
+              <time title="创建时间：2020-04-14 21:58:25" itemprop="dateCreated datePublished" datetime="2020-04-14T21:58:25+08:00">2020-04-14</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-09-14 10:26:06" itemprop="dateModified" datetime="2020-09-14T10:26:06+08:00">2020-09-14</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -264,7 +270,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>4k</span>
+              <span>4.7k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -284,7 +290,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><strong>1. zuul网关，如果zuul网关挂了nginx能知道吗？</strong></p>
+        <h2 id="1-快手"><a href="#1-快手" class="headerlink" title="1. 快手"></a>1. 快手</h2><p><strong>1. zuul网关，如果zuul网关挂了nginx能知道吗？</strong></p>
 <p>一般使用nginx+zuul来搭建实现高可用网关。所以如果是高可用的话，zuul挂了的话，nginx肯定是知道的。zuul的作用是实现转发和过滤来说使用的。可以做安全校验等一系列动作。以及路由转发。</p>
 <p><strong>2. 配置zuul网关，如何配置</strong></p>
 <figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring</span>:<span class="string"></span></span><br><span class="line">  <span class="attr">application</span>:<span class="string"></span></span><br><span class="line">    <span class="attr">name</span>: <span class="string">service-zuul</span></span><br><span class="line"><span class="comment">    # 服务器路由在这里起作用了，主要的作用就是转发请求，但是需要在zuul中配置好转发规则</span></span><br><span class="line"><span class="comment">    # 服务器路由不仅可以做转发的作用还可以起到过滤的作用，安全验证</span></span><br><span class="line"><span class="attr">zuul</span>:<span class="string"></span></span><br><span class="line">  <span class="attr">routes</span>:<span class="string"></span></span><br><span class="line">    <span class="meta">api-a</span>:<span class="string"></span></span><br><span class="line">      <span class="attr">path</span>: <span class="string">/api-a/*</span></span><br><span class="line">      <span class="attr">serviceId</span>: <span class="string">service-ribbon</span></span><br><span class="line">    <span class="meta">api-b</span>:<span class="string"></span></span><br><span class="line">      <span class="attr">path</span>: <span class="string">/api-b/*</span></span><br><span class="line">      <span class="attr">serviceId</span>: <span class="string">service-feign</span></span><br></pre></td></tr></table></figure>
@@ -423,6 +429,27 @@
 <ul>
 <li>LinkedBlockedQueue</li>
 </ul>
+<h2 id="2-小米"><a href="#2-小米" class="headerlink" title="2. 小米"></a>2. 小米</h2><p><strong>SpringBoot启动过程</strong></p>
+<p>SpringBoot启动主要是通过实例化SpringApplicatioin来启动的，启动过程主要做了一下几件事情：配置属性、获取监听器、发布应用开始启动事件处理、创建上下文、预处理上下文、刷新上下文(加载tomcat容器)、再刷新上下文、发布应用启动事件、发布应用启动完成事件。</p>
+<p><strong>为什么要使用RPC，而不是HTTP？</strong></p>
+<p>RPC(Remote Procedure Call)远程过程调用。HTTP是一种协议，RPC可以使用HTTP协议来实现，也可以通过Socket自己实现一套协议来实现。使用HTTP每次通信都要进行三次握手，无形之中增加了通信的开销，而RPC一般都有自己的注册中心，调用方或者被调用方都在可以在注册中心找到自己可以调用的接口，省去了三次握手的通信开销。</p>
+<p>好处的话：灵活部署，解耦。RPC远程过程调用，RPC的核心并不在于你使用了什么协议。RPC的目的是让你在本地调用远程的方法，而对你来说这个调用是透明的，方法内部的实现不用知道，通过RPC解耦当前服务，才是RPC的真正目的所在。RPC主要使用了动态代理技术，至于HTTP协议，HTTP协议的话，只是通信的传输协议而已。</p>
+<p><strong>设置JVM的栈与堆的参数？</strong></p>
+<p><code>-Xmx256m</code>设置最大的堆内存</p>
+<p><code>-Xmn128m</code>设置对最小内存</p>
+<p><code>-Xms40m</code>初始内存</p>
+<p><code>-XX:PermSize=128M</code>非堆内存</p>
+<p><code>-Xss:128k</code>设置每个线程的堆栈大小</p>
+<p><strong>标记清除算法存在的问题</strong></p>
+<p>容易导致大量的内存碎片。</p>
+<p><strong>对象创建的过程</strong></p>
+<ul>
+<li>检查类是否被加载(如果没有执行类加载过程)</li>
+<li>为新生对象分配内存</li>
+<li>初始化零值</li>
+<li>进行必要设置(设置对象头信息)</li>
+<li>执行init方法，真正的初始化</li>
+</ul>
 
     </div>
 
@@ -445,7 +472,7 @@
       <i class="fa fa-chevron-left"></i> 面试复盘记录
     </a></div>
       <div class="post-nav-item">
-    <a href="/2020/04/14/Java%E5%9F%BA%E7%A1%80%E5%A4%8D%E4%B9%A0/" rel="next" title="Java基础复习">
+    <a href="/2020/04/14/%E9%9B%86%E5%90%88%E7%B1%BB%E5%A4%8D%E4%B9%A0/" rel="next" title="Java基础复习">
       Java基础复习 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
@@ -512,6 +539,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-快手"><span class="nav-number">1.</span> <span class="nav-text">1. 快手</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-小米"><span class="nav-number">2.</span> <span class="nav-text">2. 小米</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -527,20 +555,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-count">24</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-count">13</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-count">17</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -582,12 +610,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">261k</span>
+    <span title="站点总字数">267k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">3:57</span>
+    <span title="站点阅读时长">4:03</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.0
   </div>

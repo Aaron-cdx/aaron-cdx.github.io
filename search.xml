@@ -1,6 +1,194 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>王璐瑶笔试题</title>
+    <url>/2020/09/17/%E7%8E%8B%E7%92%90%E7%91%B6%E7%AC%94%E8%AF%95%E9%A2%98/</url>
+    <content><![CDATA[<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>王子找公主</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Scanner scanner = <span class="keyword">new</span> Scanner(System.in);</span><br><span class="line">        Main main = <span class="keyword">new</span> Main();</span><br><span class="line">        <span class="keyword">int</span> t = scanner.nextInt();</span><br><span class="line">        <span class="comment">// 这里是数据有多少组</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; t; k++) &#123;</span><br><span class="line">            <span class="keyword">int</span> x1 = -<span class="number">1</span>;</span><br><span class="line">            <span class="keyword">int</span> y1 = -<span class="number">1</span>;</span><br><span class="line">            <span class="keyword">int</span> x2 = -<span class="number">1</span>;</span><br><span class="line">            <span class="keyword">int</span> y2 = -<span class="number">1</span>;</span><br><span class="line">            <span class="comment">// 这里获取输入的n行m列</span></span><br><span class="line">            <span class="keyword">int</span> n = scanner.nextInt();</span><br><span class="line">            <span class="keyword">int</span> m = scanner.nextInt();</span><br><span class="line">            <span class="comment">// 构建字符串二维数组，行n列m</span></span><br><span class="line">            String[][] map = <span class="keyword">new</span> String[n][m];</span><br><span class="line">            <span class="comment">// 构建一个n行m列的布尔型数组，为了记录走过的地方，防止栈溢出</span></span><br><span class="line">            <span class="keyword">boolean</span>[][] visited = <span class="keyword">new</span> <span class="keyword">boolean</span>[n][m];</span><br><span class="line">            <span class="comment">// 开始通过遍历获取输入的n行m列数据</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">                String[] s = scanner.next().split(<span class="string">""</span>);</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; m; j++) &#123;</span><br><span class="line">                    <span class="comment">// 由于王子是为S的，所以这里如果遇到了王子，记录它所在的位置(x1,y1)</span></span><br><span class="line">                    <span class="keyword">if</span> (s[j].equals(<span class="string">"S"</span>)) &#123;</span><br><span class="line">                        x1 = i;</span><br><span class="line">                        y1 = j;</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="comment">// 因为工作是为E的，所以这里如果遇到了公主，记录她所在的位置(x2,y2)</span></span><br><span class="line">                    <span class="keyword">if</span> (s[j].equals(<span class="string">"E"</span>)) &#123;</span><br><span class="line">                        x2 = i;</span><br><span class="line">                        y2 = j;</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="comment">// 这里主要是将值存入到二维数组中</span></span><br><span class="line">                    map[i][j] = s[j];</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// 这里判断是否找到，利用三目运算符，如果找到则是true=&gt;输出YES，如果没找到则是false=&gt;输出NO</span></span><br><span class="line">            System.out.println(main.findXY(map, x1, y1, x2, y2, n, m, visited) ? <span class="string">"YES"</span> : <span class="string">"NO"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 通过递归的方法判断王子是否可以走到公主那里</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">findXY</span><span class="params">(String[][] map, <span class="keyword">int</span> x1, <span class="keyword">int</span> y1, <span class="keyword">int</span> x2, <span class="keyword">int</span> y2, <span class="keyword">int</span> rows, <span class="keyword">int</span> cols, <span class="keyword">boolean</span>[][] visited)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 首先将结果设置为false，即假设找不到</span></span><br><span class="line">        <span class="keyword">boolean</span> res = <span class="keyword">false</span>;</span><br><span class="line">        <span class="comment">// 这里是判断边界条件，防止数组越界;同时需要判断当前位置是否走过，走过的话忽略; 且由于存在陷阱#，所以遇到#号也不走</span></span><br><span class="line">        <span class="keyword">if</span> (x1 &gt;= <span class="number">0</span> &amp;&amp; x1 &lt; rows &amp;&amp; y1 &gt;= <span class="number">0</span> &amp;&amp; y1 &lt; cols &amp;&amp; !visited[x1][y1] &amp;&amp; !map[x1][y1].equals(<span class="string">"#"</span>)) &#123;</span><br><span class="line">            <span class="comment">// 这里表示王子找到了公主，直接返回true，即真(通过判断横纵坐标值)</span></span><br><span class="line">            <span class="keyword">if</span> (x1 == x2 &amp;&amp; y1 == y2) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// 表示这里王子走过</span></span><br><span class="line">            visited[x1][y1] = <span class="keyword">true</span>;</span><br><span class="line">            <span class="comment">// 依次通过上下左右去挨个尝试</span></span><br><span class="line">            <span class="comment">// 左：x1-1 右: x1+1 上: y1+1  下: y1-1  (这就是我们平时的坐标轴)</span></span><br><span class="line">            <span class="comment">// 因为是或运算，只要一个为真即表示为真</span></span><br><span class="line">            res = findXY(map, x1 + <span class="number">1</span>, y1, x2, y2, rows, cols, visited)</span><br><span class="line">                    || findXY(map, x1 - <span class="number">1</span>, y1, x2, y2, rows, cols, visited)</span><br><span class="line">                    || findXY(map, x1, y1 - <span class="number">1</span>, x2, y2, rows, cols, visited)</span><br><span class="line">                    || findXY(map, x1, y1 + <span class="number">1</span>, x2, y2, rows, cols, visited);</span><br><span class="line">            <span class="comment">// 本次走完，下次走需要释放位置，即改为false</span></span><br><span class="line">            visited[x1][y1] = <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 最后将结果返回</span></span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>加油啊！</p>
+<p>Keep thinking, keep coding! :grin:</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>她</category>
+      </categories>
+      <tags>
+        <tag>笔试题</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Scala学习</title>
+    <url>/2020/09/15/Scala%E5%AD%A6%E4%B9%A0/</url>
+    <content><![CDATA[<h2 id="Scala学习"><a href="#Scala学习" class="headerlink" title="Scala学习"></a>Scala学习</h2><h3 id="1-Scala环境配置"><a href="#1-Scala环境配置" class="headerlink" title="1. Scala环境配置"></a>1. Scala环境配置</h3><ul>
+<li><p>下载安装Scala，首先需要具备Java的环境，安装好之后需要配置Scala环境变量</p>
+</li>
+<li><p>在Idea中需要安装Scala插件，创建Scala项目，需要指定自己安装好的Scala版本</p>
+</li>
+<li><p>创建Scala的class文件，注意在scala中，class是类的意思，object才是真正的执行方法的主体，在这里是分开的</p>
+</li>
+</ul>
+]]></content>
+  </entry>
+  <entry>
+    <title>MySQL知识点</title>
+    <url>/2020/09/13/%E6%95%B0%E6%8D%AE%E5%BA%93MySQL%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86%E7%82%B9/</url>
+    <content><![CDATA[<h2 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h2><h3 id="1-前言"><a href="#1-前言" class="headerlink" title="1. 前言"></a>1. 前言</h3><h4 id="1-1-为什么要使用数据库？"><a href="#1-1-为什么要使用数据库？" class="headerlink" title="1.1 为什么要使用数据库？"></a>1.1 为什么要使用数据库？</h4><blockquote>
+<ul>
+<li>数据库可以结构化存储大量的数据信息，方便用于进行有效的检索和访问</li>
+<li>数据库可以有效的保证数据的一致性、完成性，降低数据冗余</li>
+<li>数据库可以满足应用的共享和安全方面的要求，将数据放在数据库在很多情况下也是为了安全的考量</li>
+<li>数据库技术能够方便智能化的分析数据，产生有用的信息</li>
+</ul>
+</blockquote>
+<h4 id="1-2-什么是SQL？"><a href="#1-2-什么是SQL？" class="headerlink" title="1.2 什么是SQL？"></a>1.2 什么是SQL？</h4><blockquote>
+<p>SQL全称：结构化查询语言(Structured Query Language)</p>
+<p>用来访问和处理数据库，是一种ANSI标准的计算机语言</p>
+</blockquote>
+<h4 id="1-3-什么是MySQL？"><a href="#1-3-什么是MySQL？" class="headerlink" title="1.3 什么是MySQL？"></a>1.3 什么是MySQL？</h4><p>MySQL是关系型数据库管理系统。</p>
+<h4 id="1-4-数据库三大范式"><a href="#1-4-数据库三大范式" class="headerlink" title="1.4 数据库三大范式"></a>1.4 数据库三大范式</h4><ul>
+<li>第一范式：属性不可分</li>
+<li>第二范式：满足第一范式的条件，不能出现部分依赖，<strong>即多个属性依赖于主键</strong>，此时可以拆分为两个表</li>
+<li>第三范式：满足第二范式的条件，不能出现传递依赖，<strong>即多个属性不能依赖于当前表中的非主键属性</strong>，此时可以拆分为两个表</li>
+</ul>
+<h4 id="1-5-MySQL中的权限表有哪几个？"><a href="#1-5-MySQL中的权限表有哪几个？" class="headerlink" title="1.5 MySQL中的权限表有哪几个？"></a>1.5 MySQL中的权限表有哪几个？</h4><ul>
+<li>User权限表：记录允许连接到服务器的用户账户信息，里面权限是全局性的</li>
+<li>Db权限表：记录各个账号在各个数据库上的操作权限</li>
+<li>table_priv权限表：记录数据表级的操作权限</li>
+<li>columns_priv权限表：记录数据列级的操作权限</li>
+<li>host权限：配合db权限表对给定主机上数据库操作权限做更细致的控制</li>
+</ul>
+<h4 id="1-6-MySQL的binlog有几种录入格式？有啥区别？"><a href="#1-6-MySQL的binlog有几种录入格式？有啥区别？" class="headerlink" title="1.6 MySQL的binlog有几种录入格式？有啥区别？"></a>1.6 MySQL的binlog有几种录入格式？有啥区别？</h4><p>binlog主要有三种录入格式：Statement、Row、Mixed</p>
+<ul>
+<li>Statement：每一条会修改数据的sql都会记录在binlog中<ul>
+<li>优点：<ul>
+<li>binlog文件比较小</li>
+<li>日志包含用户执行的原始sql，便于统计和审计</li>
+<li>出现最早，兼容性好 </li>
+</ul>
+</li>
+<li>缺点：<ul>
+<li>存在安全隐患，可能导致主从不一致，对一些系统函数不能准确赋值或者不能复制</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Row：不记录sql上下文信息，仅保存哪条记录被修改<ul>
+<li>优点：<ul>
+<li>相比于Statement更加安全的复制格式</li>
+<li>某些情况下复制速度更快，系统特殊函数也可以复制</li>
+<li>更少的锁</li>
+</ul>
+</li>
+<li>缺点：<ul>
+<li>binlog较大</li>
+<li>单语句更新/删除表的行数过多，会形成大量的binlog</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Mixed：上述两种混合使用，一般的语句修改使用Statement来保存binlog，如一些函数，Statement无法完成主从复制的操作，则采用row格式来保存。<ul>
+<li>表结构变更使用Statement来记录(如果使用Row这个binlog如果数据多的话，不可估量的大小)，至于Update或者Delete还是会记录所有行的变更</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-MySQL的存储引擎"><a href="#2-MySQL的存储引擎" class="headerlink" title="2. MySQL的存储引擎"></a>2. MySQL的存储引擎</h3><h4 id="2-1-MyISAM和InnoDB的区别？"><a href="#2-1-MyISAM和InnoDB的区别？" class="headerlink" title="2.1 MyISAM和InnoDB的区别？"></a>2.1 MyISAM和InnoDB的区别？</h4><p><strong>MyISAM和InnoDB的区别主要有<font color="red">(特性)</font></strong>：</p>
+<ul>
+<li>事务：MyISAM不支持事务，而InnoDB支持事务</li>
+<li>锁粒度：MyISAM是表锁，而InnoDB是行级锁，粒度更小</li>
+<li>崩溃恢复机制：MyISAM崩溃恢复速度较慢且损坏概率高，而InnoDB崩溃恢复机制比较可靠，速度较快</li>
+<li>外键：MyISAM不支持外键，InnoDB支持外键</li>
+<li>热备份：MyISAM不支持热备份，InnoDB支持热备份</li>
+<li>压缩数据：MyISAM支持压缩表和空间数据索引(GIS)，InnoDB需要更多的内存和存储，因为需要存储索引的信息以及缓存数据</li>
+</ul>
+<p><strong><font color="red">(使用场景区别):</font></strong></p>
+<ul>
+<li>MyISAM管理非事务表，没有事务，所以一般用来做读写分离中的读表，查询性能比较好</li>
+<li>InnoDB支持事务，并发情况下有很好的性能(MVCC机制)，所以适合写数据，一般用来做读写分离中的写表，基本可以替代MyISAM</li>
+</ul>
+<h4 id="2-2-MyISAM和InnoDB的索引区别？"><a href="#2-2-MyISAM和InnoDB的索引区别？" class="headerlink" title="2.2 MyISAM和InnoDB的索引区别？"></a>2.2 MyISAM和InnoDB的索引区别？</h4><p>MyISAM和InnoDB由于都是存储引擎，为了数据的查询的效率，都支持索引的建立，索引的主要作用就是将我们的随机I/O变成顺序I/O，从而加快查询的效率。</p>
+<p><strong>索引的实现</strong></p>
+<blockquote>
+<p>索引的底层实现主要是依赖索引的数据结构，B+树来实现的，B+树相比于普通的二叉树，子节点个数更多，更加的矮胖，存储的数据也就更多，但是相比于B树而言，B+树的优点是所有的数据存储在叶子节点上，叶子节点直接通过链表连接起来，更加适合区间查询。而且普通节点上不存储数据，只存储索引的键信息，可以存储更多的key。</p>
+</blockquote>
+<p><strong>MyISAM与InnoDB的索引区别：</strong></p>
+<p>首先我们要明确索引的种类：索引主要有</p>
+<ul>
+<li>全文索引</li>
+<li>哈希索引</li>
+<li>B树索引</li>
+<li>RTREE索引(基本用不上，可以忽略)</li>
+</ul>
+<p>MyISAM和InnoDB都使用的是B树索引，但是在实现机制上有所不同。</p>
+<p>MyISAM使用的是非聚簇索引</p>
+<blockquote>
+<p>非聚簇索引就是有主索引和辅助索引，虽然数据都是存储在叶子节点上，但是MyISAM中的辅助索引可以直接定位到数据的Row值，即数据行，减少了一次回表操作。</p>
+</blockquote>
+<p>InnoDB使用的是聚簇索引</p>
+<blockquote>
+<p>聚簇索引也是用的主索引和辅助索引，数据都在叶子节点上，但是辅助索引叶子节点存储的是主键和主键的列信息，说明通过辅助索引查到的值需要回表，然后走一遍主索引，覆盖索引不需要回表，感觉是因为覆盖了主键索引，所以不需要回表(有待确认！)</p>
+</blockquote>
+<h4 id="2-3-最左前缀匹配原则？"><a href="#2-3-最左前缀匹配原则？" class="headerlink" title="2.3 最左前缀匹配原则？"></a>2.3 最左前缀匹配原则？</h4><p>最左前缀匹配原则的话这个和B+树的性质有关，B+数的索引构建的时候是按照给定的索引顺序来的，但是如果说建立了(A,B)索引，此时使用B,A，MySQL的执行器会优化，然后就可以使用索引了。但是如果只有B的话，此时是不能够使用索引的，因为找不到A，此时的话就相当于一个扫描表的操作了，这种实现的过程叫做最左匹配前缀。</p>
+<h3 id="3-MySQL中的事务"><a href="#3-MySQL中的事务" class="headerlink" title="3. MySQL中的事务"></a>3. MySQL中的事务</h3><h4 id="3-1-数据库中的事务"><a href="#3-1-数据库中的事务" class="headerlink" title="3.1 数据库中的事务"></a>3.1 数据库中的事务</h4><blockquote>
+<p>事务：一组原子性的SQL查询，或者说是一个独立的工作单元。如果数据库引擎能够成功的对数据库应用该组查询的全部语句，则执行该组查询。如果其中任何一组语句因为崩溃或者其他原因无法执行，此时所有语句都不会执行。即事务内的语句要么全部成功，要么全部失败。</p>
+</blockquote>
+<h4 id="3-2-四大特性ACID"><a href="#3-2-四大特性ACID" class="headerlink" title="3.2 四大特性ACID"></a>3.2 四大特性ACID</h4><ul>
+<li>Atomicity：原子性。即一个事务被看做一个不可分割的最小工作单元，整个事务中的操作要么全部成功，要么全部失败。</li>
+<li>Consistency：一致性。数据库总是从一个一致性状态转移到另一个一致性状态。</li>
+<li>Isolation：隔离性。一个事务所做的修改再最终提交之前，对其他事务是不可见的。</li>
+<li>Durability：持久性。即一旦事务执行成功提交了，其所做的修改就会永久保存到数据库中。即使系统崩溃，修改的数据也不会丢失。(这里的崩溃不会丢失，由redo log实现的)</li>
+</ul>
+<h4 id="3-3-脏读、不可重复读、幻读？"><a href="#3-3-脏读、不可重复读、幻读？" class="headerlink" title="3.3 脏读、不可重复读、幻读？"></a>3.3 脏读、不可重复读、幻读？</h4><ul>
+<li>脏读：指代一个事务在修改这个数据的时候，在未提交之前被另一个事务读到了，此时的读就是脏读。</li>
+<li>不可重复读：即第一个事务读的时候，第二个事务修改了，然后第一个事务在读，发现读取的数据不一样</li>
+<li>幻读：是指第一个事务读的时候，第二个插入或者删除了数据，然后第一个事务在读，突然发现多了很多数据，像出现了幻觉</li>
+</ul>
+<h4 id="3-4-事务的隔离级别？"><a href="#3-4-事务的隔离级别？" class="headerlink" title="3.4 事务的隔离级别？"></a>3.4 事务的隔离级别？</h4><ul>
+<li>未提交读</li>
+<li>提交度</li>
+<li>可重复读</li>
+<li>串行化</li>
+</ul>
+<p>MySQL的默认隔离级别是可重复读</p>
+<h3 id="4-MySQL的锁机制"><a href="#4-MySQL的锁机制" class="headerlink" title="4. MySQL的锁机制"></a>4. MySQL的锁机制</h3><h4 id="4-1-隔离级别与锁的关系？"><a href="#4-1-隔离级别与锁的关系？" class="headerlink" title="4.1 隔离级别与锁的关系？"></a>4.1 隔离级别与锁的关系？</h4><p>隔离级别主要是通过锁来实现的。所以是一种依赖的关系。</p>
+<h4 id="4-2-锁粒度分类？"><a href="#4-2-锁粒度分类？" class="headerlink" title="4.2 锁粒度分类？"></a>4.2 锁粒度分类？</h4><p>锁的话主要有以下几种：</p>
+<ul>
+<li>共享锁：读锁，顾名思义，即当前锁大家可以共用。</li>
+<li>排它锁：写锁，但是如果是加了写锁，由于MVCC机制的存在，查询不会被阻塞，但是有修改操作的都会被阻塞</li>
+<li>行级锁：指锁定的是行的记录</li>
+<li>表级锁：指代锁定的是整张表</li>
+<li>乐观锁：相信其他线程没有做修改，需要提交的时候比对版本号，一致的话就提交</li>
+<li>悲观锁：先加锁，防止被其他线程修改</li>
+</ul>
+<p><font color="red">MySQL的乐观锁和悲观锁是由程序实现的，即是先判断还是先减库存然后再判断</font> </p>
+<h4 id="4-3-InnoDB的行锁怎么实现的？"><a href="#4-3-InnoDB的行锁怎么实现的？" class="headerlink" title="4.3 InnoDB的行锁怎么实现的？"></a>4.3 InnoDB的行锁怎么实现的？</h4><p>通过当前当前行语句的索引加锁来实现的。如果说没有使用索引的话，会加上表锁，因为它可以通过索引判断你当前的查询是否需要全表扫描，如果需要全表扫描的话，为了保证数据的准确性，MySQL会采用加表锁的方式来实现。</p>
+<h3 id="5-MySQL的视图与存储过程"><a href="#5-MySQL的视图与存储过程" class="headerlink" title="5. MySQL的视图与存储过程"></a>5. MySQL的视图与存储过程</h3><h4 id="5-1-视图是什么？"><a href="#5-1-视图是什么？" class="headerlink" title="5.1 视图是什么？"></a>5.1 视图是什么？</h4><blockquote>
+<p>视图：视图是一个虚拟表，其内容由查询定义。同真实的表一样，视图包含一系列带有名称的列和行数据，但是视图并不在数据库中以存储的数据值集形式存在，行和列数据来自由定义视图的查询所引用的表，并且在引用视图时动态生成。</p>
+<p>视图具有表结构，但不存在数据文件。</p>
+<p>对于其中所引用的基础表来说，视图的作用类似于筛选，定义视图的筛选可以来自当前或其他数据库的一个或者多个表，或者其他视图。通过视图进行查询时没有任何限制的，通过它们进行数据修改的限制也很少。</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 创建视图</span></span><br><span class="line"><span class="comment">-- 创建表</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> <span class="keyword">logs</span>(</span><br><span class="line"><span class="string">`id`</span> <span class="built_in">int</span>(<span class="number">3</span>) <span class="keyword">not</span> <span class="literal">null</span> auto_increment,</span><br><span class="line"><span class="string">`num`</span> <span class="built_in">int</span>(<span class="number">2</span>) <span class="keyword">not</span> <span class="literal">null</span>,</span><br><span class="line">primary <span class="keyword">key</span>(<span class="string">`id`</span>)</span><br><span class="line">) <span class="keyword">ENGINE</span> =<span class="keyword">INNODB</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=<span class="string">'utf8'</span> auto_increment=<span class="number">1</span>;</span><br><span class="line"><span class="comment">-- 插入数据</span></span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> <span class="keyword">logs</span>(<span class="keyword">num</span>) <span class="keyword">values</span> (<span class="number">1</span>),(<span class="number">1</span>),(<span class="number">1</span>),(<span class="number">2</span>),(<span class="number">1</span>),(<span class="number">2</span>),(<span class="number">2</span>);</span><br><span class="line"><span class="comment">-- 创建视图</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">view</span> v <span class="keyword">as</span> (<span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">logs</span>); <span class="comment">-- 表示创建了一个名为v的视图</span></span><br><span class="line"><span class="comment">-- 查看视图</span></span><br><span class="line"><span class="keyword">show</span> <span class="keyword">table</span> <span class="keyword">status</span> <span class="keyword">where</span> <span class="keyword">comment</span> = <span class="string">'view'</span>;</span><br><span class="line"><span class="comment">-- 查询视图内容</span></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> v; <span class="comment">-- 查询到的内容就是我们当时创建视图时候插入的数据值，也是一张表</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>视图的优缺点：</strong></p>
+<ul>
+<li>优点：视图可以更快的将需要的数据展示出来，或者可以控制展示响应的数据。简单，安全，逻辑数据独立</li>
+<li>缺点：性能差，修改有限制，一般是对比较复杂的视图，不可修改</li>
+</ul>
+<h4 id="5-2-存储过程"><a href="#5-2-存储过程" class="headerlink" title="5.2 存储过程"></a>5.2 存储过程</h4><p>存储过程是大型数据库中，一组为了完成特定功能的SQL语句集，它存储在数据库中，一次编译永久有效，用户通过制定存储过程的名字并给出参数来执行它。</p>
+<ul>
+<li>优点的话是执行效率高，先编译后执行</li>
+<li>缺点的话是可读性不强，一旦有个小功能需要修改，需要大改</li>
+</ul>
+]]></content>
+      <categories>
+        <category>MySQL</category>
+      </categories>
+      <tags>
+        <tag>MySQL</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Linux机器性能排查</title>
     <url>/2020/09/11/Linux%E7%9B%B8%E5%85%B3%E5%91%BD%E4%BB%A4%E4%BD%BF%E7%94%A8/</url>
     <content><![CDATA[<h2 id="Linux的相关命令使用"><a href="#Linux的相关命令使用" class="headerlink" title="Linux的相关命令使用"></a>Linux的相关命令使用</h2><h3 id="1-Linux整机性能的评估"><a href="#1-Linux整机性能的评估" class="headerlink" title="1. Linux整机性能的评估"></a>1. Linux整机性能的评估</h3><p>系统如果慢的话，一个是CPU占用率过高导致，另外一个就是磁盘IO导致</p>
@@ -1303,6 +1491,186 @@
   </entry>
   <entry>
     <title>Java基础复习</title>
+    <url>/2020/04/14/Java%E5%9F%BA%E7%A1%80%E5%A4%8D%E4%B9%A0/</url>
+    <content><![CDATA[<h2 id="Java基础复习-2020-04-12开始"><a href="#Java基础复习-2020-04-12开始" class="headerlink" title="Java基础复习(2020-04-12开始)"></a>Java基础复习(2020-04-12开始)</h2><h3 id="1-String、StringBuffer、StringBuilder"><a href="#1-String、StringBuffer、StringBuilder" class="headerlink" title="1. String、StringBuffer、StringBuilder"></a>1. String、StringBuffer、StringBuilder</h3><h4 id="String"><a href="#String" class="headerlink" title="String"></a>String</h4><p>String是不可变的，为什么不可变？因为底层的实现是通过一个不可变的char[]类型的数组实现的。</p>
+<p>且在String中所有的字符操作都是改变value的指向，并没有实际改变value的值。也即重新创建了一个对象。</p>
+<p>因为是不可变的，所以线程安全。</p>
+<ul>
+<li>因为不可变，可以缓存hash值，hash值也是不可变的，避免重复多次计算</li>
+<li>因为不可变，可以使用String pool，每次创建如果String pool中有，可以直接取得引用，只有不可变才可以使用String pool</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/** The value is used for character storage. */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">char</span> value[];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">String</span><span class="params">(<span class="keyword">char</span> value[])</span> </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.value = Arrays.copyOf(value, value.length);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="StringBuffer"><a href="#StringBuffer" class="headerlink" title="StringBuffer"></a>StringBuffer</h4><p>是可变的，继承自AbstractStringBuilder，主要是使用append方法来改变的。</p>
+<p>线程安全的，因为每一个方法都被加上了synchronized关键字修饰</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * A cache of the last value returned by toString. Cleared</span></span><br><span class="line"><span class="comment"> * whenever the StringBuffer is modified.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">transient</span> <span class="keyword">char</span>[] toStringCache;</span><br></pre></td></tr></table></figure>
+
+<h4 id="StringBuilder"><a href="#StringBuilder" class="headerlink" title="StringBuilder"></a>StringBuilder</h4><p>StringBuilder也是继承自AbstractStringBuilder，可变的。不是线程安全的。</p>
+<h4 id="intern"><a href="#intern" class="headerlink" title="intern()"></a>intern()</h4><p>intern方法的话，表示如果再String pool中存在当前字符则直接取出返回，否则将当前字符串加入到String Pool中。如果存在当前字符串，则取出的使用<code>equals()</code>方法则为true。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">native</span> String <span class="title">intern</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
+
+<h4 id="new-String-“abc”-创建对象个数"><a href="#new-String-“abc”-创建对象个数" class="headerlink" title="new String(“abc”)创建对象个数"></a>new String(“abc”)创建对象个数</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">String abc = <span class="keyword">new</span> String(<span class="string">"abc"</span>);</span><br></pre></td></tr></table></figure>
+
+<p>首先答案为1个或者2个对象个数。注意”abc”是字符串字面量。</p>
+<ul>
+<li>1个的情况，创建的时候发现String Pool中存在abc对象，此时只需要在堆上创建一个对象即可</li>
+<li>2个的情况，创建的时候发现String Pool中不存在abc对象，此时需要再String Pool中创建一个”abc”对象指向字符串字面量，然后在堆中创建一个abc字符串对象</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 下面两个对象，一个是存在常量表中，一个是存放在堆中，所以地址不同</span></span><br><span class="line"><span class="comment">// 但是他们的内容都是指向字符串字面量test</span></span><br><span class="line">String s1 = <span class="string">"test"</span>;</span><br><span class="line">String s2 = <span class="keyword">new</span> String(<span class="string">"test"</span>);</span><br><span class="line">System.out.println(s1.equals(s2));</span><br><span class="line">System.out.println(s1 == s2);</span><br></pre></td></tr></table></figure>
+
+<p>如果String是可变的话，在for循环操作的时候就会破坏set集合，出现重复，但是实际上，并没有改变值。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">HashSet&lt;String&gt; set = <span class="keyword">new</span> HashSet&lt;&gt;();</span><br><span class="line">set.add(<span class="keyword">new</span> String(<span class="string">"a"</span>));</span><br><span class="line">set.add(<span class="keyword">new</span> String(<span class="string">"b"</span>));</span><br><span class="line">set.add(<span class="keyword">new</span> String(<span class="string">"c"</span>));</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span>(String a: set)&#123;</span><br><span class="line">  a = <span class="string">"a"</span>;</span><br><span class="line">&#125;</span><br><span class="line">System.out.println(set);<span class="comment">// [a,b,c]</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-Java参数传递"><a href="#2-Java参数传递" class="headerlink" title="2. Java参数传递"></a>2. Java参数传递</h3><p>值传递还是引用传递: </p>
+<ul>
+<li>第一段代码修改其中的值，返回的是修改后的数据，值传递。</li>
+<li>第二段代码修改对象的引用，返回的是原对象，表明引用传递失效，仍旧为值传递。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">  A a = <span class="keyword">new</span> A(<span class="string">"A"</span>);</span><br><span class="line">  System.out.println(a.getName());</span><br><span class="line">  modifyName(a); <span class="comment">// A</span></span><br><span class="line">  System.out.println(a.getName()); <span class="comment">// B</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">modifyName</span><span class="params">(A a)</span></span>&#123;</span><br><span class="line">  a.setName(<span class="string">"B"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">  A a = <span class="keyword">new</span> A(<span class="string">"A"</span>);</span><br><span class="line">  System.out.println(a.getName()); <span class="comment">// A</span></span><br><span class="line">  modifyName2(a);</span><br><span class="line">  System.out.println(a.getName()); <span class="comment">// A</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">modifyName2</span><span class="params">(A a)</span></span>&#123;</span><br><span class="line">  System.out.println(a.getName()); <span class="comment">// B</span></span><br><span class="line">  a = <span class="keyword">new</span> A(<span class="string">"B"</span>);</span><br><span class="line">  System.out.println(a.getName()); <span class="comment">// A</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-final关键字"><a href="#3-final关键字" class="headerlink" title="3. final关键字"></a>3. final关键字</h3><p>final关键字可以修饰变量，类，以及方法</p>
+<ul>
+<li><p>修饰变量的时候，此时表示当前的变量是常量，不可变。</p>
+<ul>
+<li>如果是基本类型数据，表示值不可变</li>
+<li>如果是引用类型数据，表示引用不变，即不能引用其他对象，但是被引用的对象本身是可以改变的，也就是其中属性的值是可变的</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">final</span> String s = <span class="string">"abc"</span>;</span><br><span class="line">String s1 = <span class="string">"bcd"</span>;</span><br><span class="line"><span class="comment">// s = s1; // Cannot assign value to final variable 's'</span></span><br><span class="line">String replace = s.replace(<span class="string">'c'</span>, <span class="string">'a'</span>);</span><br><span class="line">System.out.println(replace); <span class="comment">// aba</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修饰类的时候，表示当前类不可被继承</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">A</span></span>&#123;&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span> <span class="keyword">extends</span> <span class="title">A</span></span>&#123;&#125; <span class="comment">// Cannot inherit from final A</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修饰方法的时候，表示当前方法不可被子类重写</p>
+</li>
+</ul>
+<h3 id="4-程序语句块执行顺序"><a href="#4-程序语句块执行顺序" class="headerlink" title="4. 程序语句块执行顺序"></a>4. 程序语句块执行顺序</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> String a = getString();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">A</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"父类构造方法"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">"父类静态代码块"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#123;</span><br><span class="line">        System.out.println(<span class="string">"父类普通代码块"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"父类静态变量"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"父类静态变量"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span> <span class="keyword">extends</span> <span class="title">A</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> String b = getString();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">B</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"子类构造方法"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">"子类静态代码块"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#123;</span><br><span class="line">        System.out.println(<span class="string">"子类普通代码块"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"子类静态变量"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"子类静态变量"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>父类静态变量  父类静态代码块<br>子类静态变量  子类静态代码块<br>父类普通代码块 父类构造方法<br>子类普通代码块 子类构造方法</p>
+</blockquote>
+<p>统一来讲</p>
+<blockquote>
+<p>父类（静态变量、静态代码块）</p>
+<p>子类（静态变量、静态代码块）</p>
+<p>父类（普通变量、普通代码块）</p>
+<p>父类（构造方法）</p>
+<p>子类（普通变量、普通代码块）</p>
+<p>子类（构造方法）</p>
+</blockquote>
+<h3 id="5-Object的方法"><a href="#5-Object的方法" class="headerlink" title="5. Object的方法"></a>5. Object的方法</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">native</span> Class&lt;?&gt; getClass(); <span class="comment">// 获取当前对象的类对象</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">native</span> <span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span></span>; <span class="comment">// 返回哈希值，主要用于HashMap中</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object obj)</span> </span>&#123; <span class="comment">// equals方法，判断两个对象是否相等</span></span><br><span class="line">        <span class="keyword">return</span> (<span class="keyword">this</span> == obj);</span><br><span class="line">    &#125;</span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">native</span> Object <span class="title">clone</span><span class="params">()</span> <span class="keyword">throws</span> CloneNotSupportedException</span>; <span class="comment">// 对象克隆方法</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123; <span class="comment">// toString方法，返回代表当前对象的字符串</span></span><br><span class="line">        <span class="keyword">return</span> getClass().getName() + <span class="string">"@"</span> + Integer.toHexString(hashCode());</span><br><span class="line">    &#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">native</span> <span class="keyword">void</span> <span class="title">notify</span><span class="params">()</span></span>; <span class="comment">// 唤醒某个等待当前对象的线程</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">native</span> <span class="keyword">void</span> <span class="title">notifyAll</span><span class="params">()</span></span>; <span class="comment">// 唤醒所有的等待当前对象的线程</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">native</span> <span class="keyword">void</span> <span class="title">wait</span><span class="params">(<span class="keyword">long</span> timeout)</span> <span class="keyword">throws</span> InterruptedException</span>; <span class="comment">// 线程等待方法</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">wait</span><span class="params">(<span class="keyword">long</span> timeout, <span class="keyword">int</span> nanos)</span> <span class="keyword">throws</span> InterruptedException</span>&#123;&#125;;<span class="comment">// 线程等待方法</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">wait</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException </span>&#123; <span class="comment">// 无限期等待</span></span><br><span class="line">        wait(<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">finalize</span><span class="params">()</span> <span class="keyword">throws</span> Throwable </span>&#123; &#125; <span class="comment">// gc的时候调用的，判断对象是否真的要被回收</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="6-浅拷贝-amp-深拷贝"><a href="#6-浅拷贝-amp-深拷贝" class="headerlink" title="6. 浅拷贝&amp;深拷贝"></a>6. 浅拷贝&amp;深拷贝</h3><p>浅拷贝只是拷贝对象的引用，而深拷贝是拷贝出一个全新的对象.</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Created by caoduanxi on 2020/4/12</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ShallowClone</span> <span class="keyword">implements</span> <span class="title">Cloneable</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span>[] course;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> CloneNotSupportedException </span>&#123;</span><br><span class="line">        ShallowClone shallow = <span class="keyword">new</span> ShallowClone();</span><br><span class="line">        shallow.setName(<span class="string">"caoduanxi"</span>);</span><br><span class="line">        shallow.setAge(<span class="number">24</span>);</span><br><span class="line">        shallow.setCourse(<span class="keyword">new</span> <span class="keyword">int</span>[]&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>&#125;);</span><br><span class="line">        System.out.println(shallow.toString());</span><br><span class="line">        ShallowClone clone = (ShallowClone)shallow.clone();</span><br><span class="line">        <span class="comment">// 对于基本数据类型的改变，不会影响</span></span><br><span class="line">        shallow.setName(<span class="string">"modify name"</span>);</span><br><span class="line">        System.out.println(clone.getName()+<span class="string">"::"</span>+clone.getAge());</span><br><span class="line">        System.out.println(shallow.getName()+<span class="string">"::"</span>+clone.getAge());</span><br><span class="line">        <span class="comment">// 对于引用类型数据的变化，会有影响</span></span><br><span class="line">        <span class="keyword">int</span>[] course = shallow.course;</span><br><span class="line">        course[<span class="number">0</span>]=<span class="number">100</span>;</span><br><span class="line">        shallow.setCourse(course);</span><br><span class="line">        System.out.println(<span class="string">"clone:"</span>+ Arrays.toString(clone.getCourse()));</span><br><span class="line">        System.out.println(<span class="string">"shallow:"</span>+ Arrays.toString(shallow.getCourse()));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>ShallowClone(name=caoduanxi, age=24, course=[1, 2, 3, 4, 5])<br>caoduanxi::24<br>modify name::24<br>clone:[100, 2, 3, 4, 5]<br>shallow:[100, 2, 3, 4, 5]</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Created by caoduanxi on 2020/4/12</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DeepClone</span> <span class="keyword">implements</span> <span class="title">Cloneable</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span>[] course;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> Object <span class="title">clone</span><span class="params">()</span> <span class="keyword">throws</span> CloneNotSupportedException </span>&#123;</span><br><span class="line">        <span class="comment">// 深拷贝的话，拷贝的是一个全新的对象,但是这个全新对象的值是等于拷贝的对象的</span></span><br><span class="line">        <span class="comment">// 但是值是可以被修改的</span></span><br><span class="line">        DeepClone deepClone = <span class="keyword">new</span> DeepClone();</span><br><span class="line">        deepClone.setAge(<span class="keyword">this</span>.age);</span><br><span class="line">        deepClone.setName(<span class="keyword">this</span>.name);</span><br><span class="line">        <span class="keyword">int</span>[] course = <span class="keyword">this</span>.course;</span><br><span class="line">        <span class="keyword">int</span>[] cloneCourse = <span class="keyword">new</span> <span class="keyword">int</span>[course.length];</span><br><span class="line">        System.arraycopy(course, <span class="number">0</span>, cloneCourse, <span class="number">0</span>, course.length);</span><br><span class="line">        deepClone.setCourse(cloneCourse);</span><br><span class="line">        <span class="keyword">return</span> deepClone;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> CloneNotSupportedException </span>&#123;</span><br><span class="line">        DeepClone deep = <span class="keyword">new</span> DeepClone();</span><br><span class="line">        deep.setCourse(<span class="keyword">new</span> <span class="keyword">int</span>[]&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>&#125;);</span><br><span class="line">        deep.setName(<span class="string">"caoduanxi"</span>);</span><br><span class="line">        deep.setAge(<span class="number">25</span>);</span><br><span class="line">        System.out.println(<span class="string">"deep:"</span> + deep);</span><br><span class="line">        DeepClone clone = (DeepClone) deep.clone();</span><br><span class="line">        System.out.println(<span class="string">"clone:"</span> + clone);</span><br><span class="line">        <span class="comment">// 对基本类型进行修改，互相不影响</span></span><br><span class="line">        deep.setName(<span class="string">"deep modify name"</span>);</span><br><span class="line">        System.out.println(<span class="string">"deep:"</span> + deep.getName());</span><br><span class="line">        clone.setName(<span class="string">"clone modify name"</span>);</span><br><span class="line">        System.out.println(<span class="string">"clone:"</span> + clone.getName());</span><br><span class="line">        <span class="comment">// 对引用类型进行修改，也不影响</span></span><br><span class="line">        <span class="keyword">int</span>[] course = deep.getCourse();</span><br><span class="line">        course[<span class="number">0</span>] = <span class="number">1000</span>;</span><br><span class="line">        System.out.println(<span class="string">"deep course:"</span> + Arrays.toString(deep.getCourse()));</span><br><span class="line">        System.out.println(<span class="string">"clone course:"</span> + Arrays.toString(clone.getCourse()));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>deep:DeepClone(name=caoduanxi, age=25, course=[1, 2, 3, 4, 5])<br>clone:DeepClone(name=caoduanxi, age=25, course=[1, 2, 3, 4, 5])<br>deep:deep modify name<br>clone:clone modify name<br>deep course:[1000, 2, 3, 4, 5]<br>clone course:[1, 2, 3, 4, 5]</p>
+</blockquote>
+<p>最好的深拷贝实现方法就是通过对象序列化的方式来实现</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Created by caoduanxi on 2020/4/12</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Getter</span></span><br><span class="line"><span class="meta">@Setter</span></span><br><span class="line"><span class="meta">@AllArgsConstructor</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DeepCloneBySerializable</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span>[] course;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException, ClassNotFoundException </span>&#123;</span><br><span class="line">        DeepCloneBySerializable deep =</span><br><span class="line">                <span class="keyword">new</span> DeepCloneBySerializable(<span class="string">"caoduanxi"</span>, <span class="number">24</span>, <span class="keyword">new</span> <span class="keyword">int</span>[]&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>&#125;);</span><br><span class="line">        ByteArrayOutputStream bos = <span class="keyword">new</span> ByteArrayOutputStream();</span><br><span class="line">        <span class="comment">// 写对象</span></span><br><span class="line">        ObjectOutputStream oos = <span class="keyword">new</span> ObjectOutputStream(bos);</span><br><span class="line">        oos.writeObject(deep);</span><br><span class="line">        oos.flush();</span><br><span class="line">        <span class="comment">// 读入对象</span></span><br><span class="line">        ObjectInputStream ois = <span class="keyword">new</span> ObjectInputStream(<span class="keyword">new</span> ByteArrayInputStream(bos.toByteArray()));</span><br><span class="line">        DeepCloneBySerializable clone = (DeepCloneBySerializable) ois.readObject();</span><br><span class="line">        <span class="keyword">int</span>[] course = deep.getCourse();</span><br><span class="line">        course[<span class="number">0</span>] = <span class="number">1000</span>;</span><br><span class="line">        System.out.println(<span class="string">"deep:"</span> + deep.toString() + <span class="string">"\nclone:"</span> + clone.toString());</span><br><span class="line">        System.out.println(<span class="string">"deep course:"</span> + Arrays.toString(deep.getCourse()));</span><br><span class="line">        System.out.println(<span class="string">"clone course:"</span> + Arrays.toString(clone.getCourse()));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>deep:com.example.pratice.test.DeepCloneBySerializable@6e0be858<br>clone:com.example.pratice.test.DeepCloneBySerializable@5b480cf9<br>deep course:[1000, 2, 3, 4, 5]<br>clone course:[1, 2, 3, 4, 5]</p>
+</blockquote>
+<h3 id="7-equals-amp-hashCode"><a href="#7-equals-amp-hashCode" class="headerlink" title="7. equals&amp;hashCode"></a>7. equals&amp;hashCode</h3><p>equals方法比较的是两个对象的数据是否相等。而hashCode比较的是两个对象的哈希值是否相等。</p>
+<p>哈希值是有一定范围限制的，所以会出现两个对象具有相同哈希值的情况，所以可以知道<font color="red">哈希值相等的对象不一定相等</font></p>
+<p>equals方法比较的是两个对象的值是否相等，<font color="red">如果equals相等，那么当前对象也就相等，他们的哈希值也就相等</font></p>
+<blockquote>
+<p>问：为什么重写equals方法的时候要重写hashCode方法？</p>
+</blockquote>
+<p>一般来说hashcode用的多的是在HashMap中用来对数据存放的table位置进行一个定位，数据很多会有相等的table位置，但是table里面存储的是链表以及红黑树，此时hashcode相等不能代表当前对象相等，还需要比较他们的值是否equals，如果是，那么就定位到了准确的数据点。</p>
+<p>如果不重写hashcode方法，会造成两个对象相等，但是hashcode不相等的情况。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@AllArgsConstructor</span></span><br><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EqualsAndHash</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> x;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> y;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> z;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object o)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span> == o) <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        <span class="keyword">if</span> (o == <span class="keyword">null</span> || getClass() != o.getClass()) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        EqualsAndHash that = (EqualsAndHash) o;</span><br><span class="line">        <span class="keyword">return</span> x == that.x &amp;&amp;</span><br><span class="line">                y == that.y &amp;&amp;</span><br><span class="line">                z == that.z;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//    @Override</span></span><br><span class="line"><span class="comment">//    public int hashCode() &#123;</span></span><br><span class="line"><span class="comment">//        return Objects.hash(x, y, z);</span></span><br><span class="line"><span class="comment">//    &#125;</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        EqualsAndHash eah = <span class="keyword">new</span> EqualsAndHash(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>);</span><br><span class="line">        EqualsAndHash hae = <span class="keyword">new</span> EqualsAndHash(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>);</span><br><span class="line">        System.out.println(eah.equals(hae)); </span><br><span class="line">        System.out.println(<span class="string">"eah: "</span> + eah.hashCode() + <span class="string">"\nhae: "</span> + hae.hashCode());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>true<br>eah: 621009875<br>hae: 1265094477</p>
+</blockquote>
+<p>上述结果就是重写了equals，没有重写hashcode方法出现的哈希值不等的情况。</p>
+<p><font color="red">原因：</font>如果重写了hashcode，那么两个对象会调用相同的hashCode计算方法计算。但是没有重写，相当于两个对象去请求Object的hashCode()方法，自然返回两个不同的哈希值。</p>
+<h3 id="8-访问权限修饰符"><a href="#8-访问权限修饰符" class="headerlink" title="8. 访问权限修饰符"></a>8. 访问权限修饰符</h3><p>Java的访问权限修饰符有四个：public、protected、默认default、private</p>
+<p>public是全都可见</p>
+<p>protected是当前类，当前包下，当前子类下</p>
+<p>default是当前类，当前包下</p>
+<p>private是当前类</p>
+<table>
+<thead>
+<tr>
+<th>访问修饰符</th>
+<th>当前类</th>
+<th>同一包</th>
+<th>子类</th>
+<th>其他包</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>public</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+</tr>
+<tr>
+<td>protected</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>×</td>
+</tr>
+<tr>
+<td>default</td>
+<td>√</td>
+<td>√</td>
+<td>×</td>
+<td>×</td>
+</tr>
+<tr>
+<td>private</td>
+<td>√</td>
+<td>×</td>
+<td>×</td>
+<td>×</td>
+</tr>
+</tbody></table>
+<h3 id="9-重写与重载"><a href="#9-重写与重载" class="headerlink" title="9. 重写与重载"></a>9. 重写与重载</h3><p>重写：发生在继承体系中</p>
+<ul>
+<li>子类方法的访问权限必须大于父类方法</li>
+<li>子类方法的返回类型必须是父类返回类型或者其子类型</li>
+<li>子类抛出的异常类型必须是父类抛出异常类型或者子类型</li>
+</ul>
+<p>重载：发生在一个类下面，指代一个方法名称相同，但是参数类型、个数、顺序至少有一个不同。<font color="red">注意：不能以返回值不同来定义重载！</font></p>
+<h3 id="10-Java反射机制"><a href="#10-Java反射机制" class="headerlink" title="10. Java反射机制"></a>10. Java反射机制</h3><p>定义：指代程序可以检测、访问、修改自身状态或者行为的能力</p>
+<p>作用：</p>
+<ul>
+<li>运行时判断一个对象所属的类</li>
+<li>运行时构造任意一个类的对象</li>
+<li>运行时判断一个类所具有的属性与方法</li>
+<li>运行时调用任意一个对象的方法</li>
+</ul>
+<h3 id="11-异常"><a href="#11-异常" class="headerlink" title="11. 异常"></a>11. 异常</h3><p>异常主要分为两种：Error、Exception，父类都为Throwable</p>
+<p>Error表示JVM无法处理的错误，而Exception表示可以处理。</p>
+<p>Exception分为两种：</p>
+<ul>
+<li>受检异常：程序员可以使用try…catch语句捕获并进行处理的，可以从异常中恢复，保障程序能够正常的运行</li>
+<li>非受检异常：程序运行是发生的错误，会导致程序崩溃无法恢复。</li>
+</ul>
+<p>受检异常：IOException</p>
+<p>非受检异常：RuntimeException-&gt;IndexOutOfBoundsException</p>
+]]></content>
+      <categories>
+        <category>秋招复习</category>
+      </categories>
+      <tags>
+        <tag>Java基础|秋招</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java基础复习</title>
     <url>/2020/04/14/%E9%9B%86%E5%90%88%E7%B1%BB%E5%A4%8D%E4%B9%A0/</url>
     <content><![CDATA[<h2 id="集合类-2020-04-12"><a href="#集合类-2020-04-12" class="headerlink" title="集合类(2020-04-12)"></a>集合类(2020-04-12)</h2><h3 id="1-整体介绍"><a href="#1-整体介绍" class="headerlink" title="1. 整体介绍"></a>1. 整体介绍</h3><p>常见的集合类有：Map/Set/List/Queue</p>
 <p><strong>Map:</strong></p>
@@ -1485,189 +1853,9 @@
       </tags>
   </entry>
   <entry>
-    <title>Java基础复习</title>
-    <url>/2020/04/14/Java%E5%9F%BA%E7%A1%80%E5%A4%8D%E4%B9%A0/</url>
-    <content><![CDATA[<h2 id="Java基础复习-2020-04-12开始"><a href="#Java基础复习-2020-04-12开始" class="headerlink" title="Java基础复习(2020-04-12开始)"></a>Java基础复习(2020-04-12开始)</h2><h3 id="1-String、StringBuffer、StringBuilder"><a href="#1-String、StringBuffer、StringBuilder" class="headerlink" title="1. String、StringBuffer、StringBuilder"></a>1. String、StringBuffer、StringBuilder</h3><h4 id="String"><a href="#String" class="headerlink" title="String"></a>String</h4><p>String是不可变的，为什么不可变？因为底层的实现是通过一个不可变的char[]类型的数组实现的。</p>
-<p>且在String中所有的字符操作都是改变value的指向，并没有实际改变value的值。也即重新创建了一个对象。</p>
-<p>因为是不可变的，所以线程安全。</p>
-<ul>
-<li>因为不可变，可以缓存hash值，hash值也是不可变的，避免重复多次计算</li>
-<li>因为不可变，可以使用String pool，每次创建如果String pool中有，可以直接取得引用，只有不可变才可以使用String pool</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/** The value is used for character storage. */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">char</span> value[];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">String</span><span class="params">(<span class="keyword">char</span> value[])</span> </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.value = Arrays.copyOf(value, value.length);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="StringBuffer"><a href="#StringBuffer" class="headerlink" title="StringBuffer"></a>StringBuffer</h4><p>是可变的，继承自AbstractStringBuilder，主要是使用append方法来改变的。</p>
-<p>线程安全的，因为每一个方法都被加上了synchronized关键字修饰</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * A cache of the last value returned by toString. Cleared</span></span><br><span class="line"><span class="comment"> * whenever the StringBuffer is modified.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">transient</span> <span class="keyword">char</span>[] toStringCache;</span><br></pre></td></tr></table></figure>
-
-<h4 id="StringBuilder"><a href="#StringBuilder" class="headerlink" title="StringBuilder"></a>StringBuilder</h4><p>StringBuilder也是继承自AbstractStringBuilder，可变的。不是线程安全的。</p>
-<h4 id="intern"><a href="#intern" class="headerlink" title="intern()"></a>intern()</h4><p>intern方法的话，表示如果再String pool中存在当前字符则直接取出返回，否则将当前字符串加入到String Pool中。如果存在当前字符串，则取出的使用<code>equals()</code>方法则为true。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">native</span> String <span class="title">intern</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
-
-<h4 id="new-String-“abc”-创建对象个数"><a href="#new-String-“abc”-创建对象个数" class="headerlink" title="new String(“abc”)创建对象个数"></a>new String(“abc”)创建对象个数</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">String abc = <span class="keyword">new</span> String(<span class="string">"abc"</span>);</span><br></pre></td></tr></table></figure>
-
-<p>首先答案为1个或者2个对象个数。注意”abc”是字符串字面量。</p>
-<ul>
-<li>1个的情况，创建的时候发现String Pool中存在abc对象，此时只需要在堆上创建一个对象即可</li>
-<li>2个的情况，创建的时候发现String Pool中不存在abc对象，此时需要再String Pool中创建一个”abc”对象指向字符串字面量，然后在堆中创建一个abc字符串对象</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 下面两个对象，一个是存在常量表中，一个是存放在堆中，所以地址不同</span></span><br><span class="line"><span class="comment">// 但是他们的内容都是指向字符串字面量test</span></span><br><span class="line">String s1 = <span class="string">"test"</span>;</span><br><span class="line">String s2 = <span class="keyword">new</span> String(<span class="string">"test"</span>);</span><br><span class="line">System.out.println(s1.equals(s2));</span><br><span class="line">System.out.println(s1 == s2);</span><br></pre></td></tr></table></figure>
-
-<p>如果String是可变的话，在for循环操作的时候就会破坏set集合，出现重复，但是实际上，并没有改变值。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">HashSet&lt;String&gt; set = <span class="keyword">new</span> HashSet&lt;&gt;();</span><br><span class="line">set.add(<span class="keyword">new</span> String(<span class="string">"a"</span>));</span><br><span class="line">set.add(<span class="keyword">new</span> String(<span class="string">"b"</span>));</span><br><span class="line">set.add(<span class="keyword">new</span> String(<span class="string">"c"</span>));</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span>(String a: set)&#123;</span><br><span class="line">  a = <span class="string">"a"</span>;</span><br><span class="line">&#125;</span><br><span class="line">System.out.println(set);<span class="comment">// [a,b,c]</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="2-Java参数传递"><a href="#2-Java参数传递" class="headerlink" title="2. Java参数传递"></a>2. Java参数传递</h3><p>值传递还是引用传递: </p>
-<ul>
-<li>第一段代码修改其中的值，返回的是修改后的数据，值传递。</li>
-<li>第二段代码修改对象的引用，返回的是原对象，表明引用传递失效，仍旧为值传递。</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">  A a = <span class="keyword">new</span> A(<span class="string">"A"</span>);</span><br><span class="line">  System.out.println(a.getName());</span><br><span class="line">  modifyName(a); <span class="comment">// A</span></span><br><span class="line">  System.out.println(a.getName()); <span class="comment">// B</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">modifyName</span><span class="params">(A a)</span></span>&#123;</span><br><span class="line">  a.setName(<span class="string">"B"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">  A a = <span class="keyword">new</span> A(<span class="string">"A"</span>);</span><br><span class="line">  System.out.println(a.getName()); <span class="comment">// A</span></span><br><span class="line">  modifyName2(a);</span><br><span class="line">  System.out.println(a.getName()); <span class="comment">// A</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">modifyName2</span><span class="params">(A a)</span></span>&#123;</span><br><span class="line">  System.out.println(a.getName()); <span class="comment">// B</span></span><br><span class="line">  a = <span class="keyword">new</span> A(<span class="string">"B"</span>);</span><br><span class="line">  System.out.println(a.getName()); <span class="comment">// A</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="3-final关键字"><a href="#3-final关键字" class="headerlink" title="3. final关键字"></a>3. final关键字</h3><p>final关键字可以修饰变量，类，以及方法</p>
-<ul>
-<li><p>修饰变量的时候，此时表示当前的变量是常量，不可变。</p>
-<ul>
-<li>如果是基本类型数据，表示值不可变</li>
-<li>如果是引用类型数据，表示引用不变，即不能引用其他对象，但是被引用的对象本身是可以改变的，也就是其中属性的值是可变的</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">final</span> String s = <span class="string">"abc"</span>;</span><br><span class="line">String s1 = <span class="string">"bcd"</span>;</span><br><span class="line"><span class="comment">// s = s1; // Cannot assign value to final variable 's'</span></span><br><span class="line">String replace = s.replace(<span class="string">'c'</span>, <span class="string">'a'</span>);</span><br><span class="line">System.out.println(replace); <span class="comment">// aba</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>修饰类的时候，表示当前类不可被继承</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">A</span></span>&#123;&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span> <span class="keyword">extends</span> <span class="title">A</span></span>&#123;&#125; <span class="comment">// Cannot inherit from final A</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>修饰方法的时候，表示当前方法不可被子类重写</p>
-</li>
-</ul>
-<h3 id="4-程序语句块执行顺序"><a href="#4-程序语句块执行顺序" class="headerlink" title="4. 程序语句块执行顺序"></a>4. 程序语句块执行顺序</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> String a = getString();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">A</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"父类构造方法"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">"父类静态代码块"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#123;</span><br><span class="line">        System.out.println(<span class="string">"父类普通代码块"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"父类静态变量"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"父类静态变量"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span> <span class="keyword">extends</span> <span class="title">A</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> String b = getString();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">B</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"子类构造方法"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">"子类静态代码块"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#123;</span><br><span class="line">        System.out.println(<span class="string">"子类普通代码块"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"子类静态变量"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"子类静态变量"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>父类静态变量  父类静态代码块<br>子类静态变量  子类静态代码块<br>父类普通代码块 父类构造方法<br>子类普通代码块 子类构造方法</p>
-</blockquote>
-<p>统一来讲</p>
-<blockquote>
-<p>父类（静态变量、静态代码块）</p>
-<p>子类（静态变量、静态代码块）</p>
-<p>父类（普通变量、普通代码块）</p>
-<p>父类（构造方法）</p>
-<p>子类（普通变量、普通代码块）</p>
-<p>子类（构造方法）</p>
-</blockquote>
-<h3 id="5-Object的方法"><a href="#5-Object的方法" class="headerlink" title="5. Object的方法"></a>5. Object的方法</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">native</span> Class&lt;?&gt; getClass(); <span class="comment">// 获取当前对象的类对象</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">native</span> <span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span></span>; <span class="comment">// 返回哈希值，主要用于HashMap中</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object obj)</span> </span>&#123; <span class="comment">// equals方法，判断两个对象是否相等</span></span><br><span class="line">        <span class="keyword">return</span> (<span class="keyword">this</span> == obj);</span><br><span class="line">    &#125;</span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">native</span> Object <span class="title">clone</span><span class="params">()</span> <span class="keyword">throws</span> CloneNotSupportedException</span>; <span class="comment">// 对象克隆方法</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123; <span class="comment">// toString方法，返回代表当前对象的字符串</span></span><br><span class="line">        <span class="keyword">return</span> getClass().getName() + <span class="string">"@"</span> + Integer.toHexString(hashCode());</span><br><span class="line">    &#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">native</span> <span class="keyword">void</span> <span class="title">notify</span><span class="params">()</span></span>; <span class="comment">// 唤醒某个等待当前对象的线程</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">native</span> <span class="keyword">void</span> <span class="title">notifyAll</span><span class="params">()</span></span>; <span class="comment">// 唤醒所有的等待当前对象的线程</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">native</span> <span class="keyword">void</span> <span class="title">wait</span><span class="params">(<span class="keyword">long</span> timeout)</span> <span class="keyword">throws</span> InterruptedException</span>; <span class="comment">// 线程等待方法</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">wait</span><span class="params">(<span class="keyword">long</span> timeout, <span class="keyword">int</span> nanos)</span> <span class="keyword">throws</span> InterruptedException</span>&#123;&#125;;<span class="comment">// 线程等待方法</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">wait</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException </span>&#123; <span class="comment">// 无限期等待</span></span><br><span class="line">        wait(<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">finalize</span><span class="params">()</span> <span class="keyword">throws</span> Throwable </span>&#123; &#125; <span class="comment">// gc的时候调用的，判断对象是否真的要被回收</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="6-浅拷贝-amp-深拷贝"><a href="#6-浅拷贝-amp-深拷贝" class="headerlink" title="6. 浅拷贝&amp;深拷贝"></a>6. 浅拷贝&amp;深拷贝</h3><p>浅拷贝只是拷贝对象的引用，而深拷贝是拷贝出一个全新的对象.</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Created by caoduanxi on 2020/4/12</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ShallowClone</span> <span class="keyword">implements</span> <span class="title">Cloneable</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span>[] course;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> CloneNotSupportedException </span>&#123;</span><br><span class="line">        ShallowClone shallow = <span class="keyword">new</span> ShallowClone();</span><br><span class="line">        shallow.setName(<span class="string">"caoduanxi"</span>);</span><br><span class="line">        shallow.setAge(<span class="number">24</span>);</span><br><span class="line">        shallow.setCourse(<span class="keyword">new</span> <span class="keyword">int</span>[]&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>&#125;);</span><br><span class="line">        System.out.println(shallow.toString());</span><br><span class="line">        ShallowClone clone = (ShallowClone)shallow.clone();</span><br><span class="line">        <span class="comment">// 对于基本数据类型的改变，不会影响</span></span><br><span class="line">        shallow.setName(<span class="string">"modify name"</span>);</span><br><span class="line">        System.out.println(clone.getName()+<span class="string">"::"</span>+clone.getAge());</span><br><span class="line">        System.out.println(shallow.getName()+<span class="string">"::"</span>+clone.getAge());</span><br><span class="line">        <span class="comment">// 对于引用类型数据的变化，会有影响</span></span><br><span class="line">        <span class="keyword">int</span>[] course = shallow.course;</span><br><span class="line">        course[<span class="number">0</span>]=<span class="number">100</span>;</span><br><span class="line">        shallow.setCourse(course);</span><br><span class="line">        System.out.println(<span class="string">"clone:"</span>+ Arrays.toString(clone.getCourse()));</span><br><span class="line">        System.out.println(<span class="string">"shallow:"</span>+ Arrays.toString(shallow.getCourse()));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>ShallowClone(name=caoduanxi, age=24, course=[1, 2, 3, 4, 5])<br>caoduanxi::24<br>modify name::24<br>clone:[100, 2, 3, 4, 5]<br>shallow:[100, 2, 3, 4, 5]</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Created by caoduanxi on 2020/4/12</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DeepClone</span> <span class="keyword">implements</span> <span class="title">Cloneable</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span>[] course;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> Object <span class="title">clone</span><span class="params">()</span> <span class="keyword">throws</span> CloneNotSupportedException </span>&#123;</span><br><span class="line">        <span class="comment">// 深拷贝的话，拷贝的是一个全新的对象,但是这个全新对象的值是等于拷贝的对象的</span></span><br><span class="line">        <span class="comment">// 但是值是可以被修改的</span></span><br><span class="line">        DeepClone deepClone = <span class="keyword">new</span> DeepClone();</span><br><span class="line">        deepClone.setAge(<span class="keyword">this</span>.age);</span><br><span class="line">        deepClone.setName(<span class="keyword">this</span>.name);</span><br><span class="line">        <span class="keyword">int</span>[] course = <span class="keyword">this</span>.course;</span><br><span class="line">        <span class="keyword">int</span>[] cloneCourse = <span class="keyword">new</span> <span class="keyword">int</span>[course.length];</span><br><span class="line">        System.arraycopy(course, <span class="number">0</span>, cloneCourse, <span class="number">0</span>, course.length);</span><br><span class="line">        deepClone.setCourse(cloneCourse);</span><br><span class="line">        <span class="keyword">return</span> deepClone;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> CloneNotSupportedException </span>&#123;</span><br><span class="line">        DeepClone deep = <span class="keyword">new</span> DeepClone();</span><br><span class="line">        deep.setCourse(<span class="keyword">new</span> <span class="keyword">int</span>[]&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>&#125;);</span><br><span class="line">        deep.setName(<span class="string">"caoduanxi"</span>);</span><br><span class="line">        deep.setAge(<span class="number">25</span>);</span><br><span class="line">        System.out.println(<span class="string">"deep:"</span> + deep);</span><br><span class="line">        DeepClone clone = (DeepClone) deep.clone();</span><br><span class="line">        System.out.println(<span class="string">"clone:"</span> + clone);</span><br><span class="line">        <span class="comment">// 对基本类型进行修改，互相不影响</span></span><br><span class="line">        deep.setName(<span class="string">"deep modify name"</span>);</span><br><span class="line">        System.out.println(<span class="string">"deep:"</span> + deep.getName());</span><br><span class="line">        clone.setName(<span class="string">"clone modify name"</span>);</span><br><span class="line">        System.out.println(<span class="string">"clone:"</span> + clone.getName());</span><br><span class="line">        <span class="comment">// 对引用类型进行修改，也不影响</span></span><br><span class="line">        <span class="keyword">int</span>[] course = deep.getCourse();</span><br><span class="line">        course[<span class="number">0</span>] = <span class="number">1000</span>;</span><br><span class="line">        System.out.println(<span class="string">"deep course:"</span> + Arrays.toString(deep.getCourse()));</span><br><span class="line">        System.out.println(<span class="string">"clone course:"</span> + Arrays.toString(clone.getCourse()));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>deep:DeepClone(name=caoduanxi, age=25, course=[1, 2, 3, 4, 5])<br>clone:DeepClone(name=caoduanxi, age=25, course=[1, 2, 3, 4, 5])<br>deep:deep modify name<br>clone:clone modify name<br>deep course:[1000, 2, 3, 4, 5]<br>clone course:[1, 2, 3, 4, 5]</p>
-</blockquote>
-<p>最好的深拷贝实现方法就是通过对象序列化的方式来实现</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Created by caoduanxi on 2020/4/12</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Getter</span></span><br><span class="line"><span class="meta">@Setter</span></span><br><span class="line"><span class="meta">@AllArgsConstructor</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DeepCloneBySerializable</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span>[] course;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException, ClassNotFoundException </span>&#123;</span><br><span class="line">        DeepCloneBySerializable deep =</span><br><span class="line">                <span class="keyword">new</span> DeepCloneBySerializable(<span class="string">"caoduanxi"</span>, <span class="number">24</span>, <span class="keyword">new</span> <span class="keyword">int</span>[]&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>&#125;);</span><br><span class="line">        ByteArrayOutputStream bos = <span class="keyword">new</span> ByteArrayOutputStream();</span><br><span class="line">        <span class="comment">// 写对象</span></span><br><span class="line">        ObjectOutputStream oos = <span class="keyword">new</span> ObjectOutputStream(bos);</span><br><span class="line">        oos.writeObject(deep);</span><br><span class="line">        oos.flush();</span><br><span class="line">        <span class="comment">// 读入对象</span></span><br><span class="line">        ObjectInputStream ois = <span class="keyword">new</span> ObjectInputStream(<span class="keyword">new</span> ByteArrayInputStream(bos.toByteArray()));</span><br><span class="line">        DeepCloneBySerializable clone = (DeepCloneBySerializable) ois.readObject();</span><br><span class="line">        <span class="keyword">int</span>[] course = deep.getCourse();</span><br><span class="line">        course[<span class="number">0</span>] = <span class="number">1000</span>;</span><br><span class="line">        System.out.println(<span class="string">"deep:"</span> + deep.toString() + <span class="string">"\nclone:"</span> + clone.toString());</span><br><span class="line">        System.out.println(<span class="string">"deep course:"</span> + Arrays.toString(deep.getCourse()));</span><br><span class="line">        System.out.println(<span class="string">"clone course:"</span> + Arrays.toString(clone.getCourse()));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>deep:com.example.pratice.test.DeepCloneBySerializable@6e0be858<br>clone:com.example.pratice.test.DeepCloneBySerializable@5b480cf9<br>deep course:[1000, 2, 3, 4, 5]<br>clone course:[1, 2, 3, 4, 5]</p>
-</blockquote>
-<h3 id="7-equals-amp-hashCode"><a href="#7-equals-amp-hashCode" class="headerlink" title="7. equals&amp;hashCode"></a>7. equals&amp;hashCode</h3><p>equals方法比较的是两个对象的数据是否相等。而hashCode比较的是两个对象的哈希值是否相等。</p>
-<p>哈希值是有一定范围限制的，所以会出现两个对象具有相同哈希值的情况，所以可以知道<font color="red">哈希值相等的对象不一定相等</font></p>
-<p>equals方法比较的是两个对象的值是否相等，<font color="red">如果equals相等，那么当前对象也就相等，他们的哈希值也就相等</font></p>
-<blockquote>
-<p>问：为什么重写equals方法的时候要重写hashCode方法？</p>
-</blockquote>
-<p>一般来说hashcode用的多的是在HashMap中用来对数据存放的table位置进行一个定位，数据很多会有相等的table位置，但是table里面存储的是链表以及红黑树，此时hashcode相等不能代表当前对象相等，还需要比较他们的值是否equals，如果是，那么就定位到了准确的数据点。</p>
-<p>如果不重写hashcode方法，会造成两个对象相等，但是hashcode不相等的情况。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@AllArgsConstructor</span></span><br><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EqualsAndHash</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> x;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> y;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> z;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object o)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span> == o) <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        <span class="keyword">if</span> (o == <span class="keyword">null</span> || getClass() != o.getClass()) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        EqualsAndHash that = (EqualsAndHash) o;</span><br><span class="line">        <span class="keyword">return</span> x == that.x &amp;&amp;</span><br><span class="line">                y == that.y &amp;&amp;</span><br><span class="line">                z == that.z;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//    @Override</span></span><br><span class="line"><span class="comment">//    public int hashCode() &#123;</span></span><br><span class="line"><span class="comment">//        return Objects.hash(x, y, z);</span></span><br><span class="line"><span class="comment">//    &#125;</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        EqualsAndHash eah = <span class="keyword">new</span> EqualsAndHash(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>);</span><br><span class="line">        EqualsAndHash hae = <span class="keyword">new</span> EqualsAndHash(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>);</span><br><span class="line">        System.out.println(eah.equals(hae)); </span><br><span class="line">        System.out.println(<span class="string">"eah: "</span> + eah.hashCode() + <span class="string">"\nhae: "</span> + hae.hashCode());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>true<br>eah: 621009875<br>hae: 1265094477</p>
-</blockquote>
-<p>上述结果就是重写了equals，没有重写hashcode方法出现的哈希值不等的情况。</p>
-<p><font color="red">原因：</font>如果重写了hashcode，那么两个对象会调用相同的hashCode计算方法计算。但是没有重写，相当于两个对象去请求Object的hashCode()方法，自然返回两个不同的哈希值。</p>
-<h3 id="8-访问权限修饰符"><a href="#8-访问权限修饰符" class="headerlink" title="8. 访问权限修饰符"></a>8. 访问权限修饰符</h3><p>Java的访问权限修饰符有四个：public、protected、默认default、private</p>
-<p>public是全都可见</p>
-<p>protected是当前类，当前包下，当前子类下</p>
-<p>default是当前类，当前包下</p>
-<p>private是当前类</p>
-<table>
-<thead>
-<tr>
-<th>访问修饰符</th>
-<th>当前类</th>
-<th>同一包</th>
-<th>子类</th>
-<th>其他包</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>public</td>
-<td>√</td>
-<td>√</td>
-<td>√</td>
-<td>√</td>
-</tr>
-<tr>
-<td>protected</td>
-<td>√</td>
-<td>√</td>
-<td>√</td>
-<td>×</td>
-</tr>
-<tr>
-<td>default</td>
-<td>√</td>
-<td>√</td>
-<td>×</td>
-<td>×</td>
-</tr>
-<tr>
-<td>private</td>
-<td>√</td>
-<td>×</td>
-<td>×</td>
-<td>×</td>
-</tr>
-</tbody></table>
-<h3 id="9-重写与重载"><a href="#9-重写与重载" class="headerlink" title="9. 重写与重载"></a>9. 重写与重载</h3><p>重写：发生在继承体系中</p>
-<ul>
-<li>子类方法的访问权限必须大于父类方法</li>
-<li>子类方法的返回类型必须是父类返回类型或者其子类型</li>
-<li>子类抛出的异常类型必须是父类抛出异常类型或者子类型</li>
-</ul>
-<p>重载：发生在一个类下面，指代一个方法名称相同，但是参数类型、个数、顺序至少有一个不同。<font color="red">注意：不能以返回值不同来定义重载！</font></p>
-<h3 id="10-Java反射机制"><a href="#10-Java反射机制" class="headerlink" title="10. Java反射机制"></a>10. Java反射机制</h3><p>定义：指代程序可以检测、访问、修改自身状态或者行为的能力</p>
-<p>作用：</p>
-<ul>
-<li>运行时判断一个对象所属的类</li>
-<li>运行时构造任意一个类的对象</li>
-<li>运行时判断一个类所具有的属性与方法</li>
-<li>运行时调用任意一个对象的方法</li>
-</ul>
-<h3 id="11-异常"><a href="#11-异常" class="headerlink" title="11. 异常"></a>11. 异常</h3><p>异常主要分为两种：Error、Exception，父类都为Throwable</p>
-<p>Error表示JVM无法处理的错误，而Exception表示可以处理。</p>
-<p>Exception分为两种：</p>
-<ul>
-<li>受检异常：程序员可以使用try…catch语句捕获并进行处理的，可以从异常中恢复，保障程序能够正常的运行</li>
-<li>非受检异常：程序运行是发生的错误，会导致程序崩溃无法恢复。</li>
-</ul>
-<p>受检异常：IOException</p>
-<p>非受检异常：RuntimeException-&gt;IndexOutOfBoundsException</p>
-]]></content>
-      <categories>
-        <category>秋招复习</category>
-      </categories>
-      <tags>
-        <tag>Java基础|秋招</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>快手面试准备</title>
-    <url>/2020/04/14/%E5%BF%AB%E6%89%8B%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/</url>
-    <content><![CDATA[<p><strong>1. zuul网关，如果zuul网关挂了nginx能知道吗？</strong></p>
+    <url>/2020/04/14/%E5%90%84%E5%A4%A7%E5%85%AC%E5%8F%B8%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/</url>
+    <content><![CDATA[<h2 id="1-快手"><a href="#1-快手" class="headerlink" title="1. 快手"></a>1. 快手</h2><p><strong>1. zuul网关，如果zuul网关挂了nginx能知道吗？</strong></p>
 <p>一般使用nginx+zuul来搭建实现高可用网关。所以如果是高可用的话，zuul挂了的话，nginx肯定是知道的。zuul的作用是实现转发和过滤来说使用的。可以做安全校验等一系列动作。以及路由转发。</p>
 <p><strong>2. 配置zuul网关，如何配置</strong></p>
 <figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="attr">spring</span>:<span class="string"></span></span><br><span class="line">  <span class="attr">application</span>:<span class="string"></span></span><br><span class="line">    <span class="attr">name</span>: <span class="string">service-zuul</span></span><br><span class="line"><span class="comment">    # 服务器路由在这里起作用了，主要的作用就是转发请求，但是需要在zuul中配置好转发规则</span></span><br><span class="line"><span class="comment">    # 服务器路由不仅可以做转发的作用还可以起到过滤的作用，安全验证</span></span><br><span class="line"><span class="attr">zuul</span>:<span class="string"></span></span><br><span class="line">  <span class="attr">routes</span>:<span class="string"></span></span><br><span class="line">    <span class="meta">api-a</span>:<span class="string"></span></span><br><span class="line">      <span class="attr">path</span>: <span class="string">/api-a/*</span></span><br><span class="line">      <span class="attr">serviceId</span>: <span class="string">service-ribbon</span></span><br><span class="line">    <span class="meta">api-b</span>:<span class="string"></span></span><br><span class="line">      <span class="attr">path</span>: <span class="string">/api-b/*</span></span><br><span class="line">      <span class="attr">serviceId</span>: <span class="string">service-feign</span></span><br></pre></td></tr></table></figure>
@@ -1805,6 +1993,27 @@
 <p><strong>35. newFixedThreadPool使用的阻塞队列是哪一个？</strong></p>
 <ul>
 <li>LinkedBlockedQueue</li>
+</ul>
+<h2 id="2-小米"><a href="#2-小米" class="headerlink" title="2. 小米"></a>2. 小米</h2><p><strong>SpringBoot启动过程</strong></p>
+<p>SpringBoot启动主要是通过实例化SpringApplicatioin来启动的，启动过程主要做了一下几件事情：配置属性、获取监听器、发布应用开始启动事件处理、创建上下文、预处理上下文、刷新上下文(加载tomcat容器)、再刷新上下文、发布应用启动事件、发布应用启动完成事件。</p>
+<p><strong>为什么要使用RPC，而不是HTTP？</strong></p>
+<p>RPC(Remote Procedure Call)远程过程调用。HTTP是一种协议，RPC可以使用HTTP协议来实现，也可以通过Socket自己实现一套协议来实现。使用HTTP每次通信都要进行三次握手，无形之中增加了通信的开销，而RPC一般都有自己的注册中心，调用方或者被调用方都在可以在注册中心找到自己可以调用的接口，省去了三次握手的通信开销。</p>
+<p>好处的话：灵活部署，解耦。RPC远程过程调用，RPC的核心并不在于你使用了什么协议。RPC的目的是让你在本地调用远程的方法，而对你来说这个调用是透明的，方法内部的实现不用知道，通过RPC解耦当前服务，才是RPC的真正目的所在。RPC主要使用了动态代理技术，至于HTTP协议，HTTP协议的话，只是通信的传输协议而已。</p>
+<p><strong>设置JVM的栈与堆的参数？</strong></p>
+<p><code>-Xmx256m</code>设置最大的堆内存</p>
+<p><code>-Xmn128m</code>设置对最小内存</p>
+<p><code>-Xms40m</code>初始内存</p>
+<p><code>-XX:PermSize=128M</code>非堆内存</p>
+<p><code>-Xss:128k</code>设置每个线程的堆栈大小</p>
+<p><strong>标记清除算法存在的问题</strong></p>
+<p>容易导致大量的内存碎片。</p>
+<p><strong>对象创建的过程</strong></p>
+<ul>
+<li>检查类是否被加载(如果没有执行类加载过程)</li>
+<li>为新生对象分配内存</li>
+<li>初始化零值</li>
+<li>进行必要设置(设置对象头信息)</li>
+<li>执行init方法，真正的初始化</li>
 </ul>
 ]]></content>
       <categories>
@@ -3423,26 +3632,6 @@
       </tags>
   </entry>
   <entry>
-    <title>面试常见算法题</title>
-    <url>/2020/03/21/%E9%9D%A2%E8%AF%95%E5%B8%B8%E8%A7%81%E7%AE%97%E6%B3%95%E9%A2%98/</url>
-    <content><![CDATA[<p><strong>1. 最长公共子序列(Leetcode 1143)</strong></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> caoduanxi</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span> 2020/3/23 22:10</span></span><br><span class="line"><span class="comment"> * 最长公共子序列</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;</span></span><br><span class="line"><span class="comment"> * 找出两个字符串的最长公共子序列长度</span></span><br><span class="line"><span class="comment"> * "abcde" "ace" 3</span></span><br><span class="line"><span class="comment"> * "bcde"  "de" 2 </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LongestCommonSubsequence</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 如果第一个都不相等怎么解决这个问题？</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">longestCommonSubsequence</span><span class="params">(String text1, String text2)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (text1.length() == <span class="number">0</span> || text2.length() == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> len1 = text1.length() + <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span> len2 = text2.length() + <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span>[][] dp = <span class="keyword">new</span> <span class="keyword">int</span>[len1][len2];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; len1; i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt; len2; j++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (text1.charAt(i-<span class="number">1</span>) == text2.charAt(j-<span class="number">1</span>)) &#123;</span><br><span class="line">                    <span class="comment">// 如果相等的话,即1的前i-1与2的前j-1的基础上加1</span></span><br><span class="line">                    dp[i][j] = dp[i-<span class="number">1</span>][j-<span class="number">1</span>]+<span class="number">1</span>;</span><br><span class="line">                &#125;<span class="keyword">else</span>&#123; <span class="comment">// 如果不能的话就看1的前i个与2的前j-1个，与1的前i-1个与2的前j个之间的大小情况</span></span><br><span class="line">                    dp[i][j] = Math.max(dp[i][j - <span class="number">1</span>], dp[i - <span class="number">1</span>][j]);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[text1.length()][text2.length()];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        LongestCommonSubsequence test = <span class="keyword">new</span> LongestCommonSubsequence();</span><br><span class="line">        <span class="keyword">int</span> i = test.longestCommonSubsequence(<span class="string">"abcde"</span>, <span class="string">"ace"</span>);</span><br><span class="line">        System.out.println(i);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>2. 硬币组合问题（Leetcode面试题）</strong></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> caoduanxi</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span> 2020/3/23 21:49</span></span><br><span class="line"><span class="comment"> * 换硬币问题，典型的背包问题</span></span><br><span class="line"><span class="comment"> * dp[i][j] 表示第i个物品是j空间的总数</span></span><br><span class="line"><span class="comment"> * dp[i][j] 一方面等于没有取第i个物品，此时背包空间j</span></span><br><span class="line"><span class="comment"> * 另一方面的等于去了第i个物品，此时背包空间为j-coins[i]</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WaysToChange</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">waysToChange</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span>[][] dp = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">4</span>][n + <span class="number">1</span>];</span><br><span class="line">        <span class="keyword">int</span>[] coins = <span class="keyword">new</span> <span class="keyword">int</span>[]&#123;<span class="number">1</span>, <span class="number">5</span>, <span class="number">10</span>, <span class="number">25</span>&#125;;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">4</span>; i++) &#123;</span><br><span class="line">            dp[i][<span class="number">0</span>] = <span class="number">1</span>; <span class="comment">// 第一列</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;= n; i++) &#123;</span><br><span class="line">            dp[<span class="number">0</span>][i] = <span class="number">1</span>; <span class="comment">// 第一行</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 从第一个硬币值开始</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; <span class="number">4</span>; i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= n; j++) &#123; <span class="comment">// 空间为n</span></span><br><span class="line">                <span class="comment">// 前提是硬币需要大于当前适配的硬币值</span></span><br><span class="line">                <span class="keyword">if</span> (j &gt;= coins[i]) &#123;</span><br><span class="line">                    dp[i][j] = (dp[i - <span class="number">1</span>][j] + dp[i][j - coins[i]]) % <span class="number">1000000007</span>;</span><br><span class="line">                &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                    <span class="comment">// 如果当前硬币值不大于适配的硬币面值，则只能顺应上一级的</span></span><br><span class="line">                    dp[i][j] = dp[i-<span class="number">1</span>][j]; <span class="comment">// 放不下，价值没法增加</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[<span class="number">3</span>][n];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>3. 零钱兑换(Leetcode 322)</strong></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 可选的面额，一定的钱，用最少的硬币个数凑成面额值</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">coinChange</span><span class="params">(<span class="keyword">int</span>[] coins, <span class="keyword">int</span> amount)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(amount == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> dp[] = <span class="keyword">new</span> <span class="keyword">int</span>[amount+<span class="number">1</span>];</span><br><span class="line">        Arrays.fill(dp,amount+<span class="number">1</span>);</span><br><span class="line">        dp[<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= amount; i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> coin : coins) &#123;</span><br><span class="line">                <span class="keyword">if</span>(coin &gt; i)&#123;</span><br><span class="line">                    <span class="keyword">continue</span>;<span class="comment">// 背包装不下，直接下一个</span></span><br><span class="line">                &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                    <span class="comment">// 否则的话，判断背包装了这个硬币+1，之后与之前的大小，取最小的</span></span><br><span class="line">                    dp[i] = Math.min(dp[i],<span class="number">1</span>+dp[i-coin]);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[amount] &gt; amount ? -<span class="number">1</span> : dp[amount];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>算法</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>ConcurrentHashMap源码</title>
     <url>/2020/03/21/ConcurrentHashMap%E6%BA%90%E7%A0%81/</url>
     <content><![CDATA[<h1 id="ConcurrentHashMap源码"><a href="#ConcurrentHashMap源码" class="headerlink" title="ConcurrentHashMap源码"></a>ConcurrentHashMap源码</h1><h2 id="1-JDK1-7版本"><a href="#1-JDK1-7版本" class="headerlink" title="1. JDK1.7版本"></a>1. JDK1.7版本</h2><h3 id="1-基本结构"><a href="#1-基本结构" class="headerlink" title="1. 基本结构"></a>1. 基本结构</h3><p>ConcurrentHashMap与HashMap在实现上差距不大，最主要的区别在于ConcurrentHashMap采用了分段锁（Segment），每个分段锁维护着几个桶（HashEntry），多个线程可以同时访问不同分段中的桶，从而提高并发度，并发度就是Segment的个数。</p>
@@ -3556,241 +3745,229 @@
       </tags>
   </entry>
   <entry>
-    <title>Redis基础知识</title>
-    <url>/2020/03/21/Redis%E5%AD%A6%E4%B9%A0/</url>
-    <content><![CDATA[<h1 id="Redis学习"><a href="#Redis学习" class="headerlink" title="Redis学习"></a>Redis学习</h1><h2 id="1-Redis与Memcache的区别"><a href="#1-Redis与Memcache的区别" class="headerlink" title="1. Redis与Memcache的区别"></a>1. Redis与Memcache的区别</h2><ul>
-<li>Memcache代码层类似hash</li>
-<li>Memcache支持简单数据类型，Redis支持丰富的数据类型</li>
-<li>Memcache不支持数据持久化存储，Redis支持数据磁盘持久化存储</li>
-<li>Memcache不支持主从，Redis支持主从</li>
-<li>Memcahce不支持分片，Redis支持分片</li>
-</ul>
-<h2 id="2-Redis为什么这么快？"><a href="#2-Redis为什么这么快？" class="headerlink" title="2. Redis为什么这么快？"></a>2. Redis为什么这么快？</h2><p>官方给出的数据是100000+QPS，redis快的原因：</p>
-<ul>
-<li>完全基于内存，绝大部分请求是纯粹的内存操作，执行效率高</li>
-<li>数据结构简单，对数据操作也简单</li>
-<li>采用单线程，单线程也能处理高并发请求，想多核也可以启动多实例</li>
-<li>使用多路I/O复用模型，阻塞IO</li>
-</ul>
-<h2 id="3-多路I-O复用模型"><a href="#3-多路I-O复用模型" class="headerlink" title="3. 多路I/O复用模型"></a>3. 多路I/O复用模型</h2><p>FD：File Descriptor，文件描述符</p>
-<p>一个打开的文件通过唯一的描述符进行引用，该描述符是打开文件的元数据到文件本身的数据。</p>
-<p><strong>Redis采用的I/O多路复用函数：epoll、kqueue、evport、select</strong></p>
-<ul>
-<li>因地制宜</li>
-<li>优先选择时间复杂度为O(1) 的I/O多路复用函数作为底层实现</li>
-<li>以时间复杂度为O(n)的select作为保底</li>
-<li>基于react设计模式监听I/O事件</li>
-</ul>
-<h2 id="4-Redis常用的数据类型"><a href="#4-Redis常用的数据类型" class="headerlink" title="4. Redis常用的数据类型"></a>4. Redis常用的数据类型</h2><p>String：最基本的数据类型，二进制安全。</p>
-<p>底层实现：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span>&#123;</span></span><br><span class="line">	<span class="keyword">int</span> len; <span class="comment">// buf数据已占用的长度</span></span><br><span class="line">	<span class="keyword">int</span> <span class="built_in">free</span>; <span class="comment">// buf中剩余可用空间的长度</span></span><br><span class="line">	<span class="keyword">char</span> buf[]; <span class="comment">// 数据空间</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+    <title>面试常见算法题</title>
+    <url>/2020/03/21/%E9%9D%A2%E8%AF%95%E5%B8%B8%E8%A7%81%E7%AE%97%E6%B3%95%E9%A2%98/</url>
+    <content><![CDATA[<p><strong>1. 最长公共子序列(Leetcode 1143)</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> caoduanxi</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span> 2020/3/23 22:10</span></span><br><span class="line"><span class="comment"> * 最长公共子序列</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;</span></span><br><span class="line"><span class="comment"> * 找出两个字符串的最长公共子序列长度</span></span><br><span class="line"><span class="comment"> * "abcde" "ace" 3</span></span><br><span class="line"><span class="comment"> * "bcde"  "de" 2 </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LongestCommonSubsequence</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 如果第一个都不相等怎么解决这个问题？</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">longestCommonSubsequence</span><span class="params">(String text1, String text2)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (text1.length() == <span class="number">0</span> || text2.length() == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> len1 = text1.length() + <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span> len2 = text2.length() + <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span>[][] dp = <span class="keyword">new</span> <span class="keyword">int</span>[len1][len2];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; len1; i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt; len2; j++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (text1.charAt(i-<span class="number">1</span>) == text2.charAt(j-<span class="number">1</span>)) &#123;</span><br><span class="line">                    <span class="comment">// 如果相等的话,即1的前i-1与2的前j-1的基础上加1</span></span><br><span class="line">                    dp[i][j] = dp[i-<span class="number">1</span>][j-<span class="number">1</span>]+<span class="number">1</span>;</span><br><span class="line">                &#125;<span class="keyword">else</span>&#123; <span class="comment">// 如果不能的话就看1的前i个与2的前j-1个，与1的前i-1个与2的前j个之间的大小情况</span></span><br><span class="line">                    dp[i][j] = Math.max(dp[i][j - <span class="number">1</span>], dp[i - <span class="number">1</span>][j]);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[text1.length()][text2.length()];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        LongestCommonSubsequence test = <span class="keyword">new</span> LongestCommonSubsequence();</span><br><span class="line">        <span class="keyword">int</span> i = test.longestCommonSubsequence(<span class="string">"abcde"</span>, <span class="string">"ace"</span>);</span><br><span class="line">        System.out.println(i);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>Hash：String元素组成的字典，适合存储对象。底层实现：字典</p>
-<p>List：列表，按照String元素插入顺序排序（有序）。底层实现：链表</p>
-<p>Set：String元素组成的无序集合，通过哈希实现，不允许重复（无序）：底层使用整数集合来存储</p>
-<p>Sorted Set：通过分数来为集合中的成员进行从小到大的排序。（按照分数高低排序，也就是由分数权重）：跳跃表。时间复杂度O(logn)（最坏的情况下是O(n)）,跟二叉树有的一拼，时常用来代替二叉树。</p>
-<h2 id="5-跳跃表"><a href="#5-跳跃表" class="headerlink" title="5. 跳跃表"></a>5. 跳跃表</h2><p>Sorted Set底层是基于跳跃表实现的。什么是跳跃表呢。其实就是链表，但是与链表不同的是，这是有层次的链表，什么意思呢，因为链表的查找很费时间，O(n)，查询效率低下，一旦用到数据量大的查询上面，性能不佳。此时为了提升查询的速度，提出了跳跃表的这种结构，从链表中提取出关键节点，一般是上一层是下一层的一半，提取的极限是那一层不大于2个节点时（≤2）停止提取。</p>
-<p><img src="https://images2018.cnblogs.com/blog/1120165/201805/1120165-20180528210921601-949409375.png" alt="img"></p>
-<h2 id="6-面试题：从海量key中查询出某一固定前缀的key"><a href="#6-面试题：从海量key中查询出某一固定前缀的key" class="headerlink" title="6. 面试题：从海量key中查询出某一固定前缀的key"></a>6. 面试题：从海量key中查询出某一固定前缀的key</h2><p>使用keys pattern来匹配，但是如果数据量巨大的话，会造成客户端卡段。keys指令一次性返回所有匹配的key。键的数量过大会造成服务的卡段，对于内存的消耗是一个隐患，对于redis这样的内存型数据库。</p>
-<p><strong>scan cursor [MATCH pattern] [COUNT count]</strong>，基于游标的迭代器</p>
-<ul>
-<li>基于游标的迭代器，需要基于上一次的游标延续之前的迭代过程</li>
-<li>以0作为游标开始一次新的迭代，直到命令返回游标0完成一次遍历</li>
-<li>不保证每次执行都返回某个给定数量的元素，支持模糊查询</li>
-<li>一次返回的数量不可控，只能是大概率符合count参数</li>
-</ul>
-<p><code>scan 0 match n* count 1</code> 表示查询从0开始的以n开头的数据的一条记录。</p>
-<h2 id="7-Redis实现分布式锁"><a href="#7-Redis实现分布式锁" class="headerlink" title="7. Redis实现分布式锁"></a>7. Redis实现分布式锁</h2><p>分布式锁需要解决的问题：</p>
-<ul>
-<li>互斥性</li>
-<li>安全性</li>
-<li>死锁</li>
-<li>容错</li>
-</ul>
-<p><strong>第一种方案：使用SETNX+EXPIRE方案</strong></p>
-<p>SETNX key value 如果这个key不存在，则设置这个value，时间复杂度O(1)，成功返回1，失败返回0</p>
-<p>一般利用setnx来获取到锁，一旦获取到锁之后，采用expire的时间来释放锁，从而实现分布式锁。</p>
-<p>解决setnx长期有效的问题采用的是expire来实现的。</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">// 大致的伪代码</span><br><span class="line">long num = setnx(key,value)</span><br><span class="line">if(num==1)&#123;expire key time;&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>2. 硬币组合问题（Leetcode面试题）</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> caoduanxi</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span> 2020/3/23 21:49</span></span><br><span class="line"><span class="comment"> * 换硬币问题，典型的背包问题</span></span><br><span class="line"><span class="comment"> * dp[i][j] 表示第i个物品是j空间的总数</span></span><br><span class="line"><span class="comment"> * dp[i][j] 一方面等于没有取第i个物品，此时背包空间j</span></span><br><span class="line"><span class="comment"> * 另一方面的等于去了第i个物品，此时背包空间为j-coins[i]</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WaysToChange</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">waysToChange</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span>[][] dp = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">4</span>][n + <span class="number">1</span>];</span><br><span class="line">        <span class="keyword">int</span>[] coins = <span class="keyword">new</span> <span class="keyword">int</span>[]&#123;<span class="number">1</span>, <span class="number">5</span>, <span class="number">10</span>, <span class="number">25</span>&#125;;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">4</span>; i++) &#123;</span><br><span class="line">            dp[i][<span class="number">0</span>] = <span class="number">1</span>; <span class="comment">// 第一列</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;= n; i++) &#123;</span><br><span class="line">            dp[<span class="number">0</span>][i] = <span class="number">1</span>; <span class="comment">// 第一行</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 从第一个硬币值开始</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; <span class="number">4</span>; i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= n; j++) &#123; <span class="comment">// 空间为n</span></span><br><span class="line">                <span class="comment">// 前提是硬币需要大于当前适配的硬币值</span></span><br><span class="line">                <span class="keyword">if</span> (j &gt;= coins[i]) &#123;</span><br><span class="line">                    dp[i][j] = (dp[i - <span class="number">1</span>][j] + dp[i][j - coins[i]]) % <span class="number">1000000007</span>;</span><br><span class="line">                &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                    <span class="comment">// 如果当前硬币值不大于适配的硬币面值，则只能顺应上一级的</span></span><br><span class="line">                    dp[i][j] = dp[i-<span class="number">1</span>][j]; <span class="comment">// 放不下，价值没法增加</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[<span class="number">3</span>][n];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>这里的缺点在于一旦发生了某个节点的宕机，而此节点正好获取到了锁，此时未能设置expire造成原子性得不到满足。</p>
-<p>setnx是原子操作，expire也是原子操作，但是两者在一起却不是原子操作</p>
-<p><strong>第二种方案：使用SET+EXPIRE方案</strong></p>
-<p>SET key value [EX seconds] [PX milliseconds] [NX|XX]</p>
-<ul>
-<li>EX：设置的是存活的秒数</li>
-<li>PX：设置的是存活的毫秒数</li>
-<li>NX：只有键不存在的时候，才设置值</li>
-<li>XX：只有键存在的时候，才设置值</li>
-</ul>
-<p>SET方法可以满足原子性，设置成功返回1，设置失败返回nil，由此实现Redis的分布式锁。</p>
-<h2 id="8-Redis如何实现消息队列"><a href="#8-Redis如何实现消息队列" class="headerlink" title="8. Redis如何实现消息队列"></a>8. Redis如何实现消息队列</h2><p><strong>第一种方案使用lpush+rpop</strong></p>
-<p>使用<code>lpush testlist &quot;aaa&quot;</code>实现从左向右推元素，完成消息的生产。</p>
-<p>使用<code>rpop testlist</code>实现从右边弹出，完成消息的消费。</p>
-<p><strong>存在的缺点：</strong></p>
-<ul>
-<li>没有等待队列中有值就直接消费</li>
-<li>弥补：可以通过在应用层中引入sleep机制去调用lpop重试</li>
-</ul>
-<p><strong>第二种方法使用blpop+rpush</strong></p>
-<p>BLPOP key[key] timeout：阻塞直到队列有消息或者超时</p>
-<p>BLPOP使用的话是用来精确定时，也就是在设置的timeout中看阻塞队列中是否有消息。</p>
-<p>缺点：每次生产的消息只能够供一个消费者消费。</p>
-<p><strong>多个消费者的问题，使用pub/sub模式来解决：主题订阅者模式</strong></p>
-<ul>
-<li>发送者（pub）发送消息，订阅者（sub）接收消息</li>
-<li>订阅者可以订阅任意数量的频道</li>
-</ul>
-<p><img src="C:%5CUsers%5CAdministrator%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1582621048095.png" alt="1582621048095"></p>
-<p>使用pub/sub主题订阅者模式实现一个消息多个消费者消费的问题。</p>
-<p><strong>缺点：</strong></p>
-<p>消息的发布是无状态的，无法保证可达。</p>
-<p>消息发布的时候下线，然后上线，这个消息，订阅者是接收不到的。如果要保证可达需要使用kafka，专业的消息队列</p>
-<h2 id="9-Redis如何实现持久化"><a href="#9-Redis如何实现持久化" class="headerlink" title="9. Redis如何实现持久化"></a>9. Redis如何实现持久化</h2><h3 id="9-1-RDB"><a href="#9-1-RDB" class="headerlink" title="9.1 RDB"></a>9.1 RDB</h3><p>RDB快照持久化：保存某个时间点的全量数据快照。</p>
-<ul>
-<li>save：阻塞Redis的服务器进程，直到RDB文件被创建完毕</li>
-<li>BGSAVE：Fork出一个子进程来创建RDB文件，不阻塞服务器</li>
-</ul>
-<p><strong>自动触发RDB持久化的方式：</strong></p>
-<ul>
-<li>根据redis.conf中配置的save m n定时触发，用的是bgsave</li>
-<li>主从复制的时候，主节点自动触发</li>
-<li>执行Debug Reload</li>
-<li>执行shutdown且没有开启AOF持久化</li>
-</ul>
-<p>BGSAVE的工作原理：</p>
-<ul>
-<li>检查子进程（看是否有RDB或者AOF的子进程正在工作），存在的话返回错误</li>
-<li>触发持久化，调用rdbSaveBackground</li>
-<li>fork出一个子进程完成save操作，当前进程继续响应其他操作</li>
-</ul>
-<p>系统调用fork()，创建进程，实现copy-on-write:</p>
-<p>如果有多个调用者同时要求相同资源（如内存或者磁盘上的数据存储），他们会共同获取相同的指针指向相同的资源，直到某个调用视图修改资源的内容时，系统才会真正复制一份专用副本给调用者，而其他调用者所见到的最初的资源仍然保持不变。</p>
-<p><strong>RDB持久化的缺点：</strong></p>
-<ul>
-<li>内存数据的全量同步，数据量大会由于I/O而严重影响性能。</li>
-<li>可能会因为Redis挂掉而丢失从当前至最近一次快照期间的数据。</li>
-</ul>
-<h3 id="9-3-AOF"><a href="#9-3-AOF" class="headerlink" title="9.3 AOF"></a>9.3 AOF</h3><p><strong>AOF：append-only-file ：保持写状态</strong></p>
-<ul>
-<li>记录下除了查询以外所有变更数据库的指令</li>
-<li>以append的形式追加保存到AOF文件中（增量）</li>
-</ul>
-<p><strong>由于AOF文件是不断追加形式的，日志重写解决AOF文件不断增大的问题，步骤如下：</strong></p>
-<ul>
-<li>调用fork()，创建一个子进程</li>
-<li>子进程把新的AOF写到一个临时文件中，不依赖原来的AOF文件</li>
-<li>主进程持续将新的变动写到内存和原来的AOF文件中</li>
-<li>主进程获取子进程重写AOF的完成信号，往新AOF同步增量变动</li>
-<li>使用新AOF文件替换掉旧的AOF文件</li>
-</ul>
-<p><strong>Redis数据的恢复：</strong>一般是RDB和AOF文件共存时候的问题。</p>
-<ul>
-<li>存在AOF，则加载AOF文件，否则加载RDB，如果两者都不存在，报加载失败。</li>
-</ul>
-<p><strong>RDB和AOF的对比：</strong></p>
-<ul>
-<li>RDB优点：全量数据快照，文件小，恢复快</li>
-<li>RDB缺点：无法保存最近一次快照以后的数据</li>
-<li>AOF优点：可读性高，适合保存增量数据，数据不易丢失</li>
-<li>AOF缺点：文件体积大，恢复时间长</li>
-</ul>
-<p><strong>Redis如何做持久化</strong>：现在支持RDB-AOF混合持久化</p>
-<ul>
-<li>BGSAVE做镜像全量持久化，AOF做增量持久化</li>
-</ul>
-<h2 id="10-Pipeline"><a href="#10-Pipeline" class="headerlink" title="10. Pipeline"></a>10. Pipeline</h2><p>使用Pipeline的好处：</p>
-<ul>
-<li>Pipeline和Linux的管道相似</li>
-<li>Redis基于请求/响应模式，单个请求处理需要一一应答</li>
-<li>Pipeline批量执行指令，节省多次I/O往返的时间</li>
-<li>有顺序依赖的指令建议分批分送</li>
-</ul>
-<h2 id="11-Redis的同步机制"><a href="#11-Redis的同步机制" class="headerlink" title="11. Redis的同步机制"></a>11. Redis的同步机制</h2><p><strong>主从同步的全同步过程：</strong></p>
-<ul>
-<li>Slave发送sync命令到Master</li>
-<li>Master启动一个后台进程，将Redis中的数据快照保存到文件中</li>
-<li>Master将保存数据快照期间接收到的写命令缓存起来（此时写命令属于增量）</li>
-<li>Master完成写操作之后，将该文件发送给slave</li>
-<li>使用新的AOF替换掉旧的AOF文件</li>
-<li>Master将这期间收集到的增量写命令发送给slave端</li>
-</ul>
-<p><strong>增量同步过程</strong>：</p>
-<ul>
-<li>Master接收到用户的操作指令，判断是否需要传播到slave</li>
-<li>将操作记录追加到AOF文件</li>
-<li>将操作传播到其他slave：1. 对齐主从库；2.往响应缓存写入指令</li>
-<li>将缓存中的数据发送给slave</li>
-</ul>
-<p><strong>Redis Sentinel哨兵：高可用</strong></p>
-<ul>
-<li>监控：检查主从服务器是否运行正常</li>
-<li>提醒：通过API向管理员或者其他应用程序发送故障通知</li>
-<li>自动故障迁移：主从切换</li>
-</ul>
-<p><strong>流言协议Gossip</strong>：在杂乱无章中寻求一致</p>
-<ul>
-<li>每个节点都随机地与对方通信，最终所有节点的状态达成一致</li>
-<li>种子节点定期随机向其他节点发送节点列表以及需要传播的消息</li>
-<li>不保证信息一定会传递给所有节点，但是最终会趋于一致</li>
-</ul>
-<h2 id="12-Redis的集群原理"><a href="#12-Redis的集群原理" class="headerlink" title="12. Redis的集群原理"></a>12. Redis的集群原理</h2><p><strong>从海量的数据中找到所需：</strong></p>
-<ul>
-<li>分片：按照某种规则去划分数据，分散存储在多个节点上</li>
-<li>常规的按照哈希划分无法实现节点的动态增减。</li>
-</ul>
-<p><strong>一致性哈希算法</strong>：对2<sup>32</sup>取模，将哈希值组织成虚拟的圆环</p>
-<p><strong>将数据key使用相同的函数Hash计算出hash值，由于是环状的，所有的节点计算出的hash值都会按照顺时针归属为自己最近的节点。无论是节点宕机还是增加节点都比较方便。但是这样不可避免的会出现节点过少，此时由于节点分布不均匀，将会导致数据的倾斜问题产生，此时需要引入虚拟节点来解决数据倾斜的问题，也就是同一节点再细分成不同的编号组，以此使得数据倾斜问题被解决。</strong></p>
-<h2 id="13-总结"><a href="#13-总结" class="headerlink" title="13. 总结"></a>13. 总结</h2><p>本章主要介绍的是redis的相关知识，首先从基础的结构将其，redis作为内存型数据库，操作数据的能力是非常快的，且有丰富的数据类型，数据操作简单。连接Memcache与Redis的区别，随后为什么redis这么快，主要是直接操作内存，数据操作简单，单线程，多了I/O复用，随后通过从海量的key中找出固定前缀的key，引出keys pattern和scan基于游标的迭代获取结果数据方式。</p>
-<p>随后介绍分布式锁，分布式锁需要解决的问题是，互斥性，安全性，死锁以及容错四个特性，使用SETNX+EXPIRE实现分布式锁，由于存在破坏原子性的可能，使用SET直接设置可以实现原子性，实现分布式锁。随后通过list中的常用的lpush+rpop实现消息队列，使用BLPOP+RPUSH+timeout实现定时获取消息的机制。但是这存在一个消息只能有一个消费者。</p>
-<p>如果一个消息需要被多个消费者消费的话，需要使用pub/sub模式，订阅发布模式来实现，虽然能够实现一个消息被多个消费者消费，但是不能够保证消息的可达性，也就是发布者不能保证订阅者一定能够接收到消息。（一个是发送的无状态，不能保证可达，还有一个就是如果发布消息的时候订阅者上线，然后上线，这条消息也是接收不到的。如果需要解决需要依赖于专业的消息队列中间件KafKa）</p>
-<p>随后介绍持久化的实现基于BGSAVE的快照RDB实现，以及操作数据的AOF文件追加实现，现在支持两种方案并行使用。</p>
-<p>然后就是介绍Pipeline的机制，节省多次I/O往返时间。介绍了Redis的主从同步机制以及增量的同步机制。Redis哨兵的高可用性以及流言协议Gossip对于同步的最后趋于一致性的作用。</p>
-<p>最后就是介绍Redis的集群原理，主要是通过分片，对数据Hash取模值，最后形成hash环以此将数据相对比较均匀的分散到各个节点之上。如果遇到节点数过少，此时数据可能产生倾斜，此时需要使用单个节点多次编号来解决这个问题，使得数据分布相对均匀。</p>
+<p><strong>3. 零钱兑换(Leetcode 322)</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 可选的面额，一定的钱，用最少的硬币个数凑成面额值</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">coinChange</span><span class="params">(<span class="keyword">int</span>[] coins, <span class="keyword">int</span> amount)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(amount == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> dp[] = <span class="keyword">new</span> <span class="keyword">int</span>[amount+<span class="number">1</span>];</span><br><span class="line">        Arrays.fill(dp,amount+<span class="number">1</span>);</span><br><span class="line">        dp[<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= amount; i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> coin : coins) &#123;</span><br><span class="line">                <span class="keyword">if</span>(coin &gt; i)&#123;</span><br><span class="line">                    <span class="keyword">continue</span>;<span class="comment">// 背包装不下，直接下一个</span></span><br><span class="line">                &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                    <span class="comment">// 否则的话，判断背包装了这个硬币+1，之后与之前的大小，取最小的</span></span><br><span class="line">                    dp[i] = Math.min(dp[i],<span class="number">1</span>+dp[i-coin]);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[amount] &gt; amount ? -<span class="number">1</span> : dp[amount];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 ]]></content>
       <categories>
-        <category>中间件</category>
+        <category>算法</category>
       </categories>
       <tags>
-        <tag>redis 数据库</tag>
+        <tag>算法</tag>
       </tags>
   </entry>
   <entry>
-    <title>OJ输入输出学习</title>
-    <url>/2020/03/21/OJ%E5%9C%A8%E7%BA%BF%E5%88%A4%E9%A2%98%E5%AD%A6%E4%B9%A0/</url>
-    <content><![CDATA[<h1 id="OJ在线判题学习"><a href="#OJ在线判题学习" class="headerlink" title="OJ在线判题学习"></a>OJ在线判题学习</h1><h2 id="1-正确处理输入格式"><a href="#1-正确处理输入格式" class="headerlink" title="1. 正确处理输入格式"></a>1. 正确处理输入格式</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//预先不知道数据的组数---直接读到文件结尾</span></span><br><span class="line">Scanner scanner = <span class="keyword">new</span> Scanner(System.in);</span><br><span class="line"><span class="keyword">while</span> (scanner.hasNext()) &#123;</span><br><span class="line">    <span class="keyword">int</span> a = scanner.nextInt();</span><br><span class="line">    <span class="keyword">int</span> b = scanner.nextInt();</span><br><span class="line">    System.out.println(a + b);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    <title>备战面试基础知识-2</title>
+    <url>/2020/03/21/%E5%A4%87%E6%88%98%E6%BB%B4%E6%BB%B4%E9%9D%A2%E8%AF%95/</url>
+    <content><![CDATA[<h2 id="备战滴滴面试"><a href="#备战滴滴面试" class="headerlink" title="备战滴滴面试"></a>备战滴滴面试</h2><h3 id="———————————–第一部分———————————–"><a href="#———————————–第一部分———————————–" class="headerlink" title="———————————–第一部分———————————–"></a>———————————–第一部分———————————–</h3><p><strong>1.set map list</strong></p>
+<p>常见的HashSet HashMap ArrayList</p>
+<p>一般是HashMap和LinkedHashMap，然后就是HashSet的实现。以及ArrayList与LinkedList之间的区别。</p>
+<p><strong>2.TreeSet和HashSet对比之间的区别？</strong></p>
+<p>一个有序一个无序</p>
+<p><strong>3.HashMap和ConcurrentHashMap的区别？</strong></p>
+<p>HashMap底层是基于数组+链表+红黑树实现的，ConcurrentHashMap的底层是Node+链表+红黑树来实现的，且并发安全的实现是依赖synchronized+CAS来实现的。</p>
+<p><strong>4.线程池的参数有哪些？</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">ThreadPoolExecutor</span><span class="params">(<span class="keyword">int</span> corePoolSize, <span class="keyword">int</span> maximumPoolSize,<span class="keyword">long</span> keepAliveTime,       TimeUnit unit,BlockingQueue&lt;Runnable&gt; workQueue)</span></span></span><br></pre></td></tr></table></figure>
 
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 事先知道数据组数---读数据组然后循环</span></span><br><span class="line">Scanner scanner = <span class="keyword">new</span> Scanner(System.in);</span><br><span class="line"><span class="keyword">int</span> n = scanner.nextInt(); <span class="comment">// 数据的组数</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">    <span class="keyword">int</span> a = scanner.nextInt();</span><br><span class="line">    <span class="keyword">int</span> b = scanner.nextInt();</span><br><span class="line">    System.out.println(a+b);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 最简单的只有一组数据---直接读</span></span><br><span class="line">Scanner scanner = <span class="keyword">new</span> Scanner(System.in);</span><br><span class="line"><span class="keyword">int</span> a = scanner.nextInt();</span><br><span class="line"><span class="keyword">int</span> b = scanner.nextInt();</span><br><span class="line">System.out.println(a+b);</span><br></pre></td></tr></table></figure>
-
-<h2 id="2-正确处理输出格式"><a href="#2-正确处理输出格式" class="headerlink" title="2. 正确处理输出格式"></a>2. 正确处理输出格式</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 不要输出case数</span></span><br><span class="line">Scanner scanner = <span class="keyword">new</span> Scanner(System.in);</span><br><span class="line"><span class="keyword">int</span> n = scanner.nextInt(); <span class="comment">// 数据的组数</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">    <span class="keyword">int</span> a = scanner.nextInt();</span><br><span class="line">    <span class="keyword">int</span> b = scanner.nextInt();</span><br><span class="line">    System.out.println(a+b);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 需要输出case数</span></span><br><span class="line">Scanner scanner = <span class="keyword">new</span> Scanner(System.in);</span><br><span class="line"><span class="keyword">int</span> n = scanner.nextInt(); <span class="comment">// 数组的组数</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">    <span class="keyword">int</span> a = scanner.nextInt();</span><br><span class="line">    <span class="keyword">int</span> b = scanner.nextInt();</span><br><span class="line">    System.out.println(<span class="string">"Case:"</span> + (i + <span class="number">1</span>) + <span class="string">" "</span> + (a + b));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 每个case之后要有空行</span></span><br><span class="line">Scanner scanner = <span class="keyword">new</span> Scanner(System.in);</span><br><span class="line"><span class="keyword">int</span> n = scanner.nextInt(); <span class="comment">// 数组的组数</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">    <span class="keyword">int</span> a = scanner.nextInt();</span><br><span class="line">    <span class="keyword">int</span> b = scanner.nextInt();</span><br><span class="line">    System.out.println(<span class="string">"Case:"</span> + (i + <span class="number">1</span>) + <span class="string">" "</span> + (a + b)+<span class="string">"\n"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 两个case之间有空行</span></span><br><span class="line">Scanner scanner = <span class="keyword">new</span> Scanner(System.in);</span><br><span class="line"><span class="keyword">int</span> n = scanner.nextInt(); <span class="comment">// 数组的组数</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">    <span class="keyword">int</span> a = scanner.nextInt();</span><br><span class="line">    <span class="keyword">int</span> b = scanner.nextInt();</span><br><span class="line">    <span class="keyword">if</span>(i &gt; <span class="number">0</span>)&#123;</span><br><span class="line">        System.out.println();</span><br><span class="line">    &#125;</span><br><span class="line">    System.out.println(<span class="string">"Case:"</span> + (i + <span class="number">1</span>) + <span class="string">"结果为: "</span> + (a + b));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="3-处理细节和技巧"><a href="#3-处理细节和技巧" class="headerlink" title="3. 处理细节和技巧"></a>3. 处理细节和技巧</h2><ul>
-<li><p>不用实现可以保存所有输入，读一组计算一组，Java建议使用BufferedInputStream</p>
-</li>
-<li><p>注意输出格式</p>
+<p>corePoolSize核心线程个数，最大的线程个数，线程池中线程存活时间，时间的单位，阻塞队列</p>
+<p><strong>5.线程池的拒绝策略？</strong></p>
+<p>如果超出了线程池的数量限制大小，此时需要使用到线程池的拒绝策略。被拒绝的理由可能是由于：1.线程池异常关闭，2. 任务数量超过线程池的最大限制</p>
+<p>其中在ThrealPoolExecutor构建线程池的时候，底层会调用ThreadPoolExecutor来构建线程池。其中有线程策略handler：</p>
+<p>默认的拒绝策略为AbortPolicy</p>
 <ul>
-<li>字母大小写</li>
-<li>换行的时刻</li>
-<li>输出“case”之后有没有”#”或者”:”之类的</li>
-<li>每行末尾有”\n”，但一般没有空白</li>
-<li>java尽量使用BufferedOutputStream</li>
+<li>AbortPolicy：任务到线程池中被拒绝时，将会抛出RejectedExecutionException异常</li>
+<li>DiscardPolicy：拒绝任务的处理程序，静默丢弃被拒绝的任务。</li>
+<li>DiscardOldestPolicy：线程池会放弃等待最久的未处理任务，然后将被拒绝的任务添加到等待队列中</li>
+<li>CallerRunsPolicy：在线程池当前正在运行的Thread线程池中处理被拒绝的任务</li>
 </ul>
-</li>
+<p><strong>5.SynchronizedBlockQueue中到底可以存几个？</strong></p>
+<p>存一个，他是一个缓存值为1的阻塞队列，但是IsEmpty()方法永远返回true。remove方法返回false，iterator方法永远返回空，peek方法永远返回null</p>
+<p><strong>6.锁用过吗？常见的有哪些锁？</strong></p>
+<p>用过，乐观锁，悲观锁，synchronized, reentrantLock, 偏向锁，轻量级锁，自旋锁。重量级锁</p>
+<p><strong>7.锁的方法：tryLock，lock, lockInterruptily()</strong></p>
+<p>lock的方法不能被外部打断，但是lockInterruptily可以，但是会抛出异常</p>
+<p><strong>8.lock和tryLock的区别？</strong></p>
+<p>一个是直接锁，一个是尝试获取锁。区别就是直接锁也会去做判断，看看自己是否能获取锁，尝试锁的话就要去判断当前的线程的状态值，看看是否锁被占用或者有可重入锁的机会，如果都没有的话，返回false</p>
+<p><strong>10.公平锁与非公平锁的实现有什么区别？</strong></p>
+<p>公平锁的话就是直接获取锁，出现了在尝试获取锁的时候如果当前对象没有被上锁，需要先判断队列中自己前面是否有线程，保证按照顺序来。</p>
+<p>非公平锁的话，就是在调用lock方法的时候如果没有人上锁，就直接上锁了，不然的话就要去tryAcquire获取锁，这个大家都是争抢锁资源。</p>
+<p><strong>11.类加载的机制是怎么样的？</strong></p>
+<p>类加载过程：加载—连接（验证、准备、解析）—初始化—使用—卸载</p>
+<p><strong>12.tomcat的加载过程？</strong></p>
+<p>getServer–getConnector–Server.start–startService–启动Engine–启动host–启动context–启动connector–EndPoint启动</p>
+<p><strong>13.Spring的生命周期？Spring的源代码一定要看啊！！！**</strong></p>
+<p>Bean的生命周期：创建（调用构造函数）—set方法注入属性–BeanNameAware–BeanFactoryAware–ApplicationContextAware–BeanPostProcessor的before方法–InitializingBean—自定义init方法–BeanPostProcessord的after方法–使用–容器的销毁–DisposableBean的destory–自定义销毁方法。</p>
+<p><strong>14.AOP</strong></p>
+<p>Spring的AOP是面向切面编程，可以通过切面向类或者方法中插入日志，通知等方法。可以通过BaseSchema实现以及AspectJ或者其注解来实现，主要是通过动态代理技术来实现的，动态代理分为JDK动态代理，能够代理实现了其接口的类。还有就是cglib代理，通过字节码构造这个类的一个实例对象进行代理。静态代理和动态代理的区别，静态代理只能代理实现了其接口的一个类，且静态代理在代理之前就知道了代理对象，而动态代理是在运行过程中才知道代理的对象。{jdk动态代理的实现主要是实现了InnovationHandler接口，重写其中的invoke方法来调用。而CGLIB动态代理的话是通过实现接口MethodInterceptor重写intercept方法来实现代理，其中是通过字节码来动态的构建代理对象的子类重写其方法来实现的}</p>
+<p><strong>15.ASM怎么实现AOP？</strong></p>
+<p>ASM是一个Java字节码操纵框架，能够被用来动态生成类或者增强其持有类的功能。ASM可以直接产生二进制class文件，也可以在类被加载进Java虚拟机之前就动态改变类的行为，Java class被存储在严格格式定义的.class文件中，这些类文件拥有足够的源数据来解析出类中所有元素：类名称、方法、属性以及Java字节码。ASM从类文件中读入信息后，能够改变类行为，分析类信息，甚至能够根据用户要求生成新类。</p>
+<p><strong>16.MyBatis的插件？</strong></p>
+<p>pageHelper，但是一般用的都是MyBatisPlus</p>
+<p><strong>17.项目：自己在自己的项目中干了什么？从项目中学习到了什么？复盘自己的项目</strong></p>
+<p>首先是在工作中，暑期实习的地方是做电商的B2b，记忆深一点的就是当时做的活动模块，大致的环境配置就是使用SpringBoot来搭建开发的，主要有使用到的的技术有spring,springmvc,redis,mybatis,mysql,等等，使用postman作为测试组件来测试代码的功能完整性。对于在测试环境下的出现的代码错误，会通过linux查看具体错误的心底，定位到具体的错误代码。</p>
+<p>在项目java高并发秒杀系统中，主要使用的SSM搭建的环境开发框架，其中使用到了redis做后端的缓存，因为项目不是太大，在慕课网上看的，所以用到的技术不是很多，这个项目分成三个部分，前端模块，后端模块，数据库模块，在这之中的话，因为是高并发项目，所以前端的优化是使用 CDN内容分发网络（Content Delivery Network）将前端的静态资源存储减少并发，同时对于用户多点对于后台造成的并发，使用前端点击之后按钮变灰，对于用户多次刷新页面的可以采用拦截，限制某个账户访问的次数。同时还可以使用中间件例如消息队列，来将高峰时期的请求都存入消息队列中，后端根据自己的处理能力从消息队列中获取请求然后处理。数据库层面的话，如果都直接访问mysql数据库的话，数据库可能会崩掉，可以采用redis对数据库中的部分数据做一个缓存，这样的话可以适当减小数据库的压力，或者使用redis来保存数据库中的数据，在redis中进行相应的数据操作，最后将redis中的数据同步至mysql数据库中即可。</p>
+<p><strong>18.数据库中的隔离级别有什么用？</strong></p>
+<p>解决数据库<strong>并发</strong>操作中可能出现的脏读，幻读等问题</p>
+<p><strong>19.隔离级别什么时候起作用呢？</strong></p>
+<p>事务对数据库中的数据进行操作的时候起作用</p>
+<hr>
+<h3 id="———————————–第二部分———————————–"><a href="#———————————–第二部分———————————–" class="headerlink" title="———————————–第二部分———————————–"></a>———————————–第二部分———————————–</h3><p><strong>1.数据库的索引类型？</strong></p>
+<p>唯一索引，聚簇索引，非聚簇索引</p>
+<p><strong>2.聚簇索引和非聚簇索引的区别？</strong></p>
+<p>在实现上面，都是使用的B+数实现的，但是实现的方式却不同，聚簇索引的话是节点中存储数据索引（键和指针），所有的数据都存储在叶子节点中，比如说一张数据表吧，聚簇索引主索引使用的是主键Row，辅助索引使用的是key+PK cols，也就是找到了当前的辅助索引之后还需要再根据主键来查找，需要查找两次。叶子节点之间通过构成单向链表，适合范围查询</p>
+<p>非聚簇索引的话，是每个节点都存储数据索引与数据，主索引使用的是pkcols + rowNumber，辅助索引使用的是key+rowNumber，也就是只需要查一遍。无论是主索引还是从索引，都可以直接定位到数据。</p>
+<p><strong>3.二叉树和B+树的区别？</strong></p>
+<ul>
+<li>B+树所有的数据都是存储在叶子节点上，每次的查找时间稳定</li>
+<li>叶子节点都有指向下一个节点的指针，范围查找比较方便</li>
 </ul>
+<p><strong>4.如果说二叉树的数据都存储在叶子节点上呢？</strong></p>
+<p>会线性化成链表</p>
+<p><strong>5.平衡二叉树呢？</strong></p>
+<p>B+数可以减少磁盘IO次数，如何减少IO次数呢。通过减少构造的树的高度来，B树的高度比平衡二叉树的高度要低，本来是效率更快，但是由于B树对于每一个节点需要比较多次，所以一般来说B树的效率和平衡二叉树是差不多的！</p>
+<p>且B树相对于B+树而言，B+树的效率更高磁盘IO更少，因为B+数的data中不存储数据，所以可以存放更多的key，查找肯定更快。一个索引节点只需要一次IO即可</p>
+<p><strong>6.磁盘中的文件都是使用B+树格式存储的吗？</strong></p>
+<p><strong>7.磁盘怎么存储这些数据？</strong></p>
+<p><strong>8.了解哪些文件格式？</strong></p>
+<p><strong>9.linux操作系统了解吗？</strong></p>
+<p><strong>了解，了解一些它常用的命令。</strong></p>
+<p><strong>10.相关的命令用过哪些？</strong></p>
+<p>ps -ef/grep/cat/find/netstat -tunpl/-a（表示列出当前网络所有的连接）/vim/tail -f查看日志/tar zxvf 解压缩</p>
+<p><strong>11.linux根目录下有哪些文件夹</strong></p>
+<p>/etc/bin/var/usr/home/opt/proc/sbin/root</p>
+<p><strong>12.手撕翻转二叉树</strong></p>
+<p><strong>13.最小路径和</strong></p>
+<h3 id="———————————–第三部分———————————–"><a href="#———————————–第三部分———————————–" class="headerlink" title="———————————–第三部分———————————–"></a>———————————–第三部分———————————–</h3><p><strong>1.开源项目了解哪些？</strong></p>
+<p>SpringBoot，SpringCloud</p>
+<p>2.SpringBoot如何加载源码？</p>
+<p>==<strong>待补充</strong>==</p>
+<p><strong>3.源码是如何深入学习的？</strong></p>
+<p>一般是通过看博客，自己跟着看源码。</p>
+<p><strong>4.Spring的启动过程如何了解？</strong></p>
+<p>通过Debug的方式来看在启动中都执行了哪些操作</p>
+<p><strong>5.tomcat启动的流程，需要加载哪些资源？</strong></p>
+<p>getServer–getConnector–Server.start–startService–启动Engine–启动host–启动context–启动connector–EndPoint启动，需要加载服务器资源，连接器资源，host资源，上下文资源，加载web.xml中设置的监听器，过滤器，servlet</p>
+<p><strong>6.项目中的收获？</strong></p>
+<p><strong>7.负责项目中的哪些点，技术方向的？</strong></p>
+<p><strong>8.为什么使用MVC架构？</strong></p>
+<p>主要是因为MVC的优点，具有低耦合性，高重用性以及可适用性。拥有较低的生命周期成本，快速的部署，好维护，有利于软件工程化管理。</p>
+<p><strong>9.项目中的事务如何实现？</strong></p>
+<p>通过加@Transactional注解来实现。</p>
+<p><strong>10.事务注解底层是怎么实现的？以及为什么加了这个注解可以实现事务？</strong></p>
+<p><strong>源码…..待补充!</strong></p>
+<p><strong>11.这个事务和数据库事务的区别？</strong></p>
+<p>本质上是一样的，Spring的事务就是对数据库事务的封装，最后本质的实现还是在数据库中实现的，假如数据库不支持事务的话，Spring中的事务是没有任何作用的。数据库的事务简单来说就是开启，回滚和关闭，Spring对数据库事务的包装，原理就是拿一个连接，根据Spring的事务配置，操作这个数据连接对数据库进行事务开启，回滚或者关闭操作。但是Spring除了实现这些功能之外，还配合Spring的传播行为对事务进行了广泛的管理，事务中涉及的隔离级别，以及Spring如何对数据库的隔离级别进行封装，事务与隔离级别放在一起会好理解一点。</p>
+<p><strong>12.mybatis你用的是什么数据库连接池c3p0？</strong></p>
+<p><strong>13.你还知道其他的数据库连接池吗？</strong></p>
+<p>DBCP：依赖Jakarta commons-pool对象池机制的数据库连接池，DBCP可以直接在应用程序中使用，Tomcat中的数据源就是使用的DBCP</p>
+<p>c3p0：是一个开源的JDBC连接池，它在lib目录下和Hibernate一起发布，包括实现jdbc3和jdbc2扩展规范说明的Connnection和Statement池的Datasources对象</p>
+<p>Durid：阿里出品，淘宝和支付宝专用数据库连接池。Druid的功能十分强大。</p>
+<p><strong>14.数据库连接池的功能有哪些？</strong></p>
+<ul>
+<li>资源重用</li>
+<li>更快的系统响应速度</li>
+<li>新的资源分配手段</li>
+<li>统一的连接管理</li>
+<li>避免数据库连接池泄露</li>
+</ul>
+<p><strong>15.JUC看过哪些，说下AQS实现的机制？</strong></p>
+<p>看过Atomic，AQS下的一些类，AQS实现机制。他主要是同步器和锁机制的构建框架。使用AQS能简单高效地构造出应用广泛的大量的同步器。ReentrantLock，Semaphore都是基于AQS。</p>
+<p>AQS核心的思想就是，如果被请求的共享资源空闲，则将当前请求资源的线程设置为有效的工作县策划稿，并且将共享资源设置为锁定状态。如果被请求的共享资源被占用，就需要一套线程阻塞等待以及被唤醒时锁分配的机制，这个机制AQS使用CLH队列锁来实现的，即将暂时获取不到锁的线程加入队列中。</p>
+<p><strong>16.公平锁与非公平锁的区别？</strong></p>
+<p>这个就是一个是按照顺序的，一个不是按照顺序的，这个在尝试获取锁的代码是不同的，公平锁，会先查询队列中是否前面还有节点，而非公平锁不查直接过去锁。</p>
+<p><strong>17.lock如何分配线程锁？</strong></p>
+<p>看情况而定！没有人占有锁自己就获取锁，如果有人占有锁，看看是不是自己，是的话就重入，如果不是就返回false，获取锁失败。</p>
+<p><strong>18.队列呢？了解哪些？</strong></p>
+<ul>
+<li>ConcurrentLinkedQueue：基础链表同步队列。</li>
+<li>LinkedBlockingQueue：阻塞队列，队列容量不足自动阻塞，队列容量为0时自动阻塞</li>
+<li>ArrayBlockingQueue：底层数组实现的有界队列，自动阻塞，根据API（add/put/offer）不同，有不同特定，当容量不足的时候，有阻塞能力，add方法在容量不足的时候，能够抛出异常。put方法在容量不足的时候，阻塞等待。offer方法，单参数offer方法不阻塞，容量不足的时候，返回false，当前新增数据操作放弃。三参数offer方法（offer(value,times,timeunit)），容量不足的时候，阻塞times时长，如果在阻塞时长内，有容量空闲，新增数据返回true，如果阻塞时长范围内，无容量空闲，放弃新增数据，返回false。</li>
+<li>DelayQueue：延时队列，根据比较机制，实现自定义处理顺序的队列，常用于定时任务。如定时关机，对于缓存超时的数据进行删除，任务超时处理，空闲连接的关闭</li>
+<li>LinkedTransferQueue：转移队列，使用transfer方法，实现数据的即时处理。没有消费者就阻塞。</li>
+<li>SynchronusQueue：同步队列，是一个容量为0的队列。是一个特殊的TransferQueue。必须现有消费线程等待才可以使用。add方法，无阻塞，若没有消费线程阻塞等待数据，则抛出异常。put方法，有阻塞，若没有消费线程阻塞等待数据，则阻塞。（游戏匹配）</li>
+</ul>
+<p><strong>19.添加的方法都有哪些？具体讲讲？</strong></p>
+<p>add offer put方法</p>
+<p><strong>20.各个队列的使用场景：</strong></p>
+<p><strong>这一块的东西要实践！</strong></p>
+<p><strong>21.JVM看过什么？JVM的常用命令？</strong></p>
+<p><font color="red">JVM看过深入理解java虚拟机。常用命令。jstat？如果看一个线程内存回收情况，如何看？</font></p>
+<p><strong>22.JVM的类加载解析？如何解析到字节码？</strong></p>
+<p><strong>待补充</strong></p>
+<p><strong>23.如何验证jdk版本的冲突？jdk.1.6-&gt;1.7</strong></p>
+<p><strong>24.类加载器的初始化如何去做？</strong></p>
+<p><strong>25.实际运用中的classLoader都有哪些了解？</strong></p>
+<p><strong>26.如何实现动态加载，需要使用哪些方法？继承classLoader类，重写findClass方法，调用defineClass方法</strong></p>
+<p><strong>27.如何获取当前类的classLoader？</strong></p>
+<p><strong>使用getClassLoader方法</strong></p>
+<p><strong>28.如何保持建立多个ClassLoader</strong></p>
+<p><strong>29.为什么类加载器加载出来的类不一样？</strong></p>
+<p>因为每个加载器都有自己的隔离机制</p>
+<p><strong>30.jvm的内存模型？</strong></p>
+<p>程序计数器，虚拟机栈，本地方法栈，堆，方法区，常量池</p>
+<p><strong>31.多线程如何实现主存同步的？</strong></p>
+<p>synchronized关键字或者使用锁lock</p>
+<p><strong>32.linux通过什么命令去使其他工作内存无效呢？</strong></p>
+<p><strong>待补充，没听过的知识点</strong></p>
+<p><strong>33.java如何是实现缓存一致性？</strong></p>
+<p>volatile，synchronized，lock，wait/notify</p>
+<p><strong>34.jvm的锁优化有哪些？</strong></p>
+<p>synchronized互斥的重量级锁。（作用：确保线程互斥的访问代码，保证共享变量的修改能够及时可见，可以阻止jvm的指令重排）锁优化的话，采用了锁粗化，锁消除，适应性自旋。不存在多线程竞争，默认是偏向锁。轻量级锁，过渡锁，一般是偏向锁不满足，有多线程并发访问锁定同一个对象的时候，先提升为轻量级锁。只有两个线程争抢锁标记记录的时候，优先使用轻量级锁。适应性自旋，在轻量级锁获取失败的时候，为了避免线程在真实的系统层面被挂起，还会进行一项为自旋锁的优化手段。</p>
+<p>锁粗化：一般在使用锁的时候，需要让同步的作用范围尽可能的小，仅在共享数据的操作中才进行。这样做的目的，是为了让同步操作的数量尽可能的小，如果出现锁的竞争，也能尽快的获取锁。但是如果遇到已连续的lock和unlock的操作，会导致性能的不必要损耗。<strong>锁粗化就是将连续的同步操作连在一起，粗化为一个范围更大的锁。</strong>锁消除：所消除是jvm进行的另外一项锁优化，该优化更加的彻底。jvm在进行<em>JIT</em>编译(just-in-time compilation)的时候，通过对上下文的扫描，<strong>JVM检测到不可能存在共享数据的晶振，如果这些资源有锁，就会消除这些资源的锁。可以节省毫无意义的锁请求时间</strong>。锁消除的依据，是逃逸分析的数据支持。</p>
+<p><strong>35.网络编程了解多少？TCP、UDP，如何创建网络之间的通信？</strong></p>
+<p>udp直接就是创建数据报的DatagramSocket通信即可。传输也是使用DatagramPacket来接收</p>
+<p>tcp的话需要使用同一个接口来是的数据的传递是可靠的，服务器端使用的是阻塞式的接收客户端的连接。连接之后获取客户端的发送的数据流，将流读出来即可。</p>
+<p><strong>36.java的IO了解吗？他们有什么区别？</strong></p>
+<p>javaIo主要分为InputStream、OutputStream和Reader、Writer。他们的区别是Stream结尾的都是用来读取字节流，Reader结尾的都是用来读取字符流。</p>
+<p><strong>37.BIO、NIO、AIO响应的类了解吗？</strong></p>
+<p>BiO：Blocking IO 同步阻塞IO，服务器实现模式为一个连接一个线程，即客户端有连接请求时，服务器端就需要启动一个线程进行处理，如果这个连接不做任何事情会造成不必要的线程开销，当然可以通过线程池机制改善</p>
+<p>NIO：UNblocking IO 同步非阻塞编程，服务器实现模式为一个请求一个通道，即客户端发送的连接请求都不能会被注册到多路复用器上面，多路复用器轮询到连接有IO请求时才启动一个下线程进行处理。</p>
+<p>AIO：Asychronous IO：异步非阻塞IO，可以理解为read/write方法都是异步的，完成后会主动调用回调函数。服务器实现模式为一个有效请求一个线程，客户端的IO请求都是由OS先完成了再通知服务器应用去启动线程进行处理。</p>
+<p><strong>38.shell命令</strong></p>
+<p>ls ll  cd pwd mkdir rmdir  cp mv rm du df cat echo head tail wc grep man logout </p>
+<p><strong>39.进程的通信方式？</strong></p>
+<p>管道、信号量、消息队列、套接字socket</p>
+<p><strong>40.Linux的调度方式？</strong></p>
+<p>调度机制分为抢占式内核和非抢占式内核。</p>
+<p><strong>41.linux的缓存有几级？</strong></p>
+<p><strong>待补充</strong></p>
+<p><strong>42.jdbc连接mysql的几个步骤，以及如何读取数据，如何实现statement？</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConnectedMySQLTest</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> String driverClassName = <span class="string">"com.mysql.cj.jdbc.Driver"</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> String url = <span class="string">"jdbc:mysql://localhost:3306/407?serverTimezone=UTC&amp;useUnicode=true&amp;characterEncoding=utf8&amp;useSSL=false"</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> String user = <span class="string">"root"</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> String password = <span class="string">"cao236476"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Class&lt;?&gt; className = Class.forName(driverClassName);<span class="comment">// 加载mysql的驱动</span></span><br><span class="line">            Connection connection = DriverManager.getConnection(url, user, password);</span><br><span class="line"></span><br><span class="line"><span class="comment">//            Statement statement = connection.createStatement(); // 这个是先产生statement，然后载入sql语句</span></span><br><span class="line">            String sql = <span class="string">"select * from test_user"</span>;</span><br><span class="line">            PreparedStatement statement = connection.prepareStatement(sql);<span class="comment">// 这个必须和sql语句同时载入</span></span><br><span class="line"></span><br><span class="line">            ResultSet resultSet = statement.executeQuery(sql);</span><br><span class="line">            List&lt;User&gt; lists = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">            <span class="keyword">while</span> (resultSet.next()) &#123;</span><br><span class="line">                lists.add(<span class="keyword">new</span> User(resultSet.getInt(<span class="string">"id"</span>),</span><br><span class="line">                        resultSet.getString(<span class="string">"name"</span>),</span><br><span class="line">                        resultSet.getInt(<span class="string">"age"</span>)));</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">for</span> (User list : lists) &#123;</span><br><span class="line">                System.out.println(list);</span><br><span class="line">            &#125;</span><br><span class="line">            resultSet.close();</span><br><span class="line">            statement.close();</span><br><span class="line">            connection.close();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (SQLException | ClassNotFoundException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="———————————–第四部分———————————–"><a href="#———————————–第四部分———————————–" class="headerlink" title="———————————–第四部分———————————–"></a>———————————–第四部分———————————–</h3><p><strong>1.字节流和字符流的区别</strong></p>
+<p>字节流读取单个字节，字符流读取单个字符。字节流来处理二进制文件（图片，MP3，视频文件），字符流用来处理文本文件（可以看做是特殊的二进制文件，使用了某种编码，人可以阅读）。字节是给计算机看的，字符是给人看的。</p>
+<p><strong>2.死锁的四个条件</strong></p>
+<ol>
+<li>互斥条件：一个资源每次只能被一个进程使用</li>
+<li>请求和保持条件：一个进程因为请求资源而被阻塞时，对已获得的资源保持不放</li>
+<li>不剥夺条件：进程已经获得的资源在没有释放之前，不能强行剥夺。</li>
+<li>循环等待条件：若干进程之间形成了一种头尾相连的循环等待资源关系。</li>
+</ol>
+<p>解除死锁的方法：</p>
+<ol>
+<li>剥夺资源：从其他进程剥夺足够数量的资源给死锁线程，以解除死锁状态</li>
+<li>撤销进程：可以直接撤销死锁进程或者撤销代价最小的进程，直至有足够的资源可用</li>
+</ol>
+<p>3.给1G的数据，内存限制为100M，怎么排序？</p>
+<p>首先不能选择内存排序，需要选择外存排序，使用多路归并的思路，把数据分为N部分，每部分100M，在使用内存来排序，将排序结果使用外存记录，然后每次从外存冲取记录，在内存中进行比较，从而获取排序的结果。</p>
+<p>4.CDN是什么，能谈一谈吗？</p>
+<p>CDN是content distribute network，内容分发网络，应用了HTTP协议中的缓存和代理技术，代替源站响应客户端的请求。CDN是构建在现有网络基础之上的网络，它依靠部署在各地的边缘服务器，通过中心平台的负载均衡，内容分发、调度等功能模块，使用户就近获取所需的内容，降低网络阻塞，提高用户访问响应速度和命中率。CDN中的关键技术有内容存储和分发技术。</p>
+<p>5.PUT和POST的区别？</p>
+<p>PUT具有幂等性，幂等性是指一次和多次请求同一个资源对于资源本身应该具有同样的结果。即任意多次执行对资源本身所产生的应该与一次执行产生的影响相同。</p>
 ]]></content>
       <categories>
-        <category>工具</category>
+        <category>面试</category>
       </categories>
       <tags>
-        <tag>工具</tag>
+        <tag>面试</tag>
       </tags>
   </entry>
   <entry>
@@ -4418,209 +4595,241 @@
       </tags>
   </entry>
   <entry>
-    <title>备战面试基础知识-2</title>
-    <url>/2020/03/21/%E5%A4%87%E6%88%98%E6%BB%B4%E6%BB%B4%E9%9D%A2%E8%AF%95/</url>
-    <content><![CDATA[<h2 id="备战滴滴面试"><a href="#备战滴滴面试" class="headerlink" title="备战滴滴面试"></a>备战滴滴面试</h2><h3 id="———————————–第一部分———————————–"><a href="#———————————–第一部分———————————–" class="headerlink" title="———————————–第一部分———————————–"></a>———————————–第一部分———————————–</h3><p><strong>1.set map list</strong></p>
-<p>常见的HashSet HashMap ArrayList</p>
-<p>一般是HashMap和LinkedHashMap，然后就是HashSet的实现。以及ArrayList与LinkedList之间的区别。</p>
-<p><strong>2.TreeSet和HashSet对比之间的区别？</strong></p>
-<p>一个有序一个无序</p>
-<p><strong>3.HashMap和ConcurrentHashMap的区别？</strong></p>
-<p>HashMap底层是基于数组+链表+红黑树实现的，ConcurrentHashMap的底层是Node+链表+红黑树来实现的，且并发安全的实现是依赖synchronized+CAS来实现的。</p>
-<p><strong>4.线程池的参数有哪些？</strong></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">ThreadPoolExecutor</span><span class="params">(<span class="keyword">int</span> corePoolSize, <span class="keyword">int</span> maximumPoolSize,<span class="keyword">long</span> keepAliveTime,       TimeUnit unit,BlockingQueue&lt;Runnable&gt; workQueue)</span></span></span><br></pre></td></tr></table></figure>
+    <title>OJ输入输出学习</title>
+    <url>/2020/03/21/OJ%E5%9C%A8%E7%BA%BF%E5%88%A4%E9%A2%98%E5%AD%A6%E4%B9%A0/</url>
+    <content><![CDATA[<h1 id="OJ在线判题学习"><a href="#OJ在线判题学习" class="headerlink" title="OJ在线判题学习"></a>OJ在线判题学习</h1><h2 id="1-正确处理输入格式"><a href="#1-正确处理输入格式" class="headerlink" title="1. 正确处理输入格式"></a>1. 正确处理输入格式</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//预先不知道数据的组数---直接读到文件结尾</span></span><br><span class="line">Scanner scanner = <span class="keyword">new</span> Scanner(System.in);</span><br><span class="line"><span class="keyword">while</span> (scanner.hasNext()) &#123;</span><br><span class="line">    <span class="keyword">int</span> a = scanner.nextInt();</span><br><span class="line">    <span class="keyword">int</span> b = scanner.nextInt();</span><br><span class="line">    System.out.println(a + b);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>corePoolSize核心线程个数，最大的线程个数，线程池中线程存活时间，时间的单位，阻塞队列</p>
-<p><strong>5.线程池的拒绝策略？</strong></p>
-<p>如果超出了线程池的数量限制大小，此时需要使用到线程池的拒绝策略。被拒绝的理由可能是由于：1.线程池异常关闭，2. 任务数量超过线程池的最大限制</p>
-<p>其中在ThrealPoolExecutor构建线程池的时候，底层会调用ThreadPoolExecutor来构建线程池。其中有线程策略handler：</p>
-<p>默认的拒绝策略为AbortPolicy</p>
-<ul>
-<li>AbortPolicy：任务到线程池中被拒绝时，将会抛出RejectedExecutionException异常</li>
-<li>DiscardPolicy：拒绝任务的处理程序，静默丢弃被拒绝的任务。</li>
-<li>DiscardOldestPolicy：线程池会放弃等待最久的未处理任务，然后将被拒绝的任务添加到等待队列中</li>
-<li>CallerRunsPolicy：在线程池当前正在运行的Thread线程池中处理被拒绝的任务</li>
-</ul>
-<p><strong>5.SynchronizedBlockQueue中到底可以存几个？</strong></p>
-<p>存一个，他是一个缓存值为1的阻塞队列，但是IsEmpty()方法永远返回true。remove方法返回false，iterator方法永远返回空，peek方法永远返回null</p>
-<p><strong>6.锁用过吗？常见的有哪些锁？</strong></p>
-<p>用过，乐观锁，悲观锁，synchronized, reentrantLock, 偏向锁，轻量级锁，自旋锁。重量级锁</p>
-<p><strong>7.锁的方法：tryLock，lock, lockInterruptily()</strong></p>
-<p>lock的方法不能被外部打断，但是lockInterruptily可以，但是会抛出异常</p>
-<p><strong>8.lock和tryLock的区别？</strong></p>
-<p>一个是直接锁，一个是尝试获取锁。区别就是直接锁也会去做判断，看看自己是否能获取锁，尝试锁的话就要去判断当前的线程的状态值，看看是否锁被占用或者有可重入锁的机会，如果都没有的话，返回false</p>
-<p><strong>10.公平锁与非公平锁的实现有什么区别？</strong></p>
-<p>公平锁的话就是直接获取锁，出现了在尝试获取锁的时候如果当前对象没有被上锁，需要先判断队列中自己前面是否有线程，保证按照顺序来。</p>
-<p>非公平锁的话，就是在调用lock方法的时候如果没有人上锁，就直接上锁了，不然的话就要去tryAcquire获取锁，这个大家都是争抢锁资源。</p>
-<p><strong>11.类加载的机制是怎么样的？</strong></p>
-<p>类加载过程：加载—连接（验证、准备、解析）—初始化—使用—卸载</p>
-<p><strong>12.tomcat的加载过程？</strong></p>
-<p>getServer–getConnector–Server.start–startService–启动Engine–启动host–启动context–启动connector–EndPoint启动</p>
-<p><strong>13.Spring的生命周期？Spring的源代码一定要看啊！！！**</strong></p>
-<p>Bean的生命周期：创建（调用构造函数）—set方法注入属性–BeanNameAware–BeanFactoryAware–ApplicationContextAware–BeanPostProcessor的before方法–InitializingBean—自定义init方法–BeanPostProcessord的after方法–使用–容器的销毁–DisposableBean的destory–自定义销毁方法。</p>
-<p><strong>14.AOP</strong></p>
-<p>Spring的AOP是面向切面编程，可以通过切面向类或者方法中插入日志，通知等方法。可以通过BaseSchema实现以及AspectJ或者其注解来实现，主要是通过动态代理技术来实现的，动态代理分为JDK动态代理，能够代理实现了其接口的类。还有就是cglib代理，通过字节码构造这个类的一个实例对象进行代理。静态代理和动态代理的区别，静态代理只能代理实现了其接口的一个类，且静态代理在代理之前就知道了代理对象，而动态代理是在运行过程中才知道代理的对象。{jdk动态代理的实现主要是实现了InnovationHandler接口，重写其中的invoke方法来调用。而CGLIB动态代理的话是通过实现接口MethodInterceptor重写intercept方法来实现代理，其中是通过字节码来动态的构建代理对象的子类重写其方法来实现的}</p>
-<p><strong>15.ASM怎么实现AOP？</strong></p>
-<p>ASM是一个Java字节码操纵框架，能够被用来动态生成类或者增强其持有类的功能。ASM可以直接产生二进制class文件，也可以在类被加载进Java虚拟机之前就动态改变类的行为，Java class被存储在严格格式定义的.class文件中，这些类文件拥有足够的源数据来解析出类中所有元素：类名称、方法、属性以及Java字节码。ASM从类文件中读入信息后，能够改变类行为，分析类信息，甚至能够根据用户要求生成新类。</p>
-<p><strong>16.MyBatis的插件？</strong></p>
-<p>pageHelper，但是一般用的都是MyBatisPlus</p>
-<p><strong>17.项目：自己在自己的项目中干了什么？从项目中学习到了什么？复盘自己的项目</strong></p>
-<p>首先是在工作中，暑期实习的地方是做电商的B2b，记忆深一点的就是当时做的活动模块，大致的环境配置就是使用SpringBoot来搭建开发的，主要有使用到的的技术有spring,springmvc,redis,mybatis,mysql,等等，使用postman作为测试组件来测试代码的功能完整性。对于在测试环境下的出现的代码错误，会通过linux查看具体错误的心底，定位到具体的错误代码。</p>
-<p>在项目java高并发秒杀系统中，主要使用的SSM搭建的环境开发框架，其中使用到了redis做后端的缓存，因为项目不是太大，在慕课网上看的，所以用到的技术不是很多，这个项目分成三个部分，前端模块，后端模块，数据库模块，在这之中的话，因为是高并发项目，所以前端的优化是使用 CDN内容分发网络（Content Delivery Network）将前端的静态资源存储减少并发，同时对于用户多点对于后台造成的并发，使用前端点击之后按钮变灰，对于用户多次刷新页面的可以采用拦截，限制某个账户访问的次数。同时还可以使用中间件例如消息队列，来将高峰时期的请求都存入消息队列中，后端根据自己的处理能力从消息队列中获取请求然后处理。数据库层面的话，如果都直接访问mysql数据库的话，数据库可能会崩掉，可以采用redis对数据库中的部分数据做一个缓存，这样的话可以适当减小数据库的压力，或者使用redis来保存数据库中的数据，在redis中进行相应的数据操作，最后将redis中的数据同步至mysql数据库中即可。</p>
-<p><strong>18.数据库中的隔离级别有什么用？</strong></p>
-<p>解决数据库<strong>并发</strong>操作中可能出现的脏读，幻读等问题</p>
-<p><strong>19.隔离级别什么时候起作用呢？</strong></p>
-<p>事务对数据库中的数据进行操作的时候起作用</p>
-<hr>
-<h3 id="———————————–第二部分———————————–"><a href="#———————————–第二部分———————————–" class="headerlink" title="———————————–第二部分———————————–"></a>———————————–第二部分———————————–</h3><p><strong>1.数据库的索引类型？</strong></p>
-<p>唯一索引，聚簇索引，非聚簇索引</p>
-<p><strong>2.聚簇索引和非聚簇索引的区别？</strong></p>
-<p>在实现上面，都是使用的B+数实现的，但是实现的方式却不同，聚簇索引的话是节点中存储数据索引（键和指针），所有的数据都存储在叶子节点中，比如说一张数据表吧，聚簇索引主索引使用的是主键Row，辅助索引使用的是key+PK cols，也就是找到了当前的辅助索引之后还需要再根据主键来查找，需要查找两次。叶子节点之间通过构成单向链表，适合范围查询</p>
-<p>非聚簇索引的话，是每个节点都存储数据索引与数据，主索引使用的是pkcols + rowNumber，辅助索引使用的是key+rowNumber，也就是只需要查一遍。无论是主索引还是从索引，都可以直接定位到数据。</p>
-<p><strong>3.二叉树和B+树的区别？</strong></p>
-<ul>
-<li>B+树所有的数据都是存储在叶子节点上，每次的查找时间稳定</li>
-<li>叶子节点都有指向下一个节点的指针，范围查找比较方便</li>
-</ul>
-<p><strong>4.如果说二叉树的数据都存储在叶子节点上呢？</strong></p>
-<p>会线性化成链表</p>
-<p><strong>5.平衡二叉树呢？</strong></p>
-<p>B+数可以减少磁盘IO次数，如何减少IO次数呢。通过减少构造的树的高度来，B树的高度比平衡二叉树的高度要低，本来是效率更快，但是由于B树对于每一个节点需要比较多次，所以一般来说B树的效率和平衡二叉树是差不多的！</p>
-<p>且B树相对于B+树而言，B+树的效率更高磁盘IO更少，因为B+数的data中不存储数据，所以可以存放更多的key，查找肯定更快。一个索引节点只需要一次IO即可</p>
-<p><strong>6.磁盘中的文件都是使用B+树格式存储的吗？</strong></p>
-<p><strong>7.磁盘怎么存储这些数据？</strong></p>
-<p><strong>8.了解哪些文件格式？</strong></p>
-<p><strong>9.linux操作系统了解吗？</strong></p>
-<p><strong>了解，了解一些它常用的命令。</strong></p>
-<p><strong>10.相关的命令用过哪些？</strong></p>
-<p>ps -ef/grep/cat/find/netstat -tunpl/-a（表示列出当前网络所有的连接）/vim/tail -f查看日志/tar zxvf 解压缩</p>
-<p><strong>11.linux根目录下有哪些文件夹</strong></p>
-<p>/etc/bin/var/usr/home/opt/proc/sbin/root</p>
-<p><strong>12.手撕翻转二叉树</strong></p>
-<p><strong>13.最小路径和</strong></p>
-<h3 id="———————————–第三部分———————————–"><a href="#———————————–第三部分———————————–" class="headerlink" title="———————————–第三部分———————————–"></a>———————————–第三部分———————————–</h3><p><strong>1.开源项目了解哪些？</strong></p>
-<p>SpringBoot，SpringCloud</p>
-<p>2.SpringBoot如何加载源码？</p>
-<p>==<strong>待补充</strong>==</p>
-<p><strong>3.源码是如何深入学习的？</strong></p>
-<p>一般是通过看博客，自己跟着看源码。</p>
-<p><strong>4.Spring的启动过程如何了解？</strong></p>
-<p>通过Debug的方式来看在启动中都执行了哪些操作</p>
-<p><strong>5.tomcat启动的流程，需要加载哪些资源？</strong></p>
-<p>getServer–getConnector–Server.start–startService–启动Engine–启动host–启动context–启动connector–EndPoint启动，需要加载服务器资源，连接器资源，host资源，上下文资源，加载web.xml中设置的监听器，过滤器，servlet</p>
-<p><strong>6.项目中的收获？</strong></p>
-<p><strong>7.负责项目中的哪些点，技术方向的？</strong></p>
-<p><strong>8.为什么使用MVC架构？</strong></p>
-<p>主要是因为MVC的优点，具有低耦合性，高重用性以及可适用性。拥有较低的生命周期成本，快速的部署，好维护，有利于软件工程化管理。</p>
-<p><strong>9.项目中的事务如何实现？</strong></p>
-<p>通过加@Transactional注解来实现。</p>
-<p><strong>10.事务注解底层是怎么实现的？以及为什么加了这个注解可以实现事务？</strong></p>
-<p><strong>源码…..待补充!</strong></p>
-<p><strong>11.这个事务和数据库事务的区别？</strong></p>
-<p>本质上是一样的，Spring的事务就是对数据库事务的封装，最后本质的实现还是在数据库中实现的，假如数据库不支持事务的话，Spring中的事务是没有任何作用的。数据库的事务简单来说就是开启，回滚和关闭，Spring对数据库事务的包装，原理就是拿一个连接，根据Spring的事务配置，操作这个数据连接对数据库进行事务开启，回滚或者关闭操作。但是Spring除了实现这些功能之外，还配合Spring的传播行为对事务进行了广泛的管理，事务中涉及的隔离级别，以及Spring如何对数据库的隔离级别进行封装，事务与隔离级别放在一起会好理解一点。</p>
-<p><strong>12.mybatis你用的是什么数据库连接池c3p0？</strong></p>
-<p><strong>13.你还知道其他的数据库连接池吗？</strong></p>
-<p>DBCP：依赖Jakarta commons-pool对象池机制的数据库连接池，DBCP可以直接在应用程序中使用，Tomcat中的数据源就是使用的DBCP</p>
-<p>c3p0：是一个开源的JDBC连接池，它在lib目录下和Hibernate一起发布，包括实现jdbc3和jdbc2扩展规范说明的Connnection和Statement池的Datasources对象</p>
-<p>Durid：阿里出品，淘宝和支付宝专用数据库连接池。Druid的功能十分强大。</p>
-<p><strong>14.数据库连接池的功能有哪些？</strong></p>
-<ul>
-<li>资源重用</li>
-<li>更快的系统响应速度</li>
-<li>新的资源分配手段</li>
-<li>统一的连接管理</li>
-<li>避免数据库连接池泄露</li>
-</ul>
-<p><strong>15.JUC看过哪些，说下AQS实现的机制？</strong></p>
-<p>看过Atomic，AQS下的一些类，AQS实现机制。他主要是同步器和锁机制的构建框架。使用AQS能简单高效地构造出应用广泛的大量的同步器。ReentrantLock，Semaphore都是基于AQS。</p>
-<p>AQS核心的思想就是，如果被请求的共享资源空闲，则将当前请求资源的线程设置为有效的工作县策划稿，并且将共享资源设置为锁定状态。如果被请求的共享资源被占用，就需要一套线程阻塞等待以及被唤醒时锁分配的机制，这个机制AQS使用CLH队列锁来实现的，即将暂时获取不到锁的线程加入队列中。</p>
-<p><strong>16.公平锁与非公平锁的区别？</strong></p>
-<p>这个就是一个是按照顺序的，一个不是按照顺序的，这个在尝试获取锁的代码是不同的，公平锁，会先查询队列中是否前面还有节点，而非公平锁不查直接过去锁。</p>
-<p><strong>17.lock如何分配线程锁？</strong></p>
-<p>看情况而定！没有人占有锁自己就获取锁，如果有人占有锁，看看是不是自己，是的话就重入，如果不是就返回false，获取锁失败。</p>
-<p><strong>18.队列呢？了解哪些？</strong></p>
-<ul>
-<li>ConcurrentLinkedQueue：基础链表同步队列。</li>
-<li>LinkedBlockingQueue：阻塞队列，队列容量不足自动阻塞，队列容量为0时自动阻塞</li>
-<li>ArrayBlockingQueue：底层数组实现的有界队列，自动阻塞，根据API（add/put/offer）不同，有不同特定，当容量不足的时候，有阻塞能力，add方法在容量不足的时候，能够抛出异常。put方法在容量不足的时候，阻塞等待。offer方法，单参数offer方法不阻塞，容量不足的时候，返回false，当前新增数据操作放弃。三参数offer方法（offer(value,times,timeunit)），容量不足的时候，阻塞times时长，如果在阻塞时长内，有容量空闲，新增数据返回true，如果阻塞时长范围内，无容量空闲，放弃新增数据，返回false。</li>
-<li>DelayQueue：延时队列，根据比较机制，实现自定义处理顺序的队列，常用于定时任务。如定时关机，对于缓存超时的数据进行删除，任务超时处理，空闲连接的关闭</li>
-<li>LinkedTransferQueue：转移队列，使用transfer方法，实现数据的即时处理。没有消费者就阻塞。</li>
-<li>SynchronusQueue：同步队列，是一个容量为0的队列。是一个特殊的TransferQueue。必须现有消费线程等待才可以使用。add方法，无阻塞，若没有消费线程阻塞等待数据，则抛出异常。put方法，有阻塞，若没有消费线程阻塞等待数据，则阻塞。（游戏匹配）</li>
-</ul>
-<p><strong>19.添加的方法都有哪些？具体讲讲？</strong></p>
-<p>add offer put方法</p>
-<p><strong>20.各个队列的使用场景：</strong></p>
-<p><strong>这一块的东西要实践！</strong></p>
-<p><strong>21.JVM看过什么？JVM的常用命令？</strong></p>
-<p><font color="red">JVM看过深入理解java虚拟机。常用命令。jstat？如果看一个线程内存回收情况，如何看？</font></p>
-<p><strong>22.JVM的类加载解析？如何解析到字节码？</strong></p>
-<p><strong>待补充</strong></p>
-<p><strong>23.如何验证jdk版本的冲突？jdk.1.6-&gt;1.7</strong></p>
-<p><strong>24.类加载器的初始化如何去做？</strong></p>
-<p><strong>25.实际运用中的classLoader都有哪些了解？</strong></p>
-<p><strong>26.如何实现动态加载，需要使用哪些方法？继承classLoader类，重写findClass方法，调用defineClass方法</strong></p>
-<p><strong>27.如何获取当前类的classLoader？</strong></p>
-<p><strong>使用getClassLoader方法</strong></p>
-<p><strong>28.如何保持建立多个ClassLoader</strong></p>
-<p><strong>29.为什么类加载器加载出来的类不一样？</strong></p>
-<p>因为每个加载器都有自己的隔离机制</p>
-<p><strong>30.jvm的内存模型？</strong></p>
-<p>程序计数器，虚拟机栈，本地方法栈，堆，方法区，常量池</p>
-<p><strong>31.多线程如何实现主存同步的？</strong></p>
-<p>synchronized关键字或者使用锁lock</p>
-<p><strong>32.linux通过什么命令去使其他工作内存无效呢？</strong></p>
-<p><strong>待补充，没听过的知识点</strong></p>
-<p><strong>33.java如何是实现缓存一致性？</strong></p>
-<p>volatile，synchronized，lock，wait/notify</p>
-<p><strong>34.jvm的锁优化有哪些？</strong></p>
-<p>synchronized互斥的重量级锁。（作用：确保线程互斥的访问代码，保证共享变量的修改能够及时可见，可以阻止jvm的指令重排）锁优化的话，采用了锁粗化，锁消除，适应性自旋。不存在多线程竞争，默认是偏向锁。轻量级锁，过渡锁，一般是偏向锁不满足，有多线程并发访问锁定同一个对象的时候，先提升为轻量级锁。只有两个线程争抢锁标记记录的时候，优先使用轻量级锁。适应性自旋，在轻量级锁获取失败的时候，为了避免线程在真实的系统层面被挂起，还会进行一项为自旋锁的优化手段。</p>
-<p>锁粗化：一般在使用锁的时候，需要让同步的作用范围尽可能的小，仅在共享数据的操作中才进行。这样做的目的，是为了让同步操作的数量尽可能的小，如果出现锁的竞争，也能尽快的获取锁。但是如果遇到已连续的lock和unlock的操作，会导致性能的不必要损耗。<strong>锁粗化就是将连续的同步操作连在一起，粗化为一个范围更大的锁。</strong>锁消除：所消除是jvm进行的另外一项锁优化，该优化更加的彻底。jvm在进行<em>JIT</em>编译(just-in-time compilation)的时候，通过对上下文的扫描，<strong>JVM检测到不可能存在共享数据的晶振，如果这些资源有锁，就会消除这些资源的锁。可以节省毫无意义的锁请求时间</strong>。锁消除的依据，是逃逸分析的数据支持。</p>
-<p><strong>35.网络编程了解多少？TCP、UDP，如何创建网络之间的通信？</strong></p>
-<p>udp直接就是创建数据报的DatagramSocket通信即可。传输也是使用DatagramPacket来接收</p>
-<p>tcp的话需要使用同一个接口来是的数据的传递是可靠的，服务器端使用的是阻塞式的接收客户端的连接。连接之后获取客户端的发送的数据流，将流读出来即可。</p>
-<p><strong>36.java的IO了解吗？他们有什么区别？</strong></p>
-<p>javaIo主要分为InputStream、OutputStream和Reader、Writer。他们的区别是Stream结尾的都是用来读取字节流，Reader结尾的都是用来读取字符流。</p>
-<p><strong>37.BIO、NIO、AIO响应的类了解吗？</strong></p>
-<p>BiO：Blocking IO 同步阻塞IO，服务器实现模式为一个连接一个线程，即客户端有连接请求时，服务器端就需要启动一个线程进行处理，如果这个连接不做任何事情会造成不必要的线程开销，当然可以通过线程池机制改善</p>
-<p>NIO：UNblocking IO 同步非阻塞编程，服务器实现模式为一个请求一个通道，即客户端发送的连接请求都不能会被注册到多路复用器上面，多路复用器轮询到连接有IO请求时才启动一个下线程进行处理。</p>
-<p>AIO：Asychronous IO：异步非阻塞IO，可以理解为read/write方法都是异步的，完成后会主动调用回调函数。服务器实现模式为一个有效请求一个线程，客户端的IO请求都是由OS先完成了再通知服务器应用去启动线程进行处理。</p>
-<p><strong>38.shell命令</strong></p>
-<p>ls ll  cd pwd mkdir rmdir  cp mv rm du df cat echo head tail wc grep man logout </p>
-<p><strong>39.进程的通信方式？</strong></p>
-<p>管道、信号量、消息队列、套接字socket</p>
-<p><strong>40.Linux的调度方式？</strong></p>
-<p>调度机制分为抢占式内核和非抢占式内核。</p>
-<p><strong>41.linux的缓存有几级？</strong></p>
-<p><strong>待补充</strong></p>
-<p><strong>42.jdbc连接mysql的几个步骤，以及如何读取数据，如何实现statement？</strong></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConnectedMySQLTest</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> String driverClassName = <span class="string">"com.mysql.cj.jdbc.Driver"</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> String url = <span class="string">"jdbc:mysql://localhost:3306/407?serverTimezone=UTC&amp;useUnicode=true&amp;characterEncoding=utf8&amp;useSSL=false"</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> String user = <span class="string">"root"</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> String password = <span class="string">"cao236476"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Class&lt;?&gt; className = Class.forName(driverClassName);<span class="comment">// 加载mysql的驱动</span></span><br><span class="line">            Connection connection = DriverManager.getConnection(url, user, password);</span><br><span class="line"></span><br><span class="line"><span class="comment">//            Statement statement = connection.createStatement(); // 这个是先产生statement，然后载入sql语句</span></span><br><span class="line">            String sql = <span class="string">"select * from test_user"</span>;</span><br><span class="line">            PreparedStatement statement = connection.prepareStatement(sql);<span class="comment">// 这个必须和sql语句同时载入</span></span><br><span class="line"></span><br><span class="line">            ResultSet resultSet = statement.executeQuery(sql);</span><br><span class="line">            List&lt;User&gt; lists = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">            <span class="keyword">while</span> (resultSet.next()) &#123;</span><br><span class="line">                lists.add(<span class="keyword">new</span> User(resultSet.getInt(<span class="string">"id"</span>),</span><br><span class="line">                        resultSet.getString(<span class="string">"name"</span>),</span><br><span class="line">                        resultSet.getInt(<span class="string">"age"</span>)));</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">for</span> (User list : lists) &#123;</span><br><span class="line">                System.out.println(list);</span><br><span class="line">            &#125;</span><br><span class="line">            resultSet.close();</span><br><span class="line">            statement.close();</span><br><span class="line">            connection.close();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (SQLException | ClassNotFoundException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 事先知道数据组数---读数据组然后循环</span></span><br><span class="line">Scanner scanner = <span class="keyword">new</span> Scanner(System.in);</span><br><span class="line"><span class="keyword">int</span> n = scanner.nextInt(); <span class="comment">// 数据的组数</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">    <span class="keyword">int</span> a = scanner.nextInt();</span><br><span class="line">    <span class="keyword">int</span> b = scanner.nextInt();</span><br><span class="line">    System.out.println(a+b);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="———————————–第四部分———————————–"><a href="#———————————–第四部分———————————–" class="headerlink" title="———————————–第四部分———————————–"></a>———————————–第四部分———————————–</h3><p><strong>1.字节流和字符流的区别</strong></p>
-<p>字节流读取单个字节，字符流读取单个字符。字节流来处理二进制文件（图片，MP3，视频文件），字符流用来处理文本文件（可以看做是特殊的二进制文件，使用了某种编码，人可以阅读）。字节是给计算机看的，字符是给人看的。</p>
-<p><strong>2.死锁的四个条件</strong></p>
-<ol>
-<li>互斥条件：一个资源每次只能被一个进程使用</li>
-<li>请求和保持条件：一个进程因为请求资源而被阻塞时，对已获得的资源保持不放</li>
-<li>不剥夺条件：进程已经获得的资源在没有释放之前，不能强行剥夺。</li>
-<li>循环等待条件：若干进程之间形成了一种头尾相连的循环等待资源关系。</li>
-</ol>
-<p>解除死锁的方法：</p>
-<ol>
-<li>剥夺资源：从其他进程剥夺足够数量的资源给死锁线程，以解除死锁状态</li>
-<li>撤销进程：可以直接撤销死锁进程或者撤销代价最小的进程，直至有足够的资源可用</li>
-</ol>
-<p>3.给1G的数据，内存限制为100M，怎么排序？</p>
-<p>首先不能选择内存排序，需要选择外存排序，使用多路归并的思路，把数据分为N部分，每部分100M，在使用内存来排序，将排序结果使用外存记录，然后每次从外存冲取记录，在内存中进行比较，从而获取排序的结果。</p>
-<p>4.CDN是什么，能谈一谈吗？</p>
-<p>CDN是content distribute network，内容分发网络，应用了HTTP协议中的缓存和代理技术，代替源站响应客户端的请求。CDN是构建在现有网络基础之上的网络，它依靠部署在各地的边缘服务器，通过中心平台的负载均衡，内容分发、调度等功能模块，使用户就近获取所需的内容，降低网络阻塞，提高用户访问响应速度和命中率。CDN中的关键技术有内容存储和分发技术。</p>
-<p>5.PUT和POST的区别？</p>
-<p>PUT具有幂等性，幂等性是指一次和多次请求同一个资源对于资源本身应该具有同样的结果。即任意多次执行对资源本身所产生的应该与一次执行产生的影响相同。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 最简单的只有一组数据---直接读</span></span><br><span class="line">Scanner scanner = <span class="keyword">new</span> Scanner(System.in);</span><br><span class="line"><span class="keyword">int</span> a = scanner.nextInt();</span><br><span class="line"><span class="keyword">int</span> b = scanner.nextInt();</span><br><span class="line">System.out.println(a+b);</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-正确处理输出格式"><a href="#2-正确处理输出格式" class="headerlink" title="2. 正确处理输出格式"></a>2. 正确处理输出格式</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 不要输出case数</span></span><br><span class="line">Scanner scanner = <span class="keyword">new</span> Scanner(System.in);</span><br><span class="line"><span class="keyword">int</span> n = scanner.nextInt(); <span class="comment">// 数据的组数</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">    <span class="keyword">int</span> a = scanner.nextInt();</span><br><span class="line">    <span class="keyword">int</span> b = scanner.nextInt();</span><br><span class="line">    System.out.println(a+b);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 需要输出case数</span></span><br><span class="line">Scanner scanner = <span class="keyword">new</span> Scanner(System.in);</span><br><span class="line"><span class="keyword">int</span> n = scanner.nextInt(); <span class="comment">// 数组的组数</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">    <span class="keyword">int</span> a = scanner.nextInt();</span><br><span class="line">    <span class="keyword">int</span> b = scanner.nextInt();</span><br><span class="line">    System.out.println(<span class="string">"Case:"</span> + (i + <span class="number">1</span>) + <span class="string">" "</span> + (a + b));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 每个case之后要有空行</span></span><br><span class="line">Scanner scanner = <span class="keyword">new</span> Scanner(System.in);</span><br><span class="line"><span class="keyword">int</span> n = scanner.nextInt(); <span class="comment">// 数组的组数</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">    <span class="keyword">int</span> a = scanner.nextInt();</span><br><span class="line">    <span class="keyword">int</span> b = scanner.nextInt();</span><br><span class="line">    System.out.println(<span class="string">"Case:"</span> + (i + <span class="number">1</span>) + <span class="string">" "</span> + (a + b)+<span class="string">"\n"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 两个case之间有空行</span></span><br><span class="line">Scanner scanner = <span class="keyword">new</span> Scanner(System.in);</span><br><span class="line"><span class="keyword">int</span> n = scanner.nextInt(); <span class="comment">// 数组的组数</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">    <span class="keyword">int</span> a = scanner.nextInt();</span><br><span class="line">    <span class="keyword">int</span> b = scanner.nextInt();</span><br><span class="line">    <span class="keyword">if</span>(i &gt; <span class="number">0</span>)&#123;</span><br><span class="line">        System.out.println();</span><br><span class="line">    &#125;</span><br><span class="line">    System.out.println(<span class="string">"Case:"</span> + (i + <span class="number">1</span>) + <span class="string">"结果为: "</span> + (a + b));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-处理细节和技巧"><a href="#3-处理细节和技巧" class="headerlink" title="3. 处理细节和技巧"></a>3. 处理细节和技巧</h2><ul>
+<li><p>不用实现可以保存所有输入，读一组计算一组，Java建议使用BufferedInputStream</p>
+</li>
+<li><p>注意输出格式</p>
+<ul>
+<li>字母大小写</li>
+<li>换行的时刻</li>
+<li>输出“case”之后有没有”#”或者”:”之类的</li>
+<li>每行末尾有”\n”，但一般没有空白</li>
+<li>java尽量使用BufferedOutputStream</li>
+</ul>
+</li>
+</ul>
 ]]></content>
       <categories>
-        <category>面试</category>
+        <category>工具</category>
       </categories>
       <tags>
-        <tag>面试</tag>
+        <tag>工具</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Redis基础知识</title>
+    <url>/2020/03/21/Redis%E5%AD%A6%E4%B9%A0/</url>
+    <content><![CDATA[<h1 id="Redis学习"><a href="#Redis学习" class="headerlink" title="Redis学习"></a>Redis学习</h1><h2 id="1-Redis与Memcache的区别"><a href="#1-Redis与Memcache的区别" class="headerlink" title="1. Redis与Memcache的区别"></a>1. Redis与Memcache的区别</h2><ul>
+<li>Memcache代码层类似hash</li>
+<li>Memcache支持简单数据类型，Redis支持丰富的数据类型</li>
+<li>Memcache不支持数据持久化存储，Redis支持数据磁盘持久化存储</li>
+<li>Memcache不支持主从，Redis支持主从</li>
+<li>Memcahce不支持分片，Redis支持分片</li>
+</ul>
+<h2 id="2-Redis为什么这么快？"><a href="#2-Redis为什么这么快？" class="headerlink" title="2. Redis为什么这么快？"></a>2. Redis为什么这么快？</h2><p>官方给出的数据是100000+QPS，redis快的原因：</p>
+<ul>
+<li>完全基于内存，绝大部分请求是纯粹的内存操作，执行效率高</li>
+<li>数据结构简单，对数据操作也简单</li>
+<li>采用单线程，单线程也能处理高并发请求，想多核也可以启动多实例</li>
+<li>使用多路I/O复用模型，阻塞IO</li>
+</ul>
+<h2 id="3-多路I-O复用模型"><a href="#3-多路I-O复用模型" class="headerlink" title="3. 多路I/O复用模型"></a>3. 多路I/O复用模型</h2><p>FD：File Descriptor，文件描述符</p>
+<p>一个打开的文件通过唯一的描述符进行引用，该描述符是打开文件的元数据到文件本身的数据。</p>
+<p><strong>Redis采用的I/O多路复用函数：epoll、kqueue、evport、select</strong></p>
+<ul>
+<li>因地制宜</li>
+<li>优先选择时间复杂度为O(1) 的I/O多路复用函数作为底层实现</li>
+<li>以时间复杂度为O(n)的select作为保底</li>
+<li>基于react设计模式监听I/O事件</li>
+</ul>
+<h2 id="4-Redis常用的数据类型"><a href="#4-Redis常用的数据类型" class="headerlink" title="4. Redis常用的数据类型"></a>4. Redis常用的数据类型</h2><p>String：最基本的数据类型，二进制安全。</p>
+<p>底层实现：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span>&#123;</span></span><br><span class="line">	<span class="keyword">int</span> len; <span class="comment">// buf数据已占用的长度</span></span><br><span class="line">	<span class="keyword">int</span> <span class="built_in">free</span>; <span class="comment">// buf中剩余可用空间的长度</span></span><br><span class="line">	<span class="keyword">char</span> buf[]; <span class="comment">// 数据空间</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>Hash：String元素组成的字典，适合存储对象。底层实现：字典</p>
+<p>List：列表，按照String元素插入顺序排序（有序）。底层实现：链表</p>
+<p>Set：String元素组成的无序集合，通过哈希实现，不允许重复（无序）：底层使用整数集合来存储</p>
+<p>Sorted Set：通过分数来为集合中的成员进行从小到大的排序。（按照分数高低排序，也就是由分数权重）：跳跃表。时间复杂度O(logn)（最坏的情况下是O(n)）,跟二叉树有的一拼，时常用来代替二叉树。</p>
+<h2 id="5-跳跃表"><a href="#5-跳跃表" class="headerlink" title="5. 跳跃表"></a>5. 跳跃表</h2><p>Sorted Set底层是基于跳跃表实现的。什么是跳跃表呢。其实就是链表，但是与链表不同的是，这是有层次的链表，什么意思呢，因为链表的查找很费时间，O(n)，查询效率低下，一旦用到数据量大的查询上面，性能不佳。此时为了提升查询的速度，提出了跳跃表的这种结构，从链表中提取出关键节点，一般是上一层是下一层的一半，提取的极限是那一层不大于2个节点时（≤2）停止提取。</p>
+<p><img src="https://images2018.cnblogs.com/blog/1120165/201805/1120165-20180528210921601-949409375.png" alt="img"></p>
+<h2 id="6-面试题：从海量key中查询出某一固定前缀的key"><a href="#6-面试题：从海量key中查询出某一固定前缀的key" class="headerlink" title="6. 面试题：从海量key中查询出某一固定前缀的key"></a>6. 面试题：从海量key中查询出某一固定前缀的key</h2><p>使用keys pattern来匹配，但是如果数据量巨大的话，会造成客户端卡段。keys指令一次性返回所有匹配的key。键的数量过大会造成服务的卡段，对于内存的消耗是一个隐患，对于redis这样的内存型数据库。</p>
+<p><strong>scan cursor [MATCH pattern] [COUNT count]</strong>，基于游标的迭代器</p>
+<ul>
+<li>基于游标的迭代器，需要基于上一次的游标延续之前的迭代过程</li>
+<li>以0作为游标开始一次新的迭代，直到命令返回游标0完成一次遍历</li>
+<li>不保证每次执行都返回某个给定数量的元素，支持模糊查询</li>
+<li>一次返回的数量不可控，只能是大概率符合count参数</li>
+</ul>
+<p><code>scan 0 match n* count 1</code> 表示查询从0开始的以n开头的数据的一条记录。</p>
+<h2 id="7-Redis实现分布式锁"><a href="#7-Redis实现分布式锁" class="headerlink" title="7. Redis实现分布式锁"></a>7. Redis实现分布式锁</h2><p>分布式锁需要解决的问题：</p>
+<ul>
+<li>互斥性</li>
+<li>安全性</li>
+<li>死锁</li>
+<li>容错</li>
+</ul>
+<p><strong>第一种方案：使用SETNX+EXPIRE方案</strong></p>
+<p>SETNX key value 如果这个key不存在，则设置这个value，时间复杂度O(1)，成功返回1，失败返回0</p>
+<p>一般利用setnx来获取到锁，一旦获取到锁之后，采用expire的时间来释放锁，从而实现分布式锁。</p>
+<p>解决setnx长期有效的问题采用的是expire来实现的。</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">// 大致的伪代码</span><br><span class="line">long num = setnx(key,value)</span><br><span class="line">if(num==1)&#123;expire key time;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里的缺点在于一旦发生了某个节点的宕机，而此节点正好获取到了锁，此时未能设置expire造成原子性得不到满足。</p>
+<p>setnx是原子操作，expire也是原子操作，但是两者在一起却不是原子操作</p>
+<p><strong>第二种方案：使用SET+EXPIRE方案</strong></p>
+<p>SET key value [EX seconds] [PX milliseconds] [NX|XX]</p>
+<ul>
+<li>EX：设置的是存活的秒数</li>
+<li>PX：设置的是存活的毫秒数</li>
+<li>NX：只有键不存在的时候，才设置值</li>
+<li>XX：只有键存在的时候，才设置值</li>
+</ul>
+<p>SET方法可以满足原子性，设置成功返回1，设置失败返回nil，由此实现Redis的分布式锁。</p>
+<h2 id="8-Redis如何实现消息队列"><a href="#8-Redis如何实现消息队列" class="headerlink" title="8. Redis如何实现消息队列"></a>8. Redis如何实现消息队列</h2><p><strong>第一种方案使用lpush+rpop</strong></p>
+<p>使用<code>lpush testlist &quot;aaa&quot;</code>实现从左向右推元素，完成消息的生产。</p>
+<p>使用<code>rpop testlist</code>实现从右边弹出，完成消息的消费。</p>
+<p><strong>存在的缺点：</strong></p>
+<ul>
+<li>没有等待队列中有值就直接消费</li>
+<li>弥补：可以通过在应用层中引入sleep机制去调用lpop重试</li>
+</ul>
+<p><strong>第二种方法使用blpop+rpush</strong></p>
+<p>BLPOP key[key] timeout：阻塞直到队列有消息或者超时</p>
+<p>BLPOP使用的话是用来精确定时，也就是在设置的timeout中看阻塞队列中是否有消息。</p>
+<p>缺点：每次生产的消息只能够供一个消费者消费。</p>
+<p><strong>多个消费者的问题，使用pub/sub模式来解决：主题订阅者模式</strong></p>
+<ul>
+<li>发送者（pub）发送消息，订阅者（sub）接收消息</li>
+<li>订阅者可以订阅任意数量的频道</li>
+</ul>
+<p><img src="C:%5CUsers%5CAdministrator%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1582621048095.png" alt="1582621048095"></p>
+<p>使用pub/sub主题订阅者模式实现一个消息多个消费者消费的问题。</p>
+<p><strong>缺点：</strong></p>
+<p>消息的发布是无状态的，无法保证可达。</p>
+<p>消息发布的时候下线，然后上线，这个消息，订阅者是接收不到的。如果要保证可达需要使用kafka，专业的消息队列</p>
+<h2 id="9-Redis如何实现持久化"><a href="#9-Redis如何实现持久化" class="headerlink" title="9. Redis如何实现持久化"></a>9. Redis如何实现持久化</h2><h3 id="9-1-RDB"><a href="#9-1-RDB" class="headerlink" title="9.1 RDB"></a>9.1 RDB</h3><p>RDB快照持久化：保存某个时间点的全量数据快照。</p>
+<ul>
+<li>save：阻塞Redis的服务器进程，直到RDB文件被创建完毕</li>
+<li>BGSAVE：Fork出一个子进程来创建RDB文件，不阻塞服务器</li>
+</ul>
+<p><strong>自动触发RDB持久化的方式：</strong></p>
+<ul>
+<li>根据redis.conf中配置的save m n定时触发，用的是bgsave</li>
+<li>主从复制的时候，主节点自动触发</li>
+<li>执行Debug Reload</li>
+<li>执行shutdown且没有开启AOF持久化</li>
+</ul>
+<p>BGSAVE的工作原理：</p>
+<ul>
+<li>检查子进程（看是否有RDB或者AOF的子进程正在工作），存在的话返回错误</li>
+<li>触发持久化，调用rdbSaveBackground</li>
+<li>fork出一个子进程完成save操作，当前进程继续响应其他操作</li>
+</ul>
+<p>系统调用fork()，创建进程，实现copy-on-write:</p>
+<p>如果有多个调用者同时要求相同资源（如内存或者磁盘上的数据存储），他们会共同获取相同的指针指向相同的资源，直到某个调用视图修改资源的内容时，系统才会真正复制一份专用副本给调用者，而其他调用者所见到的最初的资源仍然保持不变。</p>
+<p><strong>RDB持久化的缺点：</strong></p>
+<ul>
+<li>内存数据的全量同步，数据量大会由于I/O而严重影响性能。</li>
+<li>可能会因为Redis挂掉而丢失从当前至最近一次快照期间的数据。</li>
+</ul>
+<h3 id="9-3-AOF"><a href="#9-3-AOF" class="headerlink" title="9.3 AOF"></a>9.3 AOF</h3><p><strong>AOF：append-only-file ：保持写状态</strong></p>
+<ul>
+<li>记录下除了查询以外所有变更数据库的指令</li>
+<li>以append的形式追加保存到AOF文件中（增量）</li>
+</ul>
+<p><strong>由于AOF文件是不断追加形式的，日志重写解决AOF文件不断增大的问题，步骤如下：</strong></p>
+<ul>
+<li>调用fork()，创建一个子进程</li>
+<li>子进程把新的AOF写到一个临时文件中，不依赖原来的AOF文件</li>
+<li>主进程持续将新的变动写到内存和原来的AOF文件中</li>
+<li>主进程获取子进程重写AOF的完成信号，往新AOF同步增量变动</li>
+<li>使用新AOF文件替换掉旧的AOF文件</li>
+</ul>
+<p><strong>Redis数据的恢复：</strong>一般是RDB和AOF文件共存时候的问题。</p>
+<ul>
+<li>存在AOF，则加载AOF文件，否则加载RDB，如果两者都不存在，报加载失败。</li>
+</ul>
+<p><strong>RDB和AOF的对比：</strong></p>
+<ul>
+<li>RDB优点：全量数据快照，文件小，恢复快</li>
+<li>RDB缺点：无法保存最近一次快照以后的数据</li>
+<li>AOF优点：可读性高，适合保存增量数据，数据不易丢失</li>
+<li>AOF缺点：文件体积大，恢复时间长</li>
+</ul>
+<p><strong>Redis如何做持久化</strong>：现在支持RDB-AOF混合持久化</p>
+<ul>
+<li>BGSAVE做镜像全量持久化，AOF做增量持久化</li>
+</ul>
+<h2 id="10-Pipeline"><a href="#10-Pipeline" class="headerlink" title="10. Pipeline"></a>10. Pipeline</h2><p>使用Pipeline的好处：</p>
+<ul>
+<li>Pipeline和Linux的管道相似</li>
+<li>Redis基于请求/响应模式，单个请求处理需要一一应答</li>
+<li>Pipeline批量执行指令，节省多次I/O往返的时间</li>
+<li>有顺序依赖的指令建议分批分送</li>
+</ul>
+<h2 id="11-Redis的同步机制"><a href="#11-Redis的同步机制" class="headerlink" title="11. Redis的同步机制"></a>11. Redis的同步机制</h2><p><strong>主从同步的全同步过程：</strong></p>
+<ul>
+<li>Slave发送sync命令到Master</li>
+<li>Master启动一个后台进程，将Redis中的数据快照保存到文件中</li>
+<li>Master将保存数据快照期间接收到的写命令缓存起来（此时写命令属于增量）</li>
+<li>Master完成写操作之后，将该文件发送给slave</li>
+<li>使用新的AOF替换掉旧的AOF文件</li>
+<li>Master将这期间收集到的增量写命令发送给slave端</li>
+</ul>
+<p><strong>增量同步过程</strong>：</p>
+<ul>
+<li>Master接收到用户的操作指令，判断是否需要传播到slave</li>
+<li>将操作记录追加到AOF文件</li>
+<li>将操作传播到其他slave：1. 对齐主从库；2.往响应缓存写入指令</li>
+<li>将缓存中的数据发送给slave</li>
+</ul>
+<p><strong>Redis Sentinel哨兵：高可用</strong></p>
+<ul>
+<li>监控：检查主从服务器是否运行正常</li>
+<li>提醒：通过API向管理员或者其他应用程序发送故障通知</li>
+<li>自动故障迁移：主从切换</li>
+</ul>
+<p><strong>流言协议Gossip</strong>：在杂乱无章中寻求一致</p>
+<ul>
+<li>每个节点都随机地与对方通信，最终所有节点的状态达成一致</li>
+<li>种子节点定期随机向其他节点发送节点列表以及需要传播的消息</li>
+<li>不保证信息一定会传递给所有节点，但是最终会趋于一致</li>
+</ul>
+<h2 id="12-Redis的集群原理"><a href="#12-Redis的集群原理" class="headerlink" title="12. Redis的集群原理"></a>12. Redis的集群原理</h2><p><strong>从海量的数据中找到所需：</strong></p>
+<ul>
+<li>分片：按照某种规则去划分数据，分散存储在多个节点上</li>
+<li>常规的按照哈希划分无法实现节点的动态增减。</li>
+</ul>
+<p><strong>一致性哈希算法</strong>：对2<sup>32</sup>取模，将哈希值组织成虚拟的圆环</p>
+<p><strong>将数据key使用相同的函数Hash计算出hash值，由于是环状的，所有的节点计算出的hash值都会按照顺时针归属为自己最近的节点。无论是节点宕机还是增加节点都比较方便。但是这样不可避免的会出现节点过少，此时由于节点分布不均匀，将会导致数据的倾斜问题产生，此时需要引入虚拟节点来解决数据倾斜的问题，也就是同一节点再细分成不同的编号组，以此使得数据倾斜问题被解决。</strong></p>
+<h2 id="13-总结"><a href="#13-总结" class="headerlink" title="13. 总结"></a>13. 总结</h2><p>本章主要介绍的是redis的相关知识，首先从基础的结构将其，redis作为内存型数据库，操作数据的能力是非常快的，且有丰富的数据类型，数据操作简单。连接Memcache与Redis的区别，随后为什么redis这么快，主要是直接操作内存，数据操作简单，单线程，多了I/O复用，随后通过从海量的key中找出固定前缀的key，引出keys pattern和scan基于游标的迭代获取结果数据方式。</p>
+<p>随后介绍分布式锁，分布式锁需要解决的问题是，互斥性，安全性，死锁以及容错四个特性，使用SETNX+EXPIRE实现分布式锁，由于存在破坏原子性的可能，使用SET直接设置可以实现原子性，实现分布式锁。随后通过list中的常用的lpush+rpop实现消息队列，使用BLPOP+RPUSH+timeout实现定时获取消息的机制。但是这存在一个消息只能有一个消费者。</p>
+<p>如果一个消息需要被多个消费者消费的话，需要使用pub/sub模式，订阅发布模式来实现，虽然能够实现一个消息被多个消费者消费，但是不能够保证消息的可达性，也就是发布者不能保证订阅者一定能够接收到消息。（一个是发送的无状态，不能保证可达，还有一个就是如果发布消息的时候订阅者上线，然后上线，这条消息也是接收不到的。如果需要解决需要依赖于专业的消息队列中间件KafKa）</p>
+<p>随后介绍持久化的实现基于BGSAVE的快照RDB实现，以及操作数据的AOF文件追加实现，现在支持两种方案并行使用。</p>
+<p>然后就是介绍Pipeline的机制，节省多次I/O往返时间。介绍了Redis的主从同步机制以及增量的同步机制。Redis哨兵的高可用性以及流言协议Gossip对于同步的最后趋于一致性的作用。</p>
+<p>最后就是介绍Redis的集群原理，主要是通过分片，对数据Hash取模值，最后形成hash环以此将数据相对比较均匀的分散到各个节点之上。如果遇到节点数过少，此时数据可能产生倾斜，此时需要使用单个节点多次编号来解决这个问题，使得数据分布相对均匀。</p>
+]]></content>
+      <categories>
+        <category>中间件</category>
+      </categories>
+      <tags>
+        <tag>redis 数据库</tag>
       </tags>
   </entry>
 </search>
